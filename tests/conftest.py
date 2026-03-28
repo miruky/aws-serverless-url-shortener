@@ -1,4 +1,4 @@
-"""Shared pytest fixtures."""
+"""共通のpytestフィクスチャ。"""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from moto import mock_aws
 
 @pytest.fixture(autouse=True)
 def _aws_credentials() -> None:
-    """Inject fake AWS credentials for moto before every test."""
+    """各テスト実行前にmoto用のダミーAWS認証情報を設定する。"""
     os.environ["AWS_ACCESS_KEY_ID"] = "testing"
     os.environ["AWS_SECRET_ACCESS_KEY"] = "testing"
     os.environ["AWS_SECURITY_TOKEN"] = "testing"
@@ -22,11 +22,10 @@ def _aws_credentials() -> None:
 
 @pytest.fixture()
 def dynamodb_resource() -> Generator[Any, None, None]:
-    """Provide a moto-backed DynamoDB resource with a pre-created URLs table.
+    """事前にURLsテーブルを作成したmotoベースのDynamoDBリソースを提供する。
 
-    The fixture creates the ``test-urls`` table, sets the
-    ``URLS_TABLE_NAME`` environment variable, and yields the DynamoDB
-    service resource for use in repository tests.
+    ``test-urls`` テーブルを作成し、``URLS_TABLE_NAME`` 環境変数を設定した上で、
+    リポジトリテストで使用するDynamoDBサービスリソースをyieldする。
     """
     with mock_aws():
         dynamodb = boto3.resource("dynamodb", region_name="ap-northeast-1")
