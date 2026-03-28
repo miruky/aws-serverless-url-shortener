@@ -6,7 +6,6 @@ import pytest
 
 from src.utils.validators import validate_short_id, validate_url
 
-
 # ---------------------------------------------------------------------------
 # validate_url
 # ---------------------------------------------------------------------------

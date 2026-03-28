@@ -12,9 +12,9 @@ class UrlItem:
     """DynamoDBに保存される短縮URLエントリを表すデータクラス。
 
     Attributes:
-        short_id: 一意の短縮ID（例: 'aB3kZ9x'）。
+        short_id: 一意の短縮ID(例: 'aB3kZ9x')。
         original_url: リダイレクト先の元のURL。
-        created_at: 作成時のUnixタイムスタンプ（自動設定）。
+        created_at: 作成時のUnixタイムスタンプ(自動設定)。
         click_count: リダイレクトアクセス回数。
         is_active: 論理削除フラグ。
     """

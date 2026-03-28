@@ -36,6 +36,7 @@ line-length = 99
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "N", "W", "UP", "B", "SIM", "RUF"]
+allowed-confusables = ["ノ"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["src"]

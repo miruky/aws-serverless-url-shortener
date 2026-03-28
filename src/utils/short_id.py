@@ -6,7 +6,7 @@ import hashlib
 import string
 import time
 
-CHARSET: str = string.ascii_letters + string.digits  # a-zA-Z0-9（62文字）
+CHARSET: str = string.ascii_letters + string.digits  # a-zA-Z0-9(62文字)
 DEFAULT_LENGTH: int = 7
 
 
@@ -18,7 +18,7 @@ def generate_short_id(url: str, length: int = DEFAULT_LENGTH) -> str:
 
     Args:
         url: 短縮IDの生成元となるURL。
-        length: 短縮IDの文字数（デフォルト: 7）。
+        length: 短縮IDの文字数(デフォルト: 7)。
 
     Returns:
         ``[a-zA-Z0-9]`` から構成される ``length`` 文字の文字列。

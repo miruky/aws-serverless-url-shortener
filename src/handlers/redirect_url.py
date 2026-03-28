@@ -24,10 +24,10 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
 
     Args:
         event: API Gatewayプロキシ統合イベント。
-        context: Lambdaコンテキスト（未使用）。
+        context: Lambdaコンテキスト(未使用)。
 
     Returns:
-        API Gatewayプロキシレスポンス（301リダイレクトまたはエラー）。
+        API Gatewayプロキシレスポンス(301リダイレクトまたはエラー)。
     """
     path_params: dict[str, str] = event.get("pathParameters") or {}
     short_id: str = path_params.get("short_id", "")
