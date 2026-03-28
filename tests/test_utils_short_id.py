@@ -1,4 +1,4 @@
-"""Tests for src.utils.short_id — short ID generation."""
+"""src.utils.short_id のテスト — 短縮ID生成。"""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from src.utils.short_id import CHARSET, DEFAULT_LENGTH, generate_short_id
 
 
 class TestGenerateShortId:
-    """Tests for the generate_short_id function."""
+    """generate_short_id関数のテスト。"""
 
     def test_returns_string_of_default_length(self) -> None:
         result = generate_short_id("https://example.com")
@@ -30,7 +30,7 @@ class TestGenerateShortId:
         assert id1 != id2
 
     def test_same_url_produces_different_ids_over_time(self) -> None:
-        """Timestamp component ensures uniqueness even for the same URL."""
+        """タイムスタンプ成分により同一URLでも一意性が保証される。"""
         ids = {generate_short_id("https://example.com") for _ in range(20)}
         assert len(ids) > 1
 
