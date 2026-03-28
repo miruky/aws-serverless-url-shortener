@@ -5,19 +5,19 @@ phases:
     runtime-versions:
       python: 3.12
     commands:
-      - echo "Installing dependencies..."
+      - echo "依存関係をインストール中..."
       - pip install -e ".[dev]"
 
   pre_build:
     commands:
-      - echo "Running linter..."
+      - echo "リンターを実行中..."
       - ruff check src/ tests/
-      - echo "Running tests..."
+      - echo "テストを実行中..."
       - pytest tests/ -v --tb=short --junitxml=reports/junit.xml
 
   build:
     commands:
-      - echo "Packaging Lambda function..."
+      - echo "Lambda関数をパッケージング中..."
       - mkdir -p package
       - pip install -t package/ boto3
       - cp -r src/ package/
@@ -27,7 +27,7 @@ phases:
 
   post_build:
     commands:
-      - echo "Build completed on $(date)"
+      - echo "ビルド完了: $(date)"
 
 artifacts:
   files:
