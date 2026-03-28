@@ -1,11 +1,11 @@
 # aws-serverless-url-shortener
 
-Production-grade serverless URL shortener built on AWS Lambda, API Gateway, and DynamoDB.
+AWS Lambda、API Gateway、DynamoDB上に構築された本番環境対応のサーバーレスURL短縮サービス。
 
-## Architecture
+## アーキテクチャ
 
 ```text
-Client
+クライアント
   │
   ▼
 API Gateway (REST)
@@ -19,60 +19,60 @@ API Gateway (REST)
                               DynamoDB (urls)
 ```
 
-## Tech Stack
+## 技術スタック
 
-| Category | Technology |
+| カテゴリ | 技術 |
 |:--|:--|
-| Language | Python 3.12 |
-| Compute | AWS Lambda |
+| 言語 | Python 3.12 |
+| コンピュート | AWS Lambda |
 | API | Amazon API Gateway (REST) |
-| Database | Amazon DynamoDB (on-demand) |
+| データベース | Amazon DynamoDB (オンデマンド) |
 | IaC | AWS CloudFormation |
-| CI | GitHub Actions (lint + test) |
+| CI | GitHub Actions (リント + テスト) |
 | CD | AWS CodePipeline + CodeBuild + CodeDeploy |
-| Testing | pytest + moto (AWS mock) |
-| Linting | ruff |
+| テスト | pytest + moto (AWSモック) |
+| リンター | ruff |
 
-## Project Structure
+## プロジェクト構成
 
 ```
 .
-├── .github/workflows/ci.yml       # GitHub Actions CI pipeline
+├── .github/workflows/ci.yml       # GitHub Actions CIパイプライン
 ├── infrastructure/
-│   ├── template.yaml               # Core infrastructure (API GW, Lambda, DynamoDB)
+│   ├── template.yaml               # コアインフラ (API GW, Lambda, DynamoDB)
 │   └── pipeline.yaml               # CodePipeline + CodeBuild + CodeDeploy
 ├── src/
-│   ├── handlers/                    # Lambda function handlers
+│   ├── handlers/                    # Lambda関数ハンドラー
 │   │   ├── create_url.py
 │   │   ├── redirect_url.py
 │   │   ├── get_url_stats.py
 │   │   ├── delete_url.py
 │   │   └── list_urls.py
 │   ├── models/
-│   │   └── url.py                   # Domain model (frozen dataclass)
+│   │   └── url.py                   # ドメインモデル (frozenデータクラス)
 │   ├── repositories/
-│   │   └── url_repository.py        # DynamoDB data access layer
+│   │   └── url_repository.py        # DynamoDBデータアクセス層
 │   └── utils/
-│       ├── response.py              # API Gateway response builders
-│       ├── validators.py            # Input validation
-│       └── short_id.py              # Short ID generation (SHA-256 based)
-├── tests/                           # Comprehensive pytest suite
-├── buildspec.yml                    # CodeBuild build specification
-├── pyproject.toml                   # Project metadata & tool config
-└── Makefile                         # Developer shortcuts
+│       ├── response.py              # API Gatewayレスポンスビルダー
+│       ├── validators.py            # 入力バリデーション
+│       └── short_id.py              # 短縮ID生成 (SHA-256ベース)
+├── tests/                           # 包括的なpytestテストスイート
+├── buildspec.yml                    # CodeBuildビルド仕様
+├── pyproject.toml                   # プロジェクトメタデータ・ツール設定
+└── Makefile                         # 開発用ショートカット
 ```
 
-## API Reference
+## APIリファレンス
 
 ### POST /urls
 
-Create a shortened URL.
+短縮URLを作成する。
 
 ```json
-// Request
+// リクエスト
 { "url": "https://example.com/very/long/path" }
 
-// Response (201)
+// レスポンス (201)
 {
   "short_id": "aB3kZ9x",
   "original_url": "https://example.com/very/long/path",
@@ -84,36 +84,36 @@ Create a shortened URL.
 
 ### GET /{short_id}
 
-Redirect to the original URL (301).
+元のURLへリダイレクトする（301）。
 
 ### GET /urls/{short_id}
 
-Retrieve click statistics.
+クリック統計情報を取得する。
 
 ### GET /urls?limit=20
 
-List active URLs.
+有効なURLの一覧を取得する。
 
 ### DELETE /urls/{short_id}
 
-Soft-delete a URL (sets `is_active` to `false`).
+URLを論理削除する（`is_active` を `false` に設定）。
 
-## Local Development
+## ローカル開発
 
 ```bash
-# Install dependencies
+# 依存関係のインストール
 make install
 
-# Run tests
+# テスト実行
 make test
 
-# Run linter
+# リンター実行
 make lint
 ```
 
-## Deployment
+## デプロイ
 
-### 1. Deploy the CI/CD pipeline
+### 1. CI/CDパイプラインのデプロイ
 
 ```bash
 aws cloudformation deploy \
@@ -125,20 +125,20 @@ aws cloudformation deploy \
       Environment=dev
 ```
 
-### 2. The pipeline automatically
+### 2. パイプラインの自動実行フロー
 
-1. **Source** — Pulls code from GitHub on push to `main`
-2. **Build** — Runs lint + tests via CodeBuild, packages Lambda zip
-3. **Deploy** — Creates/updates CloudFormation stack with Lambda functions
+1. **Source** — `main` ブランチへのプッシュ時にGitHubからコードを取得
+2. **Build** — CodeBuildでリント・テストを実行し、Lambda zipをパッケージング
+3. **Deploy** — Lambda関数を含むCloudFormationスタックを作成・更新
 
-## Design Decisions
+## 設計方針
 
-- **Frozen dataclass** for `UrlItem` — immutability prevents accidental mutation
-- **Repository pattern** — decouples business logic from DynamoDB SDK calls
-- **Dependency injection** in `UrlRepository` — enables moto-based testing without monkeypatching
-- **Soft delete** — preserves audit trail; `is_active=false` items are filtered from listings
-- **SHA-256 + timestamp** for ID generation — collision-resistant without external state
+- **frozenデータクラス** (`UrlItem`) — 不変性により意図しない変更を防止
+- **リポジトリパターン** — ビジネスロジックとDynamoDB SDKの呼び出しを分離
+- **依存性注入** (`UrlRepository`) — モンキーパッチなしでmotoベースのテストが可能
+- **論理削除** — 監査証跡を保持。`is_active=false` のアイテムは一覧から除外
+- **SHA-256 + タイムスタンプ** によるID生成 — 外部状態なしで衝突耐性を確保
 
-## License
+## ライセンス
 
 MIT
