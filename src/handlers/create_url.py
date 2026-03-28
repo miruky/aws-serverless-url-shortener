@@ -1,4 +1,4 @@
-"""Handler for creating a shortened URL.
+"""短縮URL作成ハンドラー。
 
 API: POST /urls
 Body: {"url": "https://example.com/very/long/path"}
@@ -21,26 +21,26 @@ logger.setLevel(logging.INFO)
 
 
 def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
-    """Create a new short URL entry.
+    """新しい短縮URLエントリを作成する。
 
-    Expects a JSON body with a ``url`` field containing a valid HTTP(S) URL.
-    Returns a ``201 Created`` response with the persisted :class:`UrlItem`.
+    有効なHTTP(S) URLを含む ``url`` フィールドのJSONボディを期待する。
+    永続化された :class:`UrlItem` を含む ``201 Created`` レスポンスを返す。
 
     Args:
-        event: API Gateway proxy integration event.
-        context: Lambda context (unused).
+        event: API Gatewayプロキシ統合イベント。
+        context: Lambdaコンテキスト（未使用）。
 
     Returns:
-        API Gateway proxy response.
+        API Gatewayプロキシレスポンス。
     """
     try:
         body: dict[str, Any] = json.loads(event.get("body") or "{}")
     except (json.JSONDecodeError, TypeError):
-        return error_response("Invalid JSON in request body.", 400)
+        return error_response("リクエストボディのJSONが不正です。", 400)
 
     original_url: str = body.get("url", "")
     if not validate_url(original_url):
-        return error_response("Invalid or missing 'url' parameter.", 400)
+        return error_response("'url' パラメータが不正または未指定です。", 400)
 
     short_id = generate_short_id(original_url)
     item = UrlItem(short_id=short_id, original_url=original_url)
@@ -48,5 +48,5 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     repo = UrlRepository()
     repo.put(item)
 
-    logger.info("Created short URL: %s -> %s", short_id, original_url)
+    logger.info("短縮URL作成: %s -> %s", short_id, original_url)
     return success_response(item.to_dict(), 201)
