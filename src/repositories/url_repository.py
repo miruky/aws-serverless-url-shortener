@@ -17,7 +17,7 @@ class UrlRepository:
     """URLsテーブルに対するCRUD操作を提供するリポジトリ。
 
     コンストラクタはオプションで ``dynamodb_resource`` を受け取り、
-    依存性注入によりテスト時にモック（例: moto）への差し替えを容易にする。
+    依存性注入によりテスト時にモック(例: moto)への差し替えを容易にする。
 
     Args:
         table_name: DynamoDBテーブル名。
@@ -61,7 +61,7 @@ class UrlRepository:
         return UrlItem.from_dict(data)
 
     def list_active(self, limit: int = 50) -> list[UrlItem]:
-        """有効な（論理削除されていない）URLアイテムを一覧取得する。
+        """有効な(論理削除されていない)URLアイテムを一覧取得する。
 
         Args:
             limit: 返却するアイテムの最大数。
@@ -89,10 +89,10 @@ class UrlRepository:
             ExpressionAttributeValues={":inc": 1},
         )
 
-    # -- 削除（論理削除） -----------------------------------------------------
+    # -- 削除(論理削除) -----------------------------------------------------
 
     def soft_delete(self, short_id: str) -> bool:
-        """URLアイテムを論理削除する（``is_active`` を ``False`` に設定）。
+        """URLアイテムを論理削除する(``is_active`` を ``False`` に設定)。
 
         Args:
             short_id: パーティションキーの値。

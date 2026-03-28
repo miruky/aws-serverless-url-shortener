@@ -21,7 +21,7 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
 
     Args:
         event: API Gatewayプロキシ統合イベント。
-        context: Lambdaコンテキスト（未使用）。
+        context: Lambdaコンテキスト(未使用)。
 
     Returns:
         :class:`UrlItem` データを含むAPI Gatewayプロキシレスポンス。

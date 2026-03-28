@@ -18,7 +18,7 @@ def success_response(body: Any, status_code: int = 200) -> dict[str, Any]:
 
     Args:
         body: JSONシリアライズ可能なペイロード。
-        status_code: HTTPステータスコード（デフォルト: 200）。
+        status_code: HTTPステータスコード(デフォルト: 200)。
 
     Returns:
         API Gateway互換のレスポンス辞書。
@@ -35,7 +35,7 @@ def error_response(message: str, status_code: int = 400) -> dict[str, Any]:
 
     Args:
         message: 人間が読めるエラー説明。
-        status_code: HTTPステータスコード（デフォルト: 400）。
+        status_code: HTTPステータスコード(デフォルト: 400)。
 
     Returns:
         API Gateway互換のレスポンス辞書。

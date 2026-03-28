@@ -16,14 +16,14 @@ logger.setLevel(logging.INFO)
 
 
 def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
-    """有効な（論理削除されていない）短縮URLの一覧を返す。
+    """有効な(論理削除されていない)短縮URLの一覧を返す。
 
     オプションの ``limit`` クエリ文字列パラメータで返却アイテムの最大数を
-    制御できる（デフォルト: 50、最大: 200）。
+    制御できる(デフォルト: 50、最大: 200)。
 
     Args:
         event: API Gatewayプロキシ統合イベント。
-        context: Lambdaコンテキスト（未使用）。
+        context: Lambdaコンテキスト(未使用)。
 
     Returns:
         :class:`UrlItem` 辞書のリストを含むAPI Gatewayプロキシレスポンス。
@@ -38,7 +38,7 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     repo = UrlRepository()
     items = repo.list_active(limit=limit)
 
-    logger.info("有効URL一覧: %d件（limit=%d）", len(items), limit)
+    logger.info("有効URL一覧: %d件(limit=%d)", len(items), limit)
     return success_response({
         "items": [item.to_dict() for item in items],
         "count": len(items),

@@ -1,4 +1,4 @@
-"""短縮URL削除（論理削除）ハンドラー。
+"""短縮URL削除(論理削除)ハンドラー。
 
 API: DELETE /urls/{short_id}
 """
@@ -23,7 +23,7 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
 
     Args:
         event: API Gatewayプロキシ統合イベント。
-        context: Lambdaコンテキスト（未使用）。
+        context: Lambdaコンテキスト(未使用)。
 
     Returns:
         削除確認のAPI Gatewayプロキシレスポンス。
