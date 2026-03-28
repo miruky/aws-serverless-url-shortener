@@ -1,4 +1,4 @@
-"""Tests for src.repositories.url_repository — DynamoDB integration (moto)."""
+"""src.repositories.url_repository のテスト — DynamoDB統合テスト（moto）。"""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from src.repositories.url_repository import UrlRepository
 
 
 class TestUrlRepositoryPut:
-    """Tests for UrlRepository.put."""
+    """UrlRepository.putのテスト。"""
 
     def test_put_stores_item(self, dynamodb_resource: Any) -> None:
         repo = UrlRepository(table_name="test-urls", dynamodb_resource=dynamodb_resource)
@@ -32,7 +32,7 @@ class TestUrlRepositoryPut:
 
 
 class TestUrlRepositoryGet:
-    """Tests for UrlRepository.get."""
+    """UrlRepository.getのテスト。"""
 
     def test_get_existing_item(self, dynamodb_resource: Any) -> None:
         repo = UrlRepository(table_name="test-urls", dynamodb_resource=dynamodb_resource)
@@ -48,7 +48,7 @@ class TestUrlRepositoryGet:
 
 
 class TestUrlRepositoryIncrementClick:
-    """Tests for UrlRepository.increment_click."""
+    """UrlRepository.increment_clickのテスト。"""
 
     def test_increment_increases_count(self, dynamodb_resource: Any) -> None:
         repo = UrlRepository(table_name="test-urls", dynamodb_resource=dynamodb_resource)
@@ -72,7 +72,7 @@ class TestUrlRepositoryIncrementClick:
 
 
 class TestUrlRepositorySoftDelete:
-    """Tests for UrlRepository.soft_delete."""
+    """UrlRepository.soft_deleteのテスト。"""
 
     def test_soft_delete_existing_item(self, dynamodb_resource: Any) -> None:
         repo = UrlRepository(table_name="test-urls", dynamodb_resource=dynamodb_resource)
@@ -92,7 +92,7 @@ class TestUrlRepositorySoftDelete:
 
 
 class TestUrlRepositoryListActive:
-    """Tests for UrlRepository.list_active."""
+    """UrlRepository.list_activeのテスト。"""
 
     def test_list_active_returns_only_active_items(self, dynamodb_resource: Any) -> None:
         repo = UrlRepository(table_name="test-urls", dynamodb_resource=dynamodb_resource)
