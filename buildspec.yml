@@ -1,0 +1,42 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.12
+    commands:
+      - echo "Installing dependencies..."
+      - pip install -e ".[dev]"
+
+  pre_build:
+    commands:
+      - echo "Running linter..."
+      - ruff check src/ tests/
+      - echo "Running tests..."
+      - pytest tests/ -v --tb=short --junitxml=reports/junit.xml
+
+  build:
+    commands:
+      - echo "Packaging Lambda function..."
+      - mkdir -p package
+      - pip install -t package/ boto3
+      - cp -r src/ package/
+      - cd package && zip -r ../lambda-package.zip . -x "*.pyc" "__pycache__/*"
+      - cd ..
+      - cp lambda-package.zip $CODEBUILD_SRC_DIR/
+
+  post_build:
+    commands:
+      - echo "Build completed on $(date)"
+
+artifacts:
+  files:
+    - lambda-package.zip
+    - infrastructure/**/*
+  discard-paths: no
+
+reports:
+  pytest-reports:
+    files:
+      - reports/junit.xml
+    file-format: JUNITXML
