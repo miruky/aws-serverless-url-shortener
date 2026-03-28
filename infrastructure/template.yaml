@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: >-
-  Serverless URL Shortener — Core infrastructure stack.
-  Deploys API Gateway, Lambda functions, DynamoDB table, and IAM roles.
+  サーバーレスURL短縮サービス — コアインフラストラクチャスタック。
+  API Gateway、Lambda関数、DynamoDBテーブル、IAMロールをデプロイする。
 
 Parameters:
   Environment:
@@ -11,18 +11,18 @@ Parameters:
       - dev
       - stg
       - prod
-    Description: Deployment environment name.
+    Description: デプロイ環境名。
   ProjectName:
     Type: String
     Default: url-shortener
-    Description: Prefix used for resource naming.
+    Description: リソース命名に使用するプレフィックス。
   LambdaS3Bucket:
     Type: String
-    Description: S3 bucket containing the Lambda deployment package.
+    Description: Lambdaデプロイパッケージを格納するS3バケット。
   LambdaS3Key:
     Type: String
     Default: lambda-package.zip
-    Description: S3 key for the Lambda deployment package.
+    Description: Lambdaデプロイパッケージ用のS3キー。
 
 Resources:
   # ---------------------------------------------------------------------------
@@ -50,7 +50,7 @@ Resources:
           Value: !Ref Environment
 
   # ---------------------------------------------------------------------------
-  # IAM — Lambda execution role
+  # IAM — Lambda実行ロール
   # ---------------------------------------------------------------------------
   LambdaExecutionRole:
     Type: AWS::IAM::Role
@@ -79,7 +79,7 @@ Resources:
                 Resource: !GetAtt UrlsTable.Arn
 
   # ---------------------------------------------------------------------------
-  # Lambda Functions
+  # Lambda関数
   # ---------------------------------------------------------------------------
   CreateUrlFunction:
     Type: AWS::Lambda::Function
@@ -183,7 +183,7 @@ Resources:
     Type: AWS::ApiGateway::RestApi
     Properties:
       Name: !Sub "${ProjectName}-api-${Environment}"
-      Description: URL Shortener REST API
+      Description: URL短縮サービス REST API
       EndpointConfiguration:
         Types:
           - REGIONAL
@@ -204,7 +204,7 @@ Resources:
       ParentId: !Ref UrlsResource
       PathPart: "{short_id}"
 
-  # /{short_id}  (redirect)
+  # /{short_id}（リダイレクト）
   RedirectResource:
     Type: AWS::ApiGateway::Resource
     Properties:
@@ -268,7 +268,7 @@ Resources:
         Uri: !Sub >-
           arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteUrlFunction.Arn}/invocations
 
-  # GET /{short_id}  (redirect)
+  # GET /{short_id}（リダイレクト）
   RedirectMethod:
     Type: AWS::ApiGateway::Method
     Properties:
@@ -282,7 +282,7 @@ Resources:
         Uri: !Sub >-
           arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RedirectUrlFunction.Arn}/invocations
 
-  # API Deployment
+  # APIデプロイメント
   ApiDeployment:
     Type: AWS::ApiGateway::Deployment
     DependsOn:
@@ -307,7 +307,7 @@ Resources:
           ThrottlingRateLimit: 100
 
   # ---------------------------------------------------------------------------
-  # Lambda Permissions — allow API Gateway to invoke functions
+  # Lambda権限 — API GatewayからLambda関数の呼び出しを許可
   # ---------------------------------------------------------------------------
   CreateUrlPermission:
     Type: AWS::Lambda::Permission
@@ -351,11 +351,11 @@ Resources:
 
 Outputs:
   ApiEndpoint:
-    Description: Base URL of the deployed API
+    Description: デプロイ済みAPIのベースURL
     Value: !Sub "https://${RestApi}.execute-api.${AWS::Region}.amazonaws.com/${Environment}"
   UrlsTableName:
-    Description: DynamoDB table name
+    Description: DynamoDBテーブル名
     Value: !Ref UrlsTable
   UrlsTableArn:
-    Description: DynamoDB table ARN
+    Description: DynamoDBテーブルARN
     Value: !GetAtt UrlsTable.Arn
