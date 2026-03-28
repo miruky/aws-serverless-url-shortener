@@ -1,4 +1,4 @@
-"""Handler for listing all active short URLs.
+"""有効な短縮URL一覧取得ハンドラー。
 
 API: GET /urls
 """
@@ -16,17 +16,17 @@ logger.setLevel(logging.INFO)
 
 
 def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
-    """Return a list of all active (non-deleted) short URLs.
+    """有効な（論理削除されていない）短縮URLの一覧を返す。
 
-    An optional ``limit`` query-string parameter controls the maximum
-    number of items returned (default 50, max 200).
+    オプションの ``limit`` クエリ文字列パラメータで返却アイテムの最大数を
+    制御できる（デフォルト: 50、最大: 200）。
 
     Args:
-        event: API Gateway proxy integration event.
-        context: Lambda context (unused).
+        event: API Gatewayプロキシ統合イベント。
+        context: Lambdaコンテキスト（未使用）。
 
     Returns:
-        API Gateway proxy response with a list of :class:`UrlItem` dicts.
+        :class:`UrlItem` 辞書のリストを含むAPI Gatewayプロキシレスポンス。
     """
     qs_params: dict[str, str] = event.get("queryStringParameters") or {}
 
@@ -38,7 +38,7 @@ def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     repo = UrlRepository()
     items = repo.list_active(limit=limit)
 
-    logger.info("Listed %d active URLs (limit=%d)", len(items), limit)
+    logger.info("有効URL一覧: %d件（limit=%d）", len(items), limit)
     return success_response({
         "items": [item.to_dict() for item in items],
         "count": len(items),
