@@ -1,1 +1,1 @@
-"""Test suite for aws-serverless-url-shortener."""
+"""aws-serverless-url-shortenerのテストスイート。"""

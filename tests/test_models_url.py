@@ -1,4 +1,4 @@
-"""Tests for src.models.url — UrlItem dataclass."""
+"""src.models.url のテスト — UrlItemデータクラス。"""
 
 from __future__ import annotations
 
@@ -15,7 +15,7 @@ from src.models.url import UrlItem
 # ---------------------------------------------------------------------------
 
 class TestUrlItemInit:
-    """Tests for UrlItem construction and default values."""
+    """UrlItemの生成とデフォルト値のテスト。"""
 
     def test_create_with_required_fields(self) -> None:
         item = UrlItem(short_id="abc1234", original_url="https://example.com")
@@ -51,7 +51,7 @@ class TestUrlItemInit:
 # ---------------------------------------------------------------------------
 
 class TestUrlItemToDict:
-    """Tests for the to_dict serialisation method."""
+    """to_dictシリアライズメソッドのテスト。"""
 
     def test_to_dict_returns_all_fields(self) -> None:
         item = UrlItem(
@@ -87,7 +87,7 @@ class TestUrlItemToDict:
 # ---------------------------------------------------------------------------
 
 class TestUrlItemFromDict:
-    """Tests for the from_dict deserialisation class method."""
+    """from_dictデシリアライズクラスメソッドのテスト。"""
 
     def test_from_dict_with_all_fields(self) -> None:
         data = {

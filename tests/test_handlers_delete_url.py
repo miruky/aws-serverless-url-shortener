@@ -1,4 +1,4 @@
-"""Tests for src.handlers.delete_url — DELETE /urls/{short_id} handler."""
+"""src.handlers.delete_url のテスト — DELETE /urls/{short_id} ハンドラー。"""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from src.handlers.delete_url import handler
 
 
 class TestDeleteUrlHandler:
-    """Tests for the delete_url Lambda handler."""
+    """delete_url Lambdaハンドラーのテスト。"""
 
     @patch("src.handlers.delete_url.UrlRepository")
     def test_deletes_existing_url(self, mock_repo_cls: MagicMock) -> None:
@@ -22,7 +22,7 @@ class TestDeleteUrlHandler:
 
         assert result["statusCode"] == 200
         body = json.loads(result["body"])
-        assert "deleted" in body["message"].lower() or "abc" in body["message"]
+        assert "削除" in body["message"] or "abc" in body["message"]
         mock_repo.soft_delete.assert_called_once_with("abc")
 
     @patch("src.handlers.delete_url.UrlRepository")

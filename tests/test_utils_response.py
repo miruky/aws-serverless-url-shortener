@@ -1,4 +1,4 @@
-"""Tests for src.utils.response — API Gateway response builders."""
+"""src.utils.response のテスト — API Gatewayレスポンスビルダー。"""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from src.utils.response import error_response, redirect_response, success_respon
 # ---------------------------------------------------------------------------
 
 class TestSuccessResponse:
-    """Tests for the success_response builder."""
+    """success_responseビルダーのテスト。"""
 
     def test_default_status_code_is_200(self) -> None:
         resp = success_response({"key": "value"})
@@ -42,7 +42,7 @@ class TestSuccessResponse:
 # ---------------------------------------------------------------------------
 
 class TestErrorResponse:
-    """Tests for the error_response builder."""
+    """error_responseビルダーのテスト。"""
 
     def test_default_status_code_is_400(self) -> None:
         resp = error_response("Bad request")
@@ -67,7 +67,7 @@ class TestErrorResponse:
 # ---------------------------------------------------------------------------
 
 class TestRedirectResponse:
-    """Tests for the redirect_response builder."""
+    """redirect_responseビルダーのテスト。"""
 
     def test_status_code_is_301(self) -> None:
         resp = redirect_response("https://example.com")

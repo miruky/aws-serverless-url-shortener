@@ -1,4 +1,4 @@
-"""Tests for src.handlers.redirect_url — GET /{short_id} handler."""
+"""src.handlers.redirect_url のテスト — GET /{short_id} ハンドラー。"""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from src.models.url import UrlItem
 
 
 class TestRedirectUrlHandler:
-    """Tests for the redirect_url Lambda handler."""
+    """redirect_url Lambdaハンドラーのテスト。"""
 
     @patch("src.handlers.redirect_url.UrlRepository")
     def test_redirects_active_url(self, mock_repo_cls: MagicMock) -> None:

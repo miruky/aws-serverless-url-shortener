@@ -1,4 +1,4 @@
-"""URL model definitions."""
+"""URLモデル定義。"""
 
 from __future__ import annotations
 
@@ -9,14 +9,14 @@ from typing import Any
 
 @dataclass(frozen=True)
 class UrlItem:
-    """Represents a shortened URL entry stored in DynamoDB.
+    """DynamoDBに保存される短縮URLエントリを表すデータクラス。
 
     Attributes:
-        short_id: Unique short identifier (e.g. 'aB3kZ9x').
-        original_url: The original long URL to redirect to.
-        created_at: Unix timestamp of creation (auto-set).
-        click_count: Number of redirect accesses.
-        is_active: Soft-delete flag.
+        short_id: 一意の短縮ID（例: 'aB3kZ9x'）。
+        original_url: リダイレクト先の元のURL。
+        created_at: 作成時のUnixタイムスタンプ（自動設定）。
+        click_count: リダイレクトアクセス回数。
+        is_active: 論理削除フラグ。
     """
 
     short_id: str
@@ -26,7 +26,7 @@ class UrlItem:
     is_active: bool = True
 
     def to_dict(self) -> dict[str, Any]:
-        """Convert to a DynamoDB-compatible dictionary."""
+        """DynamoDB互換の辞書に変換する。"""
         return {
             "short_id": self.short_id,
             "original_url": self.original_url,
@@ -37,10 +37,10 @@ class UrlItem:
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> UrlItem:
-        """Create a UrlItem from a DynamoDB item dictionary.
+        """DynamoDBアイテム辞書からUrlItemを生成する。
 
-        Missing optional fields fall back to safe defaults so that items
-        written by older schema versions can still be loaded.
+        省略されたオプションフィールドは安全なデフォルト値にフォールバックするため、
+        旧スキーマバージョンのアイテムも読み込み可能。
         """
         return cls(
             short_id=str(data["short_id"]),

@@ -1,4 +1,4 @@
-"""Tests for src.handlers.get_url_stats — GET /urls/{short_id} handler."""
+"""src.handlers.get_url_stats のテスト — GET /urls/{short_id} ハンドラー。"""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from src.models.url import UrlItem
 
 
 class TestGetUrlStatsHandler:
-    """Tests for the get_url_stats Lambda handler."""
+    """get_url_stats Lambdaハンドラーのテスト。"""
 
     @patch("src.handlers.get_url_stats.UrlRepository")
     def test_returns_stats_for_existing_url(self, mock_repo_cls: MagicMock) -> None:

@@ -1,4 +1,4 @@
-"""Input validation utilities."""
+"""入力バリデーションユーティリティ。"""
 
 from __future__ import annotations
 
@@ -15,13 +15,13 @@ SHORT_ID_PATTERN: re.Pattern[str] = re.compile(r"^[a-zA-Z0-9]{1,20}$")
 
 
 def validate_url(url: str) -> bool:
-    """Validate that *url* is a well-formed HTTP or HTTPS URL.
+    """URLが正しい形式のHTTPまたはHTTPS URLかを検証する。
 
     Args:
-        url: The string to validate.
+        url: 検証する文字列。
 
     Returns:
-        ``True`` if the string is a valid URL, ``False`` otherwise.
+        有効なURLなら ``True``、そうでなければ ``False``。
     """
     if not url or not isinstance(url, str):
         return False
@@ -31,15 +31,15 @@ def validate_url(url: str) -> bool:
 
 
 def validate_short_id(short_id: str) -> bool:
-    """Validate that *short_id* is a well-formed short identifier.
+    """短縮IDが正しい形式かを検証する。
 
-    A valid short ID consists of 1–20 alphanumeric characters.
+    有効な短縮IDは1〜20文字の英数字で構成される。
 
     Args:
-        short_id: The string to validate.
+        short_id: 検証する文字列。
 
     Returns:
-        ``True`` if valid, ``False`` otherwise.
+        有効なら ``True``、そうでなければ ``False``。
     """
     if not short_id or not isinstance(short_id, str):
         return False

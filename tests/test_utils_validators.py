@@ -1,4 +1,4 @@
-"""Tests for src.utils.validators — input validation."""
+"""src.utils.validators のテスト — 入力バリデーション。"""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ from src.utils.validators import validate_short_id, validate_url
 # ---------------------------------------------------------------------------
 
 class TestValidateUrl:
-    """Tests for the validate_url function."""
+    """validate_url関数のテスト。"""
 
     @pytest.mark.parametrize("url", [
         "https://example.com",
@@ -51,12 +51,12 @@ class TestValidateUrl:
 # ---------------------------------------------------------------------------
 
 class TestValidateShortId:
-    """Tests for the validate_short_id function."""
+    """validate_short_id関数のテスト。"""
 
     @pytest.mark.parametrize("short_id", [
         "abc1234",
         "A",
-        "abcdefghijklmnopqrst",  # 20 chars
+        "abcdefghijklmnopqrst",  # 20文字
     ])
     def test_valid_short_ids(self, short_id: str) -> None:
         assert validate_short_id(short_id) is True
@@ -66,7 +66,7 @@ class TestValidateShortId:
         "abc-123",
         "abc 123",
         "abc!@#",
-        "a" * 21,  # 21 chars — over limit
+        "a" * 21,  # 21文字 — 上限超過
     ])
     def test_invalid_short_ids(self, short_id: str) -> None:
         assert validate_short_id(short_id) is False

@@ -1,4 +1,4 @@
-"""Handler for deleting (soft-delete) a short URL.
+"""短縮URL削除（論理削除）ハンドラー。
 
 API: DELETE /urls/{short_id}
 """
@@ -17,29 +17,28 @@ logger.setLevel(logging.INFO)
 
 
 def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
-    """Soft-delete a short URL so it no longer redirects.
+    """短縮URLを論理削除し、リダイレクトを無効化する。
 
-    The item is not physically removed; instead, ``is_active`` is set
-    to ``False``.
+    アイテムは物理的には削除されず、``is_active`` が ``False`` に設定される。
 
     Args:
-        event: API Gateway proxy integration event.
-        context: Lambda context (unused).
+        event: API Gatewayプロキシ統合イベント。
+        context: Lambdaコンテキスト（未使用）。
 
     Returns:
-        API Gateway proxy response confirming deletion.
+        削除確認のAPI Gatewayプロキシレスポンス。
     """
     path_params: dict[str, str] = event.get("pathParameters") or {}
     short_id: str = path_params.get("short_id", "")
 
     if not validate_short_id(short_id):
-        return error_response("Invalid short ID.", 400)
+        return error_response("短縮IDが不正です。", 400)
 
     repo = UrlRepository()
     deleted = repo.soft_delete(short_id)
 
     if not deleted:
-        return error_response("Short URL not found.", 404)
+        return error_response("短縮URLが見つかりません。", 404)
 
-    logger.info("Soft-deleted short URL: %s", short_id)
-    return success_response({"message": f"Short URL '{short_id}' deleted."})
+    logger.info("短縮URL論理削除: %s", short_id)
+    return success_response({"message": f"短縮URL '{short_id}' を削除しました。"})

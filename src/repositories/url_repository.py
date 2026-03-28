@@ -1,4 +1,4 @@
-"""DynamoDB repository for URL items."""
+"""URLアイテムのDynamoDBリポジトリ。"""
 
 from __future__ import annotations
 
@@ -14,16 +14,15 @@ TABLE_NAME: str = os.environ.get("URLS_TABLE_NAME", "urls")
 
 
 class UrlRepository:
-    """Repository providing CRUD operations for the URLs DynamoDB table.
+    """URLsテーブルに対するCRUD操作を提供するリポジトリ。
 
-    The constructor accepts an optional ``dynamodb_resource`` for
-    dependency injection, making it straightforward to swap in a mock
-    (e.g. *moto*) during testing.
+    コンストラクタはオプションで ``dynamodb_resource`` を受け取り、
+    依存性注入によりテスト時にモック（例: moto）への差し替えを容易にする。
 
     Args:
-        table_name: Name of the DynamoDB table.
-        dynamodb_resource: A ``boto3.resource('dynamodb')`` instance.
-            When ``None`` a default resource is created.
+        table_name: DynamoDBテーブル名。
+        dynamodb_resource: ``boto3.resource('dynamodb')`` インスタンス。
+            ``None`` の場合はデフォルトリソースが生成される。
     """
 
     def __init__(
@@ -34,26 +33,26 @@ class UrlRepository:
         self._dynamodb: Any = dynamodb_resource or boto3.resource("dynamodb")
         self._table: Any = self._dynamodb.Table(table_name)
 
-    # -- Create ---------------------------------------------------------------
+    # -- 登録 -----------------------------------------------------------------
 
     def put(self, item: UrlItem) -> None:
-        """Store a URL item in the table.
+        """URLアイテムをテーブルに保存する。
 
         Args:
-            item: The :class:`UrlItem` to persist.
+            item: 保存する :class:`UrlItem`。
         """
         self._table.put_item(Item=item.to_dict())
 
-    # -- Read -----------------------------------------------------------------
+    # -- 取得 -----------------------------------------------------------------
 
     def get(self, short_id: str) -> UrlItem | None:
-        """Retrieve a URL item by *short_id*.
+        """短縮IDでURLアイテムを取得する。
 
         Args:
-            short_id: The partition key value.
+            short_id: パーティションキーの値。
 
         Returns:
-            A :class:`UrlItem` if found, otherwise ``None``.
+            見つかった場合は :class:`UrlItem`、見つからない場合は ``None``。
         """
         response: dict[str, Any] = self._table.get_item(Key={"short_id": short_id})
         data = response.get("Item")
@@ -62,13 +61,13 @@ class UrlRepository:
         return UrlItem.from_dict(data)
 
     def list_active(self, limit: int = 50) -> list[UrlItem]:
-        """List active (non-deleted) URL items.
+        """有効な（論理削除されていない）URLアイテムを一覧取得する。
 
         Args:
-            limit: Maximum number of items to return.
+            limit: 返却するアイテムの最大数。
 
         Returns:
-            A list of active :class:`UrlItem` instances.
+            有効な :class:`UrlItem` インスタンスのリスト。
         """
         response: dict[str, Any] = self._table.scan(
             FilterExpression=Attr("is_active").eq(True),
@@ -76,13 +75,13 @@ class UrlRepository:
         )
         return [UrlItem.from_dict(item) for item in response.get("Items", [])]
 
-    # -- Update ---------------------------------------------------------------
+    # -- 更新 -----------------------------------------------------------------
 
     def increment_click(self, short_id: str) -> None:
-        """Atomically increment the click counter for a URL item.
+        """URLアイテムのクリックカウンターをアトミックにインクリメントする。
 
         Args:
-            short_id: The partition key value.
+            short_id: パーティションキーの値。
         """
         self._table.update_item(
             Key={"short_id": short_id},
@@ -90,17 +89,17 @@ class UrlRepository:
             ExpressionAttributeValues={":inc": 1},
         )
 
-    # -- Delete (soft) --------------------------------------------------------
+    # -- 削除（論理削除） -----------------------------------------------------
 
     def soft_delete(self, short_id: str) -> bool:
-        """Soft-delete a URL item by setting ``is_active`` to ``False``.
+        """URLアイテムを論理削除する（``is_active`` を ``False`` に設定）。
 
         Args:
-            short_id: The partition key value.
+            short_id: パーティションキーの値。
 
         Returns:
-            ``True`` if the item existed and was deactivated,
-            ``False`` if the item was not found.
+            アイテムが存在し無効化された場合は ``True``、
+            アイテムが見つからなかった場合は ``False``。
         """
         try:
             self._table.update_item(

@@ -1,1 +1,1 @@
-"""Lambda handler modules."""
+"""Lambdaハンドラーモジュール。"""

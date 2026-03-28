@@ -1,4 +1,4 @@
-"""Tests for src.handlers.create_url — POST /urls handler."""
+"""src.handlers.create_url のテスト — POST /urls ハンドラー。"""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from src.handlers.create_url import handler
 
 
 class TestCreateUrlHandler:
-    """Tests for the create_url Lambda handler."""
+    """create_url Lambdaハンドラーのテスト。"""
 
     @patch("src.handlers.create_url.UrlRepository")
     @patch("src.handlers.create_url.generate_short_id", return_value="aB3kZ9x")

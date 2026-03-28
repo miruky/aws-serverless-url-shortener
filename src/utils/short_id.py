@@ -1,4 +1,4 @@
-"""Short ID generation utilities."""
+"""短縮ID生成ユーティリティ。"""
 
 from __future__ import annotations
 
@@ -6,22 +6,22 @@ import hashlib
 import string
 import time
 
-CHARSET: str = string.ascii_letters + string.digits  # a-zA-Z0-9 (62 chars)
+CHARSET: str = string.ascii_letters + string.digits  # a-zA-Z0-9（62文字）
 DEFAULT_LENGTH: int = 7
 
 
 def generate_short_id(url: str, length: int = DEFAULT_LENGTH) -> str:
-    """Generate a unique short ID from a URL.
+    """URLから一意の短縮IDを生成する。
 
-    Uses SHA-256 hash of the URL combined with a nanosecond timestamp to
-    produce a collision-resistant, URL-safe identifier.
+    URLとナノ秒タイムスタンプを組み合わせたSHA-256ハッシュにより、
+    衝突耐性の高いURL安全な識別子を生成する。
 
     Args:
-        url: The original URL to derive the short ID from.
-        length: Desired length of the short ID (default: 7).
+        url: 短縮IDの生成元となるURL。
+        length: 短縮IDの文字数（デフォルト: 7）。
 
     Returns:
-        A string of ``length`` characters from ``[a-zA-Z0-9]``.
+        ``[a-zA-Z0-9]`` から構成される ``length`` 文字の文字列。
     """
     raw = f"{url}:{time.time_ns()}"
     digest = hashlib.sha256(raw.encode()).hexdigest()

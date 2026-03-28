@@ -1,7 +1,7 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: >-
-  Serverless URL Shortener — CI/CD Pipeline.
-  CodePipeline + CodeBuild + CodeDeploy for automated deployment.
+  サーバーレスURL短縮サービス — CI/CDパイプライン。
+  CodePipeline + CodeBuild + CodeDeployによる自動デプロイ。
 
 Parameters:
   ProjectName:
@@ -21,11 +21,11 @@ Parameters:
     Default: main
   CodeStarConnectionArn:
     Type: String
-    Description: ARN of the CodeStar Connection to GitHub.
+    Description: GitHubへのCodeStar接続のARN。
 
 Resources:
   # ---------------------------------------------------------------------------
-  # S3 — Artifact store
+  # S3 — アーティファクトストア
   # ---------------------------------------------------------------------------
   ArtifactBucket:
     Type: AWS::S3::Bucket
@@ -44,7 +44,7 @@ Resources:
             ExpirationInDays: 30
 
   # ---------------------------------------------------------------------------
-  # IAM — CodeBuild service role
+  # IAM — CodeBuildサービスロール
   # ---------------------------------------------------------------------------
   CodeBuildServiceRole:
     Type: AWS::IAM::Role
@@ -78,7 +78,7 @@ Resources:
                   - !Sub "${ArtifactBucket.Arn}/*"
 
   # ---------------------------------------------------------------------------
-  # IAM — CodePipeline service role
+  # IAM — CodePipelineサービスロール
   # ---------------------------------------------------------------------------
   CodePipelineServiceRole:
     Type: AWS::IAM::Role
@@ -139,7 +139,7 @@ Resources:
                 Resource: !GetAtt CloudFormationDeployRole.Arn
 
   # ---------------------------------------------------------------------------
-  # IAM — CloudFormation deploy role
+  # IAM — CloudFormationデプロイロール
   # ---------------------------------------------------------------------------
   CloudFormationDeployRole:
     Type: AWS::IAM::Role
@@ -162,7 +162,7 @@ Resources:
     Type: AWS::CodeBuild::Project
     Properties:
       Name: !Sub "${ProjectName}-build-${Environment}"
-      Description: Build and test the URL shortener Lambda package
+      Description: URL短縮サービスのLambdaパッケージをビルド・テストする
       ServiceRole: !GetAtt CodeBuildServiceRole.Arn
       Artifacts:
         Type: CODEPIPELINE
@@ -229,7 +229,7 @@ Resources:
         Type: S3
         Location: !Ref ArtifactBucket
       Stages:
-        # Stage 1: Source
+        # ステージ1: ソース取得
         - Name: Source
           Actions:
             - Name: GitHubSource
@@ -246,7 +246,7 @@ Resources:
               OutputArtifacts:
                 - Name: SourceOutput
 
-        # Stage 2: Build & Test
+        # ステージ2: ビルド・テスト
         - Name: Build
           Actions:
             - Name: BuildAndTest
@@ -262,7 +262,7 @@ Resources:
               OutputArtifacts:
                 - Name: BuildOutput
 
-        # Stage 3: Deploy via CloudFormation
+        # ステージ3: CloudFormation経由のデプロイ
         - Name: Deploy
           Actions:
             - Name: CreateChangeSet
@@ -303,8 +303,8 @@ Resources:
 
 Outputs:
   PipelineName:
-    Description: Name of the CodePipeline
+    Description: CodePipelineの名前
     Value: !Ref Pipeline
   ArtifactBucketName:
-    Description: S3 bucket for pipeline artifacts
+    Description: パイプラインアーティファクト用S3バケット
     Value: !Ref ArtifactBucket
