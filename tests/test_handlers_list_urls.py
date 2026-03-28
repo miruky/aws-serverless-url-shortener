@@ -1,4 +1,4 @@
-"""Tests for src.handlers.list_urls — GET /urls handler."""
+"""src.handlers.list_urls のテスト — GET /urls ハンドラー。"""
 
 from __future__ import annotations
 
@@ -10,7 +10,7 @@ from src.models.url import UrlItem
 
 
 class TestListUrlsHandler:
-    """Tests for the list_urls Lambda handler."""
+    """list_urls Lambdaハンドラーのテスト。"""
 
     @patch("src.handlers.list_urls.UrlRepository")
     def test_returns_list_of_active_urls(self, mock_repo_cls: MagicMock) -> None:
