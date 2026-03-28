@@ -1,4 +1,4 @@
-"""src.repositories.url_repository のテスト — DynamoDB統合テスト（moto）。"""
+"""src.repositories.url_repository のテスト — DynamoDB統合テスト(moto)。"""
 
 from __future__ import annotations
 
@@ -98,7 +98,9 @@ class TestUrlRepositoryListActive:
         repo = UrlRepository(table_name="test-urls", dynamodb_resource=dynamodb_resource)
         repo.put(UrlItem(short_id="a", original_url="https://a.com", created_at=1))
         repo.put(UrlItem(short_id="b", original_url="https://b.com", created_at=2))
-        repo.put(UrlItem(short_id="c", original_url="https://c.com", created_at=3, is_active=False))
+        repo.put(
+            UrlItem(short_id="c", original_url="https://c.com", created_at=3, is_active=False),
+        )
 
         items = repo.list_active()
         ids = {item.short_id for item in items}

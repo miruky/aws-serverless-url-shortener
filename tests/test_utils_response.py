@@ -6,7 +6,6 @@ import json
 
 from src.utils.response import error_response, redirect_response, success_response
 
-
 # ---------------------------------------------------------------------------
 # success_response
 # ---------------------------------------------------------------------------
