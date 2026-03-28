@@ -1,6 +1,20 @@
-# aws-serverless-url-shortener
+# AWS Serverless URL Shortener
 
-AWS Lambda、API Gateway、DynamoDB上に構築された本番環境対応のサーバーレスURL短縮サービス。
+[![CI](https://github.com/miruky/aws-serverless-url-shortener/actions/workflows/ci.yml/badge.svg)](https://github.com/miruky/aws-serverless-url-shortener/actions/workflows/ci.yml)
+[![Python](https://img.shields.io/badge/Python-3.12+-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![Test](https://img.shields.io/badge/Test-pytest-0A9EDC?logo=pytest&logoColor=white)](https://docs.pytest.org/)
+[![Ruff](https://img.shields.io/badge/Linter-Ruff-D7FF64?logo=ruff&logoColor=black)](https://docs.astral.sh/ruff/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> AWS Lambda + API Gateway + DynamoDB で構築した、本番環境対応のサーバーレス URL 短縮サービスです。
+
+## 概要
+
+5 つの Lambda 関数が REST API を提供し、DynamoDB をデータストアとして短縮 URL の作成・リダイレクト・統計取得・一覧表示・論理削除を行います。Clean Architecture の原則に沿ってレイヤーを分離し、92 件の pytest テストで品質を担保しています。
+
+### なぜ作ったのか
+
+AWS サーバーレスアーキテクチャの設計力を示すポートフォリオとして作成しました。Lambda / API Gateway / DynamoDB の実践的な組み合わせに加え、CloudFormation による IaC、GitHub Actions + CodePipeline による CI/CD パイプラインまで一貫して構築しています。
 
 ## アーキテクチャ
 
@@ -28,51 +42,30 @@ API Gateway (REST)
 | API | Amazon API Gateway (REST) |
 | データベース | Amazon DynamoDB (オンデマンド) |
 | IaC | AWS CloudFormation |
-| CI | GitHub Actions (リント + テスト) |
-| CD | AWS CodePipeline + CodeBuild + CodeDeploy |
-| テスト | pytest + moto (AWSモック) |
-| リンター | ruff |
+| CI | GitHub Actions |
+| CD | AWS CodePipeline + CodeBuild |
+| テスト | pytest + moto |
+| リンター | Ruff |
 
-## プロジェクト構成
+## API リファレンス
 
-```
-.
-├── .github/workflows/ci.yml       # GitHub Actions CIパイプライン
-├── infrastructure/
-│   ├── template.yaml               # コアインフラ (API GW, Lambda, DynamoDB)
-│   └── pipeline.yaml               # CodePipeline + CodeBuild + CodeDeploy
-├── src/
-│   ├── handlers/                    # Lambda関数ハンドラー
-│   │   ├── create_url.py
-│   │   ├── redirect_url.py
-│   │   ├── get_url_stats.py
-│   │   ├── delete_url.py
-│   │   └── list_urls.py
-│   ├── models/
-│   │   └── url.py                   # ドメインモデル (frozenデータクラス)
-│   ├── repositories/
-│   │   └── url_repository.py        # DynamoDBデータアクセス層
-│   └── utils/
-│       ├── response.py              # API Gatewayレスポンスビルダー
-│       ├── validators.py            # 入力バリデーション
-│       └── short_id.py              # 短縮ID生成 (SHA-256ベース)
-├── tests/                           # 包括的なpytestテストスイート
-├── buildspec.yml                    # CodeBuildビルド仕様
-├── pyproject.toml                   # プロジェクトメタデータ・ツール設定
-└── Makefile                         # 開発用ショートカット
-```
+| メソッド | パス | 説明 |
+|:--|:--|:--|
+| POST | `/urls` | 短縮 URL を作成 |
+| GET | `/{short_id}` | 元の URL へ 301 リダイレクト |
+| GET | `/urls/{short_id}` | クリック統計を取得 |
+| GET | `/urls?limit=N` | 有効な URL の一覧を取得 |
+| DELETE | `/urls/{short_id}` | URL を論理削除 |
 
-## APIリファレンス
-
-### POST /urls
-
-短縮URLを作成する。
+**リクエスト例 (POST /urls)**
 
 ```json
-// リクエスト
 { "url": "https://example.com/very/long/path" }
+```
 
-// レスポンス (201)
+**レスポンス例 (201)**
+
+```json
 {
   "short_id": "aB3kZ9x",
   "original_url": "https://example.com/very/long/path",
@@ -82,40 +75,62 @@ API Gateway (REST)
 }
 ```
 
-### GET /{short_id}
+## プロジェクト構成
 
-元のURLへリダイレクトする（301）。
+```
+.
+├── .github/workflows/ci.yml       # GitHub Actions CI パイプライン
+├── infrastructure/
+│   ├── template.yaml               # コアインフラ (API GW, Lambda, DynamoDB)
+│   └── pipeline.yaml               # CodePipeline + CodeBuild
+├── src/
+│   ├── handlers/                    # Lambda 関数ハンドラー (5 関数)
+│   ├── models/
+│   │   └── url.py                   # ドメインモデル (frozen データクラス)
+│   ├── repositories/
+│   │   └── url_repository.py        # DynamoDB データアクセス層
+│   └── utils/
+│       ├── response.py              # API Gateway レスポンスビルダー
+│       ├── validators.py            # 入力バリデーション
+│       └── short_id.py              # 短縮 ID 生成 (SHA-256 ベース)
+├── tests/                           # pytest テストスイート (92 テスト)
+├── buildspec.yml                    # CodeBuild ビルド仕様
+├── pyproject.toml                   # プロジェクトメタデータ・ツール設定
+└── Makefile                         # 開発用ショートカット
+```
 
-### GET /urls/{short_id}
+## はじめ方
 
-クリック統計情報を取得する。
+### 前提条件
 
-### GET /urls?limit=20
+- Python 3.12 以上
+- AWS CLI (デプロイ時)
 
-有効なURLの一覧を取得する。
-
-### DELETE /urls/{short_id}
-
-URLを論理削除する（`is_active` を `false` に設定）。
-
-## ローカル開発
+### セットアップ
 
 ```bash
-# 依存関係のインストール
+git clone https://github.com/miruky/aws-serverless-url-shortener.git
+cd aws-serverless-url-shortener
+python -m venv .venv && source .venv/bin/activate
 make install
+```
 
-# テスト実行
+### テストの実行
+
+```bash
 make test
+```
 
-# リンター実行
+### Lint の実行
+
+```bash
 make lint
 ```
 
-## デプロイ
-
-### 1. CI/CDパイプラインのデプロイ
+### デプロイ
 
 ```bash
+# CI/CD パイプラインのデプロイ
 aws cloudformation deploy \
   --template-file infrastructure/pipeline.yaml \
   --stack-name url-shortener-pipeline \
@@ -125,20 +140,16 @@ aws cloudformation deploy \
       Environment=dev
 ```
 
-### 2. パイプラインの自動実行フロー
-
-1. **Source** — `main` ブランチへのプッシュ時にGitHubからコードを取得
-2. **Build** — CodeBuildでリント・テストを実行し、Lambda zipをパッケージング
-3. **Deploy** — Lambda関数を含むCloudFormationスタックを作成・更新
+パイプラインは `main` ブランチへのプッシュ時に自動で Build → Deploy を実行します。
 
 ## 設計方針
 
-- **frozenデータクラス** (`UrlItem`) — 不変性により意図しない変更を防止
-- **リポジトリパターン** — ビジネスロジックとDynamoDB SDKの呼び出しを分離
-- **依存性注入** (`UrlRepository`) — モンキーパッチなしでmotoベースのテストが可能
-- **論理削除** — 監査証跡を保持。`is_active=false` のアイテムは一覧から除外
-- **SHA-256 + タイムスタンプ** によるID生成 — 外部状態なしで衝突耐性を確保
+- **frozen データクラス** — `UrlItem` を不変にし、意図しない変更を防止
+- **リポジトリパターン** — ビジネスロジックと DynamoDB SDK 呼び出しを分離
+- **依存性注入** — `UrlRepository` へモックを注入し、moto ベースのテストを容易化
+- **論理削除** — 監査証跡を保持しつつ、一覧からは除外
+- **SHA-256 + タイムスタンプ** — 外部状態なしで衝突耐性の高い ID を生成
 
 ## ライセンス
 
-MIT
+[MIT](https://opensource.org/licenses/MIT)
