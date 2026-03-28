@@ -1,4 +1,4 @@
-"""Handler for retrieving statistics of a short URL.
+"""短縮URL統計情報取得ハンドラー。
 
 API: GET /urls/{short_id}
 """
@@ -17,26 +17,26 @@ logger.setLevel(logging.INFO)
 
 
 def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
-    """Return the metadata and click statistics for a short URL.
+    """短縮URLのメタデータとクリック統計を返す。
 
     Args:
-        event: API Gateway proxy integration event.
-        context: Lambda context (unused).
+        event: API Gatewayプロキシ統合イベント。
+        context: Lambdaコンテキスト（未使用）。
 
     Returns:
-        API Gateway proxy response containing :class:`UrlItem` data.
+        :class:`UrlItem` データを含むAPI Gatewayプロキシレスポンス。
     """
     path_params: dict[str, str] = event.get("pathParameters") or {}
     short_id: str = path_params.get("short_id", "")
 
     if not validate_short_id(short_id):
-        return error_response("Invalid short ID.", 400)
+        return error_response("短縮IDが不正です。", 400)
 
     repo = UrlRepository()
     item = repo.get(short_id)
 
     if item is None:
-        return error_response("Short URL not found.", 404)
+        return error_response("短縮URLが見つかりません。", 404)
 
-    logger.info("Stats requested for %s", short_id)
+    logger.info("統計情報取得: %s", short_id)
     return success_response(item.to_dict())
