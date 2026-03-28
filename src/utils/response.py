@@ -1,4 +1,4 @@
-"""API Gateway response builder helpers."""
+"""API Gatewayレスポンスビルダーヘルパー。"""
 
 from __future__ import annotations
 
@@ -14,14 +14,14 @@ _CORS_HEADERS: dict[str, str] = {
 
 
 def success_response(body: Any, status_code: int = 200) -> dict[str, Any]:
-    """Build a successful API Gateway proxy response.
+    """成功時のAPI Gatewayプロキシレスポンスを構築する。
 
     Args:
-        body: JSON-serialisable payload.
-        status_code: HTTP status code (default 200).
+        body: JSONシリアライズ可能なペイロード。
+        status_code: HTTPステータスコード（デフォルト: 200）。
 
     Returns:
-        API Gateway-compatible response dict.
+        API Gateway互換のレスポンス辞書。
     """
     return {
         "statusCode": status_code,
@@ -31,14 +31,14 @@ def success_response(body: Any, status_code: int = 200) -> dict[str, Any]:
 
 
 def error_response(message: str, status_code: int = 400) -> dict[str, Any]:
-    """Build an error API Gateway proxy response.
+    """エラー時のAPI Gatewayプロキシレスポンスを構築する。
 
     Args:
-        message: Human-readable error description.
-        status_code: HTTP status code (default 400).
+        message: 人間が読めるエラー説明。
+        status_code: HTTPステータスコード（デフォルト: 400）。
 
     Returns:
-        API Gateway-compatible response dict.
+        API Gateway互換のレスポンス辞書。
     """
     return {
         "statusCode": status_code,
@@ -48,13 +48,13 @@ def error_response(message: str, status_code: int = 400) -> dict[str, Any]:
 
 
 def redirect_response(url: str) -> dict[str, Any]:
-    """Build a 301 redirect response.
+    """301リダイレクトレスポンスを構築する。
 
     Args:
-        url: Destination URL for the ``Location`` header.
+        url: ``Location`` ヘッダーに設定するリダイレクト先URL。
 
     Returns:
-        API Gateway-compatible response dict with 301 status.
+        301ステータスのAPI Gateway互換レスポンス辞書。
     """
     return {
         "statusCode": 301,
