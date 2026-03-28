@@ -6,7 +6,7 @@
 [![Ruff](https://img.shields.io/badge/Linter-Ruff-D7FF64?logo=ruff&logoColor=black)](https://docs.astral.sh/ruff/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-> AWS Lambda + API Gateway + DynamoDB で構築した、本番環境対応のサーバーレス URL 短縮サービスです。
+**AWS Lambda + API Gateway + DynamoDB で構築した、本番環境対応のサーバーレス URL 短縮サービスです。**
 
 ## 概要
 
