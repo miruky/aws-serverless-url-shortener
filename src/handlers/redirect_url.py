@@ -1,47 +1,35 @@
-"""短縮URLリダイレクトハンドラー。
-
-API: GET /{short_id}
-"""
+"""公開GET/HEAD /{short_id}: 期限・停止を考慮した一時リダイレクト。"""
 
 from __future__ import annotations
 
-import logging
+import time
 from typing import Any
 
 from src.repositories.url_repository import UrlRepository
+from src.utils.request import api_handler
 from src.utils.response import error_response, redirect_response
-from src.utils.validators import validate_short_id
-
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+from src.utils.validators import normalize_url, validate_short_id, validate_url
 
 
+@api_handler(management=False)
 def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
-    """元のURLを検索し、301リダイレクトを返す。
-
-    パスパラメータから ``short_id`` を取得する。短縮URLが存在し有効な場合、
-    リダイレクトレスポンスを返す前にクリックカウンターをアトミックにインクリメントする。
-
-    Args:
-        event: API Gatewayプロキシ統合イベント。
-        context: Lambdaコンテキスト(未使用)。
-
-    Returns:
-        API Gatewayプロキシレスポンス(301リダイレクトまたはエラー)。
-    """
-    path_params: dict[str, str] = event.get("pathParameters") or {}
-    short_id: str = path_params.get("short_id", "")
-
+    short_id = (event.get("pathParameters") or {}).get("short_id", "")
     if not validate_short_id(short_id):
         return error_response("短縮IDが不正です。", 400)
-
     repo = UrlRepository()
-    item = repo.get(short_id)
-
-    if item is None or not item.is_active:
+    is_head = event.get("httpMethod") == "HEAD"
+    item = repo.get(short_id) if is_head else repo.increment_click(short_id)
+    if item is None:
+        item = repo.get(short_id)
+        if item is None or not item.is_active:
+            return error_response("短縮URLが見つかりません。", 404)
+        if item.expires_at is not None and item.expires_at <= int(time.time()):
+            return error_response("このリンクは有効期限を過ぎています。", 410)
+        return error_response("リンクの状態が変わりました。再試行してください。", 409)
+    if not item.is_active:
         return error_response("短縮URLが見つかりません。", 404)
-
-    repo.increment_click(short_id)
-
-    logger.info("リダイレクト: %s -> %s", short_id, item.original_url)
-    return redirect_response(item.original_url)
+    if is_head and item.expires_at is not None and item.expires_at <= int(time.time()):
+        return error_response("このリンクは有効期限を過ぎています。", 410)
+    if not validate_url(item.original_url):
+        return error_response("リンク先が利用できません。", 410)
+    return redirect_response(normalize_url(item.original_url))

@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "phase": "red",
+  "change": "CHG-REDIRECT-LINEARIZATION",
+  "runner": "pytest",
+  "command": [
+    "-m",
+    "pytest",
+    "-p",
+    "tools.pytest_evidence",
+    "-q",
+    "tests/regression/test_redirect_linearization.py"
+  ],
+  "status": 1,
+  "capturedAt": "2026-09-20T16:59:37.826Z",
+  "counts": {
+    "tests": 1,
+    "pass": 0,
+    "fail": 1,
+    "skipped": 0,
+    "cancelled": 0
+  },
+  "testNames": [
+    "tests/regression/test_redirect_linearization.py::test_a_get_accepted_before_expiry_returns_the_committed_destination"
+  ],
+  "testHashes": {
+    "tests/conftest.py": "5c80ddd6c5618c87ec835211f422736caf53b44b3b51f9822cb5f0d18a4102e8",
+    "tests/regression/test_redirect_linearization.py": "ce144eec425db023ce90dff19e43f7d2544472b62a074dc55027fbb800bd3481",
+    "tools/pytest_evidence.py": "2daf9f7dffd5b17b723b6a50a95ba6c3f0e207227bf8e6c18aa2650fc873d799"
+  },
+  "scopeHashes": {
+    "src/__init__.py": "348b7e32d595f95c9691c72646ebcd5a504167f1f30b276a316e74990a65dd9f",
+    "src/handlers/__init__.py": "98661935bf48397a7e643351fe73b4702d7a392584224018cab4a013ebde4f18",
+    "src/handlers/create_url.py": "ade75f3d64040acdea16d872eff594756bab0d420e52d50efdf3917923fde710",
+    "src/handlers/delete_url.py": "f3f2a02682cd2ae83826d405fb63718f246115edd7ef63773f6ecde5002dcb4c",
+    "src/handlers/get_url_stats.py": "68209f7d13fa90f1124872c85fe80901891dd3c7c450f5b6490e238e1e946c9a",
+    "src/handlers/list_urls.py": "70dab2bcf566b815a80bc330d02705370c6ebbd0b284dc4d222f98fa4fac03db",
+    "src/handlers/redirect_url.py": "8fb2841503b7aeeca90b0d72e5e95191af92c060444eaac86939f8dcc3d3775d",
+    "src/models/__init__.py": "065f0439388b0bf350f07131c6a340d2626a73af7d1ea2c02d1d53abffd65a5f",
+    "src/models/url.py": "89059840f0d75d879e08cc94e710e591f548e0f94e4d3e55fe1b1c195ed99840",
+    "src/repositories/__init__.py": "988c4966fbfe6f6e5d9cc8839202e093f6d4e58c86bc3f631b59289deb90c28e",
+    "src/repositories/url_repository.py": "d6839ddcadb252fbb37d7cbc008f3d9cebb0239dbba79398ed9d38bde8c4c719",
+    "src/utils/__init__.py": "90225d92aae8a8308b0c483930cb2ea2d003ded409fecee7a78d9b1259c13831",
+    "src/utils/response.py": "aac9dee6a9d9c7157e3098438fffecf637180e672c3926c5425877db552fa460",
+    "src/utils/short_id.py": "4d21953dbf9aeac74abd7ca9af34076f5ddd71f0e5125cda0a549075a82b9e9e",
+    "src/utils/validators.py": "0addfe8a6a083d2beb908eb43bd1fa7e0b3a01ebdd4e2ae86a15fc20d7b52ec1",
+    "tests/__init__.py": "3003772747fed4bb28cb97ec3c52a8ef4c6d08904e342fa65032a3ea22e4f1c8",
+    "tests/conftest.py": "5c80ddd6c5618c87ec835211f422736caf53b44b3b51f9822cb5f0d18a4102e8",
+    "tests/regression/test_api_boundaries.py": "5280892d6252b61b312e2aede254d69377d56c04e0551073db9d07a09168e810",
+    "tests/regression/test_core_safety.py": "9ea8f0b9b39fa900e05be6fca2c60bcd261262d3e81698f95e47ff5295657c85",
+    "tests/regression/test_link_lifecycle.py": "6efcd7725545103137bb120c4bc14c7279c46db4324b9dc5087c5ca5398f36fb",
+    "tests/regression/test_management_auth.py": "7550a56a08aca5af19a78ec1933e610b5be1d40dc03b89e870ab9420c2e4046e",
+    "tests/regression/test_redirect_linearization.py": "ce144eec425db023ce90dff19e43f7d2544472b62a074dc55027fbb800bd3481",
+    "tests/test_handlers_create_url.py": "32fd8aa6df57d929d51b1c9f8c516a4a90f2ec43844d053fb11e5c22aa98e596",
+    "tests/test_handlers_delete_url.py": "7f6d4e3db2fcac6d029e26a476b6f9ec1dedb140387932a415102121a137858c",
+    "tests/test_handlers_get_url_stats.py": "ec49eb8a04ddd6d1453ac96c303b39ba0f9f2a21b28ccc22a66b051da7139954",
+    "tests/test_handlers_list_urls.py": "2d097159893d97a533afe355334f2dc70ee547be3e3dd08b559ad987948ea1b0",
+    "tests/test_handlers_redirect_url.py": "b8cd5de143c4bd0e620e247c12c2f73df78c99b9c7cc35be5383250ba66af0f3",
+    "tests/test_models_url.py": "6bf32787f6b3581f5b83cd4689243d279d1d479ebc4ab25ba54a08b8ae57ff12",
+    "tests/test_repositories_url_repository.py": "6acc2d6e63cf63bd0c168d5df4d46a5849d6463863cfc4b3d4d55334c562721e",
+    "tests/test_utils_response.py": "58386c1e96f05ceac2c4bdc216f8e921f164a087b98b7de3b38482e128bae9bb",
+    "tests/test_utils_short_id.py": "4721ad9fb43156809962904505a7e3e5b1b33da9f750e6819fc0c8fc04a5c466",
+    "tests/test_utils_validators.py": "dfa800a767f8594d7274e37dfb6a0d4dd0c74fc235678a9fb34dd4c7325d6cc4"
+  },
+  "changeHash": "1c9cd5d428b03de15fd586f76339a7547fcd51febf9aabc52ef75e03fe629bf1",
+  "outputHash": "86cca4365ecb7f1b84968213c85c29ebc121b35145e9e5b1c5477fc2ec4ce16f"
+}

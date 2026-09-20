@@ -14,7 +14,7 @@ class TestRedirectUrlHandler:
     @patch("src.handlers.redirect_url.UrlRepository")
     def test_redirects_active_url(self, mock_repo_cls: MagicMock) -> None:
         mock_repo = MagicMock()
-        mock_repo.get.return_value = UrlItem(
+        mock_repo.increment_click.return_value = UrlItem(
             short_id="abc", original_url="https://example.com", created_at=1000
         )
         mock_repo_cls.return_value = mock_repo
@@ -22,7 +22,7 @@ class TestRedirectUrlHandler:
         event = {"pathParameters": {"short_id": "abc"}}
         result = handler(event, None)
 
-        assert result["statusCode"] == 301
+        assert result["statusCode"] == 302
         assert result["headers"]["Location"] == "https://example.com"
         mock_repo.increment_click.assert_called_once_with("abc")
 
@@ -30,6 +30,7 @@ class TestRedirectUrlHandler:
     def test_returns_404_for_nonexistent(self, mock_repo_cls: MagicMock) -> None:
         mock_repo = MagicMock()
         mock_repo.get.return_value = None
+        mock_repo.increment_click.return_value = None
         mock_repo_cls.return_value = mock_repo
 
         event = {"pathParameters": {"short_id": "missing"}}
@@ -46,13 +47,14 @@ class TestRedirectUrlHandler:
             created_at=1000,
             is_active=False,
         )
+        mock_repo.increment_click.return_value = None
         mock_repo_cls.return_value = mock_repo
 
         event = {"pathParameters": {"short_id": "abc"}}
         result = handler(event, None)
 
         assert result["statusCode"] == 404
-        mock_repo.increment_click.assert_not_called()
+        mock_repo.increment_click.assert_called_once_with("abc")
 
     def test_rejects_invalid_short_id(self) -> None:
         event = {"pathParameters": {"short_id": "abc-!@#"}}

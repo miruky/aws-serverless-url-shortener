@@ -1,45 +1,25 @@
-"""有効な短縮URL一覧取得ハンドラー。
-
-API: GET /urls
-"""
+"""GET /urls: 継続可能なリンク管理一覧。停止済みレコードも含む。"""
 
 from __future__ import annotations
 
-import logging
 from typing import Any
 
 from src.repositories.url_repository import UrlRepository
+from src.utils.request import api_handler
 from src.utils.response import success_response
 
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
 
-
+@api_handler(management=True)
 def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
-    """有効な(論理削除されていない)短縮URLの一覧を返す。
-
-    オプションの ``limit`` クエリ文字列パラメータで返却アイテムの最大数を
-    制御できる(デフォルト: 50、最大: 200)。
-
-    Args:
-        event: API Gatewayプロキシ統合イベント。
-        context: Lambdaコンテキスト(未使用)。
-
-    Returns:
-        :class:`UrlItem` 辞書のリストを含むAPI Gatewayプロキシレスポンス。
-    """
-    qs_params: dict[str, str] = event.get("queryStringParameters") or {}
-
+    query = event.get("queryStringParameters") or {}
     try:
-        limit = min(int(qs_params.get("limit", "50")), 200)
-    except (ValueError, TypeError):
-        limit = 50
-
+        limit = min(int(query.get("limit", "50")), 200)
+    except (TypeError, ValueError) as exc:
+        raise ValueError("limitには1〜200の整数を指定してください。") from exc
+    if limit < 1:
+        raise ValueError("limitには1〜200の整数を指定してください。")
     repo = UrlRepository()
-    items = repo.list_active(limit=limit)
-
-    logger.info("有効URL一覧: %d件(limit=%d)", len(items), limit)
-    return success_response({
-        "items": [item.to_dict() for item in items],
-        "count": len(items),
-    })
+    items, cursor = repo.list_page(limit=limit, cursor=query.get("cursor"))
+    return success_response(
+        {"items": [item.to_dict() for item in items], "count": len(items), "next_cursor": cursor}
+    )

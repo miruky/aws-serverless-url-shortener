@@ -6,6 +6,7 @@ import json
 from unittest.mock import MagicMock, patch
 
 from src.handlers.delete_url import handler
+from tests.helpers import admin_event
 
 
 class TestDeleteUrlHandler:
@@ -18,7 +19,7 @@ class TestDeleteUrlHandler:
         mock_repo_cls.return_value = mock_repo
 
         event = {"pathParameters": {"short_id": "abc"}}
-        result = handler(event, None)
+        result = handler(admin_event(event), None)
 
         assert result["statusCode"] == 200
         body = json.loads(result["body"])
@@ -32,16 +33,16 @@ class TestDeleteUrlHandler:
         mock_repo_cls.return_value = mock_repo
 
         event = {"pathParameters": {"short_id": "missing"}}
-        result = handler(event, None)
+        result = handler(admin_event(event), None)
 
         assert result["statusCode"] == 404
 
     def test_rejects_invalid_short_id(self) -> None:
         event = {"pathParameters": {"short_id": "has spaces"}}
-        result = handler(event, None)
+        result = handler(admin_event(event), None)
         assert result["statusCode"] == 400
 
     def test_rejects_empty_short_id(self) -> None:
         event = {"pathParameters": {"short_id": ""}}
-        result = handler(event, None)
+        result = handler(admin_event(event), None)
         assert result["statusCode"] == 400

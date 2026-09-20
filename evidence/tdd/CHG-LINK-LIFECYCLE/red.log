@@ -1,0 +1,52 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: /private<baseline>
+configfile: pyproject.toml
+plugins: cov-7.1.0, socket-0.8.1
+collected 5 items
+
+tests/regression/test_link_lifecycle.py FFFFF                            [100%]
+
+=================================== FAILURES ===================================
+_________________ test_custom_alias_title_and_expiry_roundtrip _________________
+tests/regression/test_link_lifecycle.py:36: in test_custom_alias_title_and_expiry_roundtrip
+    assert saved["short_id"] == "release"
+E   AssertionError: assert 'Cj3JWYr' == 'release'
+E     
+E     - release
+E     + Cj3JWYr
+------------------------------ Captured log call -------------------------------
+INFO     src.handlers.create_url:create_url.py:51 短縮URL作成: Cj3JWYr -> https://example.com
+_______________ test_expired_record_cannot_redirect_or_increment _______________
+tests/regression/test_link_lifecycle.py:47: in test_expired_record_cannot_redirect_or_increment
+    assert response["statusCode"] == 410
+E   assert 301 == 410
+------------------------------ Captured log call -------------------------------
+INFO     src.handlers.redirect_url:redirect_url.py:46 リダイレクト: expired -> https://example.com
+_______________________ test_head_does_not_count_a_visit _______________________
+tests/regression/test_link_lifecycle.py:55: in test_head_does_not_count_a_visit
+    assert response["statusCode"] == 302
+E   assert 301 == 302
+------------------------------ Captured log call -------------------------------
+INFO     src.handlers.redirect_url:redirect_url.py:46 リダイレクト: head -> https://example.com
+____________________ test_page_cursor_reaches_every_record _____________________
+tests/regression/test_link_lifecycle.py:76: in test_page_cursor_reaches_every_record
+    assert len(seen) == len(set(seen)) == 5
+E   AssertionError: assert 2 == 5
+E    +  where 2 = len({'id0', 'id1'})
+E    +    where {'id0', 'id1'} = set(['id0', 'id1'])
+------------------------------ Captured log call -------------------------------
+INFO     src.handlers.list_urls:list_urls.py:41 有効URL一覧: 2件(limit=2)
+_______________________ test_reserved_alias_is_rejected ________________________
+tests/regression/test_link_lifecycle.py:81: in test_reserved_alias_is_rejected
+    assert response["statusCode"] == 400
+E   assert 201 == 400
+------------------------------ Captured log call -------------------------------
+INFO     src.handlers.create_url:create_url.py:51 短縮URL作成: HKbj4Wb -> https://example.com
+=========================== short test summary info ============================
+FAILED tests/regression/test_link_lifecycle.py::test_custom_alias_title_and_expiry_roundtrip
+FAILED tests/regression/test_link_lifecycle.py::test_expired_record_cannot_redirect_or_increment
+FAILED tests/regression/test_link_lifecycle.py::test_head_does_not_count_a_visit
+FAILED tests/regression/test_link_lifecycle.py::test_page_cursor_reaches_every_record
+FAILED tests/regression/test_link_lifecycle.py::test_reserved_alias_is_rejected
+============================== 5 failed in 0.53s ===============================

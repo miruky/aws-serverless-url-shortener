@@ -1,0 +1,43 @@
+TAP version 13
+# Subtest: a verifying test owned by another design still invalidates the requirement
+not ok 1 - a verifying test owned by another design still invalidates the requirement
+  ---
+  duration_ms: 33.8955
+  type: 'test'
+  location: '<repo>tests/unit/cross-verification.test.mjs:8:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+      [
+    -   'DETAIL-API',
+        'DETAIL-BROWSER',
+    -   'REQ-API'
+      ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: 'DETAIL-API'
+    1: 'DETAIL-BROWSER'
+    2: 'REQ-API'
+  actual:
+    0: 'DETAIL-BROWSER'
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<home>/Library/Mobile%20Documents/com%7Eapple%7ECloudDocs/develop/OSS/aws-serverless-url-shortener/tests/unit/cross-verification.test.mjs:21:10)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1201:25)
+    Test.start (node:internal/test_runner/test:1096:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 0
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 140.062

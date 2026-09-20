@@ -9,6 +9,7 @@ import logging
 from typing import Any
 
 from src.repositories.url_repository import UrlRepository
+from src.utils.request import api_handler
 from src.utils.response import error_response, success_response
 from src.utils.validators import validate_short_id
 
@@ -16,6 +17,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
+@api_handler(management=True)
 def handler(event: dict[str, Any], context: Any) -> dict[str, Any]:
     """短縮URLを論理削除し、リダイレクトを無効化する。
 

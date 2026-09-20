@@ -1,0 +1,9 @@
+{
+  "guard": {
+    "version": "3.2.1",
+    "assets": {
+      "Linux-x86_64": {"file": "cfn-guard-v3-x86_64-linux-latest.tar.gz", "sha256": "8c66efb19c63e6c2bf26b9a41bbcf2f85baa8a937b01d350940194faaf64cf1d"},
+      "Darwin-arm64": {"file": "cfn-guard-v3-aarch64-macos-latest.tar.gz", "sha256": "4c1eb10c061731159eaaf0e7dbd465db9fa4b767b82186a4ab489671cc00b7d0"}
+    }
+  }
+}

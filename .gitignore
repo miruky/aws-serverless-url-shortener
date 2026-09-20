@@ -41,3 +41,13 @@ samconfig.toml
 # Lambda packaging
 package/
 lambda-package.zip
+
+# Local development and generated reports
+node_modules/
+.harness/
+playwright-report/
+test-results/
+reports/
+.env
+.env.*
+!.env.example

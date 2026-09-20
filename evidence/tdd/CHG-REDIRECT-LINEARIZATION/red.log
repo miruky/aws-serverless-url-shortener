@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: <home>/Library/Mobile Documents/com~apple~CloudDocs/develop/OSS/aws-serverless-url-shortener
+configfile: pyproject.toml
+plugins: cov-7.1.0, socket-0.8.1
+collected 1 item
+
+tests/regression/test_redirect_linearization.py F                        [100%]
+
+=================================== FAILURES ===================================
+_____ test_a_get_accepted_before_expiry_returns_the_committed_destination ______
+tests/regression/test_redirect_linearization.py:18: in test_a_get_accepted_before_expiry_returns_the_committed_destination
+    assert response["statusCode"] == 302
+E   assert 410 == 302
+=========================== short test summary info ============================
+FAILED tests/regression/test_redirect_linearization.py::test_a_get_accepted_before_expiry_returns_the_committed_destination
+============================== 1 failed in 0.03s ===============================

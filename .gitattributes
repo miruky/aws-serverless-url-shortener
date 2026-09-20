@@ -1,0 +1,6 @@
+* text=auto eol=lf
+*.png binary
+infrastructure/rules/dynamodb_pitr_enabled.guard -whitespace
+tools/vendor/* -whitespace
+# Test output is evidence: preserve its original bytes, including whitespace.
+evidence/tdd/**/*.log -whitespace

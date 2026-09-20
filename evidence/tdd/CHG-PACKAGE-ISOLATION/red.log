@@ -1,0 +1,21 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: <home>/Library/Mobile Documents/com~apple~CloudDocs/develop/OSS/aws-serverless-url-shortener
+configfile: pyproject.toml
+plugins: cov-7.1.0, socket-0.8.1
+collected 1 item
+
+tests/test_package_isolation.py F                                        [100%]
+
+=================================== FAILURES ===================================
+____ test_package_smoke_rejects_a_dependency_available_only_in_development _____
+tests/test_package_isolation.py:49: in test_package_smoke_rejects_a_dependency_available_only_in_development
+    with pytest.raises(subprocess.CalledProcessError):
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE CalledProcessError
+----------------------------- Captured stdout call -----------------------------
+Packaged handlers and UI: OK
+dist/lambda-package.zip: 64a452894b1150b39764dbdb98c0b841334cf3360210c35611e25777236d618d
+=========================== short test summary info ============================
+FAILED tests/test_package_isolation.py::test_package_smoke_rejects_a_dependency_available_only_in_development
+============================== 1 failed in 0.22s ===============================

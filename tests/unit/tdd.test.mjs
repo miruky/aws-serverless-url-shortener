@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { assessRun } from '../../tools/tdd.mjs';
+const tap = '# tests 1\n# pass 0\n# fail 1\n# skipped 0\n# cancelled 0\n';
+test('module import failure is not Red',()=>assert.equal(assessRun({runner:'node',status:1,output:tap+'ERR_MODULE_NOT_FOUND'},'red').ok,false));
+test('assertion failure is valid Red',()=>assert.equal(assessRun({runner:'node',status:1,output:tap+'ERR_ASSERTION'},'red').ok,true));
+test('skipped test cannot count as Green',()=>assert.equal(assessRun({runner:'node',status:0,output:'# tests 1\n# pass 0\n# fail 0\n# skipped 1\n# cancelled 0\n'},'green').ok,false));
+test('pytest setup failure cannot count as regression evidence',()=>assert.equal(assessRun({runner:'pytest',status:1,report:{reports:[{id:'one',when:'setup',outcome:'failed',exception:'AssertionError'}]}},'red').ok,false));
+test('pytest successful calls are counted explicitly',()=>assert.equal(assessRun({runner:'pytest',status:0,report:{reports:[{id:'one',when:'call',outcome:'passed'}]}},'green').ok,true));
+test('zero executed tests are rejected',()=>assert.equal(assessRun({runner:'pytest',status:0,report:{reports:[]}},'green').ok,false));

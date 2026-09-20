@@ -13,6 +13,7 @@ from src.models.url import UrlItem
 # UrlItem.__init__
 # ---------------------------------------------------------------------------
 
+
 class TestUrlItemInit:
     """UrlItemの生成とデフォルト値のテスト。"""
 
@@ -49,6 +50,7 @@ class TestUrlItemInit:
 # UrlItem.to_dict
 # ---------------------------------------------------------------------------
 
+
 class TestUrlItemToDict:
     """to_dictシリアライズメソッドのテスト。"""
 
@@ -65,6 +67,8 @@ class TestUrlItemToDict:
             "original_url": "https://example.com",
             "created_at": 1000,
             "click_count": 5,
+            "title": "",
+            "version": 1,
             "is_active": True,
         }
 
@@ -84,6 +88,7 @@ class TestUrlItemToDict:
 # ---------------------------------------------------------------------------
 # UrlItem.from_dict
 # ---------------------------------------------------------------------------
+
 
 class TestUrlItemFromDict:
     """from_dictデシリアライズクラスメソッドのテスト。"""

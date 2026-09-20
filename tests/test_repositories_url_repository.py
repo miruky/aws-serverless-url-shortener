@@ -4,8 +4,10 @@ from __future__ import annotations
 
 from typing import Any
 
+import pytest
+
 from src.models.url import UrlItem
-from src.repositories.url_repository import UrlRepository
+from src.repositories.url_repository import IdConflictError, UrlRepository
 
 
 class TestUrlRepositoryPut:
@@ -21,14 +23,15 @@ class TestUrlRepositoryPut:
         assert stored.short_id == "abc123"
         assert stored.original_url == "https://example.com"
 
-    def test_put_overwrites_existing(self, dynamodb_resource: Any) -> None:
+    def test_put_preserves_existing_destination(self, dynamodb_resource: Any) -> None:
         repo = UrlRepository(table_name="test-urls", dynamodb_resource=dynamodb_resource)
         repo.put(UrlItem(short_id="abc", original_url="https://old.com", created_at=1))
-        repo.put(UrlItem(short_id="abc", original_url="https://new.com", created_at=2))
+        with pytest.raises(IdConflictError):
+            repo.put(UrlItem(short_id="abc", original_url="https://new.com", created_at=2))
 
         stored = repo.get("abc")
         assert stored is not None
-        assert stored.original_url == "https://new.com"
+        assert stored.original_url == "https://old.com"
 
 
 class TestUrlRepositoryGet:

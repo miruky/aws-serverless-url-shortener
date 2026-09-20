@@ -1,113 +1,146 @@
-"""URLアイテムのDynamoDBリポジトリ。"""
+"""条件付き書込とページングを提供するDynamoDBデータ層。"""
 
 from __future__ import annotations
 
+import base64
+import binascii
+import json
 import os
+import time
 from typing import Any
 
 import boto3
-from boto3.dynamodb.conditions import Attr
+from boto3.dynamodb.conditions import Attr, ConditionBase
 
 from src.models.url import UrlItem
+from src.utils.validators import validate_short_id
 
-TABLE_NAME: str = os.environ.get("URLS_TABLE_NAME", "urls")
+
+class IdConflictError(Exception):
+    """短縮IDが使用済み。停止済みIDも再利用しない。"""
 
 
 class UrlRepository:
-    """URLsテーブルに対するCRUD操作を提供するリポジトリ。
-
-    コンストラクタはオプションで ``dynamodb_resource`` を受け取り、
-    依存性注入によりテスト時にモック(例: moto)への差し替えを容易にする。
-
-    Args:
-        table_name: DynamoDBテーブル名。
-        dynamodb_resource: ``boto3.resource('dynamodb')`` インスタンス。
-            ``None`` の場合はデフォルトリソースが生成される。
-    """
-
-    def __init__(
-        self,
-        table_name: str = TABLE_NAME,
-        dynamodb_resource: Any = None,
-    ) -> None:
+    def __init__(self, table_name: str | None = None, dynamodb_resource: Any = None) -> None:
         self._dynamodb: Any = dynamodb_resource or boto3.resource("dynamodb")
-        self._table: Any = self._dynamodb.Table(table_name)
-
-    # -- 登録 -----------------------------------------------------------------
+        self._table: Any = self._dynamodb.Table(
+            table_name or os.environ.get("URLS_TABLE_NAME", "urls")
+        )
 
     def put(self, item: UrlItem) -> None:
-        """URLアイテムをテーブルに保存する。
-
-        Args:
-            item: 保存する :class:`UrlItem`。
-        """
-        self._table.put_item(Item=item.to_dict())
-
-    # -- 取得 -----------------------------------------------------------------
+        try:
+            self._table.put_item(
+                Item=item.to_dict(), ConditionExpression=Attr("short_id").not_exists()
+            )
+        except self._table.meta.client.exceptions.ConditionalCheckFailedException as exc:
+            raise IdConflictError from exc
 
     def get(self, short_id: str) -> UrlItem | None:
-        """短縮IDでURLアイテムを取得する。
+        response = self._table.get_item(Key={"short_id": short_id}, ConsistentRead=True)
+        return UrlItem.from_dict(response["Item"]) if "Item" in response else None
 
-        Args:
-            short_id: パーティションキーの値。
-
-        Returns:
-            見つかった場合は :class:`UrlItem`、見つからない場合は ``None``。
-        """
-        response: dict[str, Any] = self._table.get_item(Key={"short_id": short_id})
-        data = response.get("Item")
-        if data is None:
-            return None
-        return UrlItem.from_dict(data)
+    def list_page(
+        self, limit: int = 50, cursor: str | None = None
+    ) -> tuple[list[UrlItem], str | None]:
+        if not 1 <= limit <= 200:
+            raise ValueError("limitは1〜200です。")
+        kwargs: dict[str, Any] = {"Limit": limit}
+        if cursor:
+            try:
+                if len(cursor) > 256:
+                    raise ValueError
+                key = json.loads(base64.b64decode(cursor, altchars=b"-_", validate=True))
+                if (
+                    not isinstance(key, dict)
+                    or set(key) != {"short_id"}
+                    or not validate_short_id(key["short_id"])
+                ):
+                    raise ValueError
+                kwargs["ExclusiveStartKey"] = key
+            except (ValueError, binascii.Error, UnicodeError) as exc:
+                raise ValueError("ページ指定が不正です。") from exc
+        response = self._table.scan(**kwargs)
+        next_key = response.get("LastEvaluatedKey")
+        token = (
+            base64.urlsafe_b64encode(json.dumps(next_key).encode()).decode() if next_key else None
+        )
+        return [UrlItem.from_dict(item) for item in response.get("Items", [])], token
 
     def list_active(self, limit: int = 50) -> list[UrlItem]:
-        """有効な(論理削除されていない)URLアイテムを一覧取得する。
-
-        Args:
-            limit: 返却するアイテムの最大数。
-
-        Returns:
-            有効な :class:`UrlItem` インスタンスのリスト。
-        """
-        response: dict[str, Any] = self._table.scan(
+        """既存内部呼出元用。公開APIはlist_pageの継続トークンを使用する。"""
+        if not 1 <= limit <= 200:
+            raise ValueError("limitは1〜200です。")
+        paginator = self._table.meta.client.get_paginator("scan")
+        items: list[UrlItem] = []
+        for page in paginator.paginate(
+            TableName=self._table.name,
             FilterExpression=Attr("is_active").eq(True),
-            Limit=limit,
-        )
-        return [UrlItem.from_dict(item) for item in response.get("Items", [])]
+            PaginationConfig={"PageSize": limit},
+        ):
+            items.extend(UrlItem.from_dict(item) for item in page.get("Items", []))
+            if len(items) >= limit:
+                break
+        return items[:limit]
 
-    # -- 更新 -----------------------------------------------------------------
-
-    def increment_click(self, short_id: str) -> None:
-        """URLアイテムのクリックカウンターをアトミックにインクリメントする。
-
-        Args:
-            short_id: パーティションキーの値。
-        """
-        self._table.update_item(
-            Key={"short_id": short_id},
-            UpdateExpression="SET click_count = click_count + :inc",
-            ExpressionAttributeValues={":inc": 1},
-        )
-
-    # -- 削除(論理削除) -----------------------------------------------------
+    def increment_click(self, short_id: str) -> UrlItem | None:
+        """停止と期限を更新と同時に判定し、更新時点の転送先を返す。"""
+        try:
+            response = self._table.update_item(
+                Key={"short_id": short_id},
+                UpdateExpression="SET click_count = if_not_exists(click_count, :zero) + :one",
+                ExpressionAttributeValues={":zero": 0, ":one": 1},
+                ConditionExpression=Attr("short_id").exists()
+                & (Attr("is_active").not_exists() | Attr("is_active").eq(True))
+                & (Attr("expires_at").not_exists() | Attr("expires_at").gt(int(time.time()))),
+                ReturnValues="ALL_NEW",
+            )
+        except self._table.meta.client.exceptions.ConditionalCheckFailedException:
+            return None
+        return UrlItem.from_dict(response["Attributes"])
 
     def soft_delete(self, short_id: str) -> bool:
-        """URLアイテムを論理削除する(``is_active`` を ``False`` に設定)。
-
-        Args:
-            short_id: パーティションキーの値。
-
-        Returns:
-            アイテムが存在し無効化された場合は ``True``、
-            アイテムが見つからなかった場合は ``False``。
-        """
         try:
             self._table.update_item(
                 Key={"short_id": short_id},
-                UpdateExpression="SET is_active = :val",
-                ExpressionAttributeValues={":val": False},
+                UpdateExpression=(
+                    "SET is_active = :val, #version = if_not_exists(#version, :one) + :one"
+                ),
+                ExpressionAttributeNames={"#version": "version"},
+                ExpressionAttributeValues={":val": False, ":one": 1},
                 ConditionExpression=Attr("short_id").exists(),
             )
-        except self._dynamodb.meta.client.exceptions.ConditionalCheckFailedException:
+        except self._table.meta.client.exceptions.ConditionalCheckFailedException:
             return False
         return True
+
+    def update(self, short_id: str, version: int, changes: dict[str, Any]) -> UrlItem | None:
+        assignments = ["#version = if_not_exists(#version, :one) + :one"]
+        names = {"#version": "version"}
+        values: dict[str, Any] = {":one": 1}
+        remove = []
+        for key, value in changes.items():
+            if key not in {"title", "original_url", "expires_at", "is_active"}:
+                raise ValueError("更新できないフィールドです。")
+            names[f"#{key}"] = key
+            if value is None:
+                remove.append(f"#{key}")
+            else:
+                values[f":{key}"] = value
+                assignments.append(f"#{key} = :{key}")
+        condition: ConditionBase = Attr("version").eq(version)
+        if version == 1:
+            condition = condition | Attr("version").not_exists()
+        try:
+            response = self._table.update_item(
+                Key={"short_id": short_id},
+                UpdateExpression="SET "
+                + ", ".join(assignments)
+                + (" REMOVE " + ", ".join(remove) if remove else ""),
+                ExpressionAttributeNames=names,
+                ExpressionAttributeValues=values,
+                ConditionExpression=Attr("short_id").exists() & condition,
+                ReturnValues="ALL_NEW",
+            )
+        except self._table.meta.client.exceptions.ConditionalCheckFailedException:
+            return None
+        return UrlItem.from_dict(response["Attributes"])

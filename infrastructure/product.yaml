@@ -1,0 +1,1301 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Private link management with Cognito authentication and public revocable
+  redirects. New v2 stack; existing stacks require the documented migration review.
+Metadata:
+  AWSToolsMetrics:
+    AWSAgentToolkit: aws-cloudformation@3
+  com.aws.cloudformation.Context:
+    ref:
+    - at: docs/operations/deployment.md
+      has: packaging, physical names, migration and deployment verification
+      scope: shared
+    must:
+    - Deploy only a tested immutable package.
+    - Preserve table retention and disable public registration.
+    - Do not apply fresh generated physical names as an in-place migration of an existing
+      stack.
+Parameters:
+  LambdaS3Bucket:
+    Type: String
+    Description: Existing private deployment artifact bucket in the same Region.
+  LambdaS3Key:
+    Type: String
+    Description: Immutable object key of the tested Lambda ZIP.
+  LogRetentionDays:
+    Type: Number
+    Default: 30
+    AllowedValues:
+    - 7
+    - 14
+    - 30
+    - 60
+    - 90
+    - 180
+    - 365
+  UrlsTableName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for UrlsTable. Generate once and retain in
+      deployment ledger.
+  RestApiName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for RestApi. Generate once and retain in deployment
+      ledger.
+  ApiStageName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for ApiStage. Generate once and retain in
+      deployment ledger.
+  UserPoolName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for UserPool. Generate once and retain in
+      deployment ledger.
+  UserPoolClientName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for UserPoolClient. Generate once and retain
+      in deployment ledger.
+  LoginDomainName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for LoginDomain. Generate once and retain
+      in deployment ledger.
+  ManagementAuthorizerName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for ManagementAuthorizer. Generate once and
+      retain in deployment ledger.
+  CreateUrlLogGroupName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for CreateUrlLogGroup. Generate once and retain
+      in deployment ledger.
+  RedirectUrlLogGroupName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for RedirectUrlLogGroup. Generate once and
+      retain in deployment ledger.
+  GetUrlStatsLogGroupName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for GetUrlStatsLogGroup. Generate once and
+      retain in deployment ledger.
+  DeleteUrlLogGroupName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for DeleteUrlLogGroup. Generate once and retain
+      in deployment ledger.
+  ListUrlsLogGroupName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for ListUrlsLogGroup. Generate once and retain
+      in deployment ledger.
+  UpdateUrlLogGroupName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for UpdateUrlLogGroup. Generate once and retain
+      in deployment ledger.
+  WebLogGroupName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for WebLogGroup. Generate once and retain
+      in deployment ledger.
+  CreateRoleName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for CreateRole. Generate once and retain in
+      deployment ledger.
+  CreatePolicyName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for CreatePolicy. Generate once and retain
+      in deployment ledger.
+  ManageRoleName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for ManageRole. Generate once and retain in
+      deployment ledger.
+  ManagePolicyName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for ManagePolicy. Generate once and retain
+      in deployment ledger.
+  RedirectRoleName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for RedirectRole. Generate once and retain
+      in deployment ledger.
+  RedirectPolicyName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for RedirectPolicy. Generate once and retain
+      in deployment ledger.
+  WebRoleName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for WebRole. Generate once and retain in deployment
+      ledger.
+  WebPolicyName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for WebPolicy. Generate once and retain in
+      deployment ledger.
+  CreateUrlFunctionName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for CreateUrlFunction. Generate once and retain
+      in deployment ledger.
+  RedirectUrlFunctionName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for RedirectUrlFunction. Generate once and
+      retain in deployment ledger.
+  GetUrlStatsFunctionName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for GetUrlStatsFunction. Generate once and
+      retain in deployment ledger.
+  DeleteUrlFunctionName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for DeleteUrlFunction. Generate once and retain
+      in deployment ledger.
+  ListUrlsFunctionName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for ListUrlsFunction. Generate once and retain
+      in deployment ledger.
+  UpdateUrlFunctionName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for UpdateUrlFunction. Generate once and retain
+      in deployment ledger.
+  WebFunctionName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for WebFunction. Generate once and retain
+      in deployment ledger.
+  ApiErrorsAlarmName:
+    Type: String
+    AllowedPattern: '[A-Za-z][A-Za-z0-9-]{1,62}'
+    Description: Explicit physical name for ApiErrorsAlarm. Generate once and retain
+      in deployment ledger.
+Resources:
+  UrlsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName:
+        Ref: UrlsTableName
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+      - AttributeName: short_id
+        AttributeType: S
+      KeySchema:
+      - AttributeName: short_id
+        KeyType: HASH
+      SSESpecification:
+        SSEEnabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: UrlsTable
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Durable link records; keep stopped and expired aliases reserved. Expiry
+          is enforced in the application, not DynamoDB TTL.
+        must:
+        - Retain data on deletion and replacement.
+        - 'Never enable TTL on expires_at: it would allow old aliases to be reassigned.'
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+  RestApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name:
+        Ref: RestApiName
+      EndpointConfiguration:
+        Types:
+        - REGIONAL
+      DisableExecuteApiEndpoint: false
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: RestApi
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Same-origin management UI and public redirects. Independent Lambda integrations
+          keep table privileges scoped.
+        must: []
+  UserPool:
+    Type: AWS::Cognito::UserPool
+    Properties:
+      UserPoolName:
+        Ref: UserPoolName
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: true
+      AliasAttributes:
+      - email
+      AutoVerifiedAttributes:
+      - email
+      UsernameConfiguration:
+        CaseSensitive: false
+      MfaConfiguration: 'ON'
+      EnabledMfas:
+      - SOFTWARE_TOKEN_MFA
+      Policies:
+        PasswordPolicy:
+          MinimumLength: 12
+          RequireLowercase: true
+          RequireUppercase: true
+          RequireNumbers: true
+          RequireSymbols: true
+          TemporaryPasswordValidityDays: 3
+      UserPoolTier: LITE
+      UserPoolTags:
+        Project: url-shortener
+        Component: UserPool
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Dedicated administrator directory; invitation-only, classic hosted UI
+          and TOTP supported. LITE avoids requiring managed-login branding features.
+        must:
+        - Self-registration must remain disabled. All users in this pool share one
+          management workspace.
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+  UserPoolClient:
+    Type: AWS::Cognito::UserPoolClient
+    Properties:
+      ClientName:
+        Ref: UserPoolClientName
+      UserPoolId:
+        Ref: UserPool
+      GenerateSecret: false
+      AllowedOAuthFlowsUserPoolClient: true
+      AllowedOAuthFlows:
+      - code
+      AllowedOAuthScopes:
+      - openid
+      SupportedIdentityProviders:
+      - COGNITO
+      CallbackURLs:
+      - Fn::Sub: https://${RestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${ApiStageName}/app/
+      LogoutURLs:
+      - Fn::Sub: https://${RestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${ApiStageName}/app/
+      PreventUserExistenceErrors: ENABLED
+      EnableTokenRevocation: true
+      AccessTokenValidity: 15
+      IdTokenValidity: 15
+      RefreshTokenValidity: 1
+      TokenValidityUnits:
+        AccessToken: minutes
+        IdToken: minutes
+        RefreshToken: days
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Public browser client uses authorization code plus PKCE, state and nonce.
+          Browser retains ID token in memory only.
+        must:
+        - No client secret or implicit grant. Callback path must exactly match the
+          same-origin UI.
+  LoginDomain:
+    Type: AWS::Cognito::UserPoolDomain
+    Properties:
+      Domain:
+        Ref: LoginDomainName
+      UserPoolId:
+        Ref: UserPool
+      ManagedLoginVersion: 1
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Use classic hosted UI in the LITE pool; v2 would also require a per-client
+          branding resource.
+        must: []
+  ManagementAuthorizer:
+    Type: AWS::ApiGateway::Authorizer
+    Properties:
+      Name:
+        Ref: ManagementAuthorizerName
+      RestApiId:
+        Ref: RestApi
+      Type: COGNITO_USER_POOLS
+      IdentitySource: method.request.header.Authorization
+      IdentityValidationExpression:
+        Fn::Sub: ^${UserPoolClient}$
+      ProviderARNs:
+      - Fn::GetAtt:
+        - UserPool
+        - Arn
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Verify ID-token signature and restrict audience to this public client.
+          Backend requires a verified sub claim.
+        must:
+        - All management methods must use this authorizer.
+  CreateUrlLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Ref: CreateUrlLogGroupName
+      RetentionInDays:
+        Ref: LogRetentionDays
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: CreateUrlLogGroup
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Explicit log retention and named log group, so Lambda does not create
+          an unbounded default group.
+        must: []
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+  RedirectUrlLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Ref: RedirectUrlLogGroupName
+      RetentionInDays:
+        Ref: LogRetentionDays
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: RedirectUrlLogGroup
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Explicit log retention and named log group, so Lambda does not create
+          an unbounded default group.
+        must: []
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+  GetUrlStatsLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Ref: GetUrlStatsLogGroupName
+      RetentionInDays:
+        Ref: LogRetentionDays
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: GetUrlStatsLogGroup
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Explicit log retention and named log group, so Lambda does not create
+          an unbounded default group.
+        must: []
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+  DeleteUrlLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Ref: DeleteUrlLogGroupName
+      RetentionInDays:
+        Ref: LogRetentionDays
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: DeleteUrlLogGroup
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Explicit log retention and named log group, so Lambda does not create
+          an unbounded default group.
+        must: []
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+  ListUrlsLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Ref: ListUrlsLogGroupName
+      RetentionInDays:
+        Ref: LogRetentionDays
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: ListUrlsLogGroup
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Explicit log retention and named log group, so Lambda does not create
+          an unbounded default group.
+        must: []
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+  UpdateUrlLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Ref: UpdateUrlLogGroupName
+      RetentionInDays:
+        Ref: LogRetentionDays
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: UpdateUrlLogGroup
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Explicit log retention and named log group, so Lambda does not create
+          an unbounded default group.
+        must: []
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+  WebLogGroup:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName:
+        Ref: WebLogGroupName
+      RetentionInDays:
+        Ref: LogRetentionDays
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: WebLogGroup
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Explicit log retention and named log group, so Lambda does not create
+          an unbounded default group.
+        must: []
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+  CreateRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Ref: CreateRoleName
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      Policies:
+      - PolicyName:
+          Ref: CreatePolicyName
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource:
+            - Fn::Sub: ${CreateUrlLogGroup.Arn}
+          - Effect: Allow
+            Action:
+            - dynamodb:PutItem
+            Resource:
+              Fn::GetAtt:
+              - UrlsTable
+              - Arn
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: CreateRole
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Function role scoped to the required table actions and explicit log groups.
+          No function has DeleteItem or table administration privileges.
+        must: []
+  ManageRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Ref: ManageRoleName
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      Policies:
+      - PolicyName:
+          Ref: ManagePolicyName
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource:
+            - Fn::Sub: ${GetUrlStatsLogGroup.Arn}
+            - Fn::Sub: ${DeleteUrlLogGroup.Arn}
+            - Fn::Sub: ${ListUrlsLogGroup.Arn}
+            - Fn::Sub: ${UpdateUrlLogGroup.Arn}
+          - Effect: Allow
+            Action:
+            - dynamodb:GetItem
+            - dynamodb:Scan
+            - dynamodb:UpdateItem
+            Resource:
+              Fn::GetAtt:
+              - UrlsTable
+              - Arn
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: ManageRole
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Function role scoped to the required table actions and explicit log groups.
+          No function has DeleteItem or table administration privileges.
+        must: []
+  RedirectRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Ref: RedirectRoleName
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      Policies:
+      - PolicyName:
+          Ref: RedirectPolicyName
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource:
+            - Fn::Sub: ${RedirectUrlLogGroup.Arn}
+          - Effect: Allow
+            Action:
+            - dynamodb:GetItem
+            - dynamodb:UpdateItem
+            Resource:
+              Fn::GetAtt:
+              - UrlsTable
+              - Arn
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: RedirectRole
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Function role scoped to the required table actions and explicit log groups.
+          No function has DeleteItem or table administration privileges.
+        must: []
+  WebRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName:
+        Ref: WebRoleName
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service: lambda.amazonaws.com
+          Action: sts:AssumeRole
+      Policies:
+      - PolicyName:
+          Ref: WebPolicyName
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource:
+            - Fn::Sub: ${WebLogGroup.Arn}
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: WebRole
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Function role scoped to the required table actions and explicit log groups.
+          No function has DeleteItem or table administration privileges.
+        must: []
+  CreateUrlFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: CreateUrlFunctionName
+      Runtime: python3.12
+      Architectures:
+      - arm64
+      Handler: src.handlers.create_url.handler
+      Code:
+        S3Bucket:
+          Ref: LambdaS3Bucket
+        S3Key:
+          Ref: LambdaS3Key
+      Role:
+        Fn::GetAtt:
+        - CreateRole
+        - Arn
+      Timeout: 10
+      MemorySize: 256
+      Environment:
+        Variables:
+          URLS_TABLE_NAME:
+            Ref: UrlsTable
+          PUBLIC_BASE_URL:
+            Fn::Sub: https://${RestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${ApiStageName}
+      LoggingConfig:
+        LogGroup:
+          Ref: CreateUrlLogGroup
+        LogFormat: JSON
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: CreateUrlFunction
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Synchronous API integration; no asynchronous DLQ required. Tested package
+          contains pinned SDK dependencies and web assets.
+        must:
+        - Do not expose direct invoke or Function URLs to untrusted callers.
+  RedirectUrlFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: RedirectUrlFunctionName
+      Runtime: python3.12
+      Architectures:
+      - arm64
+      Handler: src.handlers.redirect_url.handler
+      Code:
+        S3Bucket:
+          Ref: LambdaS3Bucket
+        S3Key:
+          Ref: LambdaS3Key
+      Role:
+        Fn::GetAtt:
+        - RedirectRole
+        - Arn
+      Timeout: 10
+      MemorySize: 256
+      Environment:
+        Variables:
+          URLS_TABLE_NAME:
+            Ref: UrlsTable
+          PUBLIC_BASE_URL:
+            Fn::Sub: https://${RestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${ApiStageName}
+      LoggingConfig:
+        LogGroup:
+          Ref: RedirectUrlLogGroup
+        LogFormat: JSON
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: RedirectUrlFunction
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Synchronous API integration; no asynchronous DLQ required. Tested package
+          contains pinned SDK dependencies and web assets.
+        must:
+        - Do not expose direct invoke or Function URLs to untrusted callers.
+  GetUrlStatsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: GetUrlStatsFunctionName
+      Runtime: python3.12
+      Architectures:
+      - arm64
+      Handler: src.handlers.get_url_stats.handler
+      Code:
+        S3Bucket:
+          Ref: LambdaS3Bucket
+        S3Key:
+          Ref: LambdaS3Key
+      Role:
+        Fn::GetAtt:
+        - ManageRole
+        - Arn
+      Timeout: 10
+      MemorySize: 256
+      Environment:
+        Variables:
+          URLS_TABLE_NAME:
+            Ref: UrlsTable
+          PUBLIC_BASE_URL:
+            Fn::Sub: https://${RestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${ApiStageName}
+      LoggingConfig:
+        LogGroup:
+          Ref: GetUrlStatsLogGroup
+        LogFormat: JSON
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: GetUrlStatsFunction
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Synchronous API integration; no asynchronous DLQ required. Tested package
+          contains pinned SDK dependencies and web assets.
+        must:
+        - Do not expose direct invoke or Function URLs to untrusted callers.
+  DeleteUrlFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: DeleteUrlFunctionName
+      Runtime: python3.12
+      Architectures:
+      - arm64
+      Handler: src.handlers.delete_url.handler
+      Code:
+        S3Bucket:
+          Ref: LambdaS3Bucket
+        S3Key:
+          Ref: LambdaS3Key
+      Role:
+        Fn::GetAtt:
+        - ManageRole
+        - Arn
+      Timeout: 10
+      MemorySize: 256
+      Environment:
+        Variables:
+          URLS_TABLE_NAME:
+            Ref: UrlsTable
+          PUBLIC_BASE_URL:
+            Fn::Sub: https://${RestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${ApiStageName}
+      LoggingConfig:
+        LogGroup:
+          Ref: DeleteUrlLogGroup
+        LogFormat: JSON
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: DeleteUrlFunction
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Synchronous API integration; no asynchronous DLQ required. Tested package
+          contains pinned SDK dependencies and web assets.
+        must:
+        - Do not expose direct invoke or Function URLs to untrusted callers.
+  ListUrlsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: ListUrlsFunctionName
+      Runtime: python3.12
+      Architectures:
+      - arm64
+      Handler: src.handlers.list_urls.handler
+      Code:
+        S3Bucket:
+          Ref: LambdaS3Bucket
+        S3Key:
+          Ref: LambdaS3Key
+      Role:
+        Fn::GetAtt:
+        - ManageRole
+        - Arn
+      Timeout: 10
+      MemorySize: 256
+      Environment:
+        Variables:
+          URLS_TABLE_NAME:
+            Ref: UrlsTable
+          PUBLIC_BASE_URL:
+            Fn::Sub: https://${RestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${ApiStageName}
+      LoggingConfig:
+        LogGroup:
+          Ref: ListUrlsLogGroup
+        LogFormat: JSON
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: ListUrlsFunction
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Synchronous API integration; no asynchronous DLQ required. Tested package
+          contains pinned SDK dependencies and web assets.
+        must:
+        - Do not expose direct invoke or Function URLs to untrusted callers.
+  UpdateUrlFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: UpdateUrlFunctionName
+      Runtime: python3.12
+      Architectures:
+      - arm64
+      Handler: src.handlers.update_url.handler
+      Code:
+        S3Bucket:
+          Ref: LambdaS3Bucket
+        S3Key:
+          Ref: LambdaS3Key
+      Role:
+        Fn::GetAtt:
+        - ManageRole
+        - Arn
+      Timeout: 10
+      MemorySize: 256
+      Environment:
+        Variables:
+          URLS_TABLE_NAME:
+            Ref: UrlsTable
+          PUBLIC_BASE_URL:
+            Fn::Sub: https://${RestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${ApiStageName}
+      LoggingConfig:
+        LogGroup:
+          Ref: UpdateUrlLogGroup
+        LogFormat: JSON
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: UpdateUrlFunction
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Synchronous API integration; no asynchronous DLQ required. Tested package
+          contains pinned SDK dependencies and web assets.
+        must:
+        - Do not expose direct invoke or Function URLs to untrusted callers.
+  WebFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName:
+        Ref: WebFunctionName
+      Runtime: python3.12
+      Architectures:
+      - arm64
+      Handler: src.handlers.web.handler
+      Code:
+        S3Bucket:
+          Ref: LambdaS3Bucket
+        S3Key:
+          Ref: LambdaS3Key
+      Role:
+        Fn::GetAtt:
+        - WebRole
+        - Arn
+      Timeout: 10
+      MemorySize: 256
+      Environment:
+        Variables:
+          AUTH_DOMAIN:
+            Fn::Sub: https://${LoginDomain}.auth.${AWS::Region}.amazoncognito.com
+          AUTH_CLIENT_ID:
+            Ref: UserPoolClient
+          PUBLIC_BASE_URL:
+            Fn::Sub: https://${RestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${ApiStageName}
+      LoggingConfig:
+        LogGroup:
+          Ref: WebLogGroup
+        LogFormat: JSON
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: WebFunction
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Synchronous API integration; no asynchronous DLQ required. Tested package
+          contains pinned SDK dependencies and web assets.
+        must:
+        - Do not expose direct invoke or Function URLs to untrusted callers.
+  UrlsResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ParentId:
+        Fn::GetAtt:
+        - RestApi
+        - RootResourceId
+      PathPart: urls
+  UrlResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ParentId:
+        Ref: UrlsResource
+      PathPart: '{short_id}'
+  RedirectResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ParentId:
+        Fn::GetAtt:
+        - RestApi
+        - RootResourceId
+      PathPart: '{short_id}'
+  AppResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ParentId:
+        Fn::GetAtt:
+        - RestApi
+        - RootResourceId
+      PathPart: app
+  AppProxyResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ParentId:
+        Ref: AppResource
+      PathPart: '{proxy+}'
+  CreateMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ResourceId:
+        Ref: UrlsResource
+      HttpMethod: POST
+      AuthorizationType: COGNITO_USER_POOLS
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri:
+          Fn::Sub: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CreateUrlFunction.Arn}/invocations
+      AuthorizerId:
+        Ref: ManagementAuthorizer
+  CreatePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: CreateUrlFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
+      SourceArn:
+        Fn::Sub: arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/${ApiStageName}/POST/urls
+  ListMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ResourceId:
+        Ref: UrlsResource
+      HttpMethod: GET
+      AuthorizationType: COGNITO_USER_POOLS
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri:
+          Fn::Sub: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ListUrlsFunction.Arn}/invocations
+      AuthorizerId:
+        Ref: ManagementAuthorizer
+  ListPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: ListUrlsFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
+      SourceArn:
+        Fn::Sub: arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/${ApiStageName}/GET/urls
+  StatsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ResourceId:
+        Ref: UrlResource
+      HttpMethod: GET
+      AuthorizationType: COGNITO_USER_POOLS
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri:
+          Fn::Sub: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetUrlStatsFunction.Arn}/invocations
+      AuthorizerId:
+        Ref: ManagementAuthorizer
+  StatsPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: GetUrlStatsFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
+      SourceArn:
+        Fn::Sub: arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/${ApiStageName}/GET/urls/*
+  DeleteMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ResourceId:
+        Ref: UrlResource
+      HttpMethod: DELETE
+      AuthorizationType: COGNITO_USER_POOLS
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri:
+          Fn::Sub: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteUrlFunction.Arn}/invocations
+      AuthorizerId:
+        Ref: ManagementAuthorizer
+  DeletePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: DeleteUrlFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
+      SourceArn:
+        Fn::Sub: arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/${ApiStageName}/DELETE/urls/*
+  UpdateMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ResourceId:
+        Ref: UrlResource
+      HttpMethod: PATCH
+      AuthorizationType: COGNITO_USER_POOLS
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri:
+          Fn::Sub: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${UpdateUrlFunction.Arn}/invocations
+      AuthorizerId:
+        Ref: ManagementAuthorizer
+  UpdatePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: UpdateUrlFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
+      SourceArn:
+        Fn::Sub: arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/${ApiStageName}/PATCH/urls/*
+  RedirectMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ResourceId:
+        Ref: RedirectResource
+      HttpMethod: GET
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri:
+          Fn::Sub: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RedirectUrlFunction.Arn}/invocations
+  RedirectPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: RedirectUrlFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
+      SourceArn:
+        Fn::Sub: arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/${ApiStageName}/GET/*
+  HeadMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ResourceId:
+        Ref: RedirectResource
+      HttpMethod: HEAD
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri:
+          Fn::Sub: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${RedirectUrlFunction.Arn}/invocations
+  HeadPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: RedirectUrlFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
+      SourceArn:
+        Fn::Sub: arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/${ApiStageName}/HEAD/*
+  AppMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ResourceId:
+        Ref: AppResource
+      HttpMethod: GET
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri:
+          Fn::Sub: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${WebFunction.Arn}/invocations
+  AppPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: WebFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
+      SourceArn:
+        Fn::Sub: arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/${ApiStageName}/GET/app
+  AppProxyMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      ResourceId:
+        Ref: AppProxyResource
+      HttpMethod: GET
+      AuthorizationType: NONE
+      Integration:
+        Type: AWS_PROXY
+        IntegrationHttpMethod: POST
+        Uri:
+          Fn::Sub: arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${WebFunction.Arn}/invocations
+  AppProxyPermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName:
+        Ref: WebFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceAccount:
+        Ref: AWS::AccountId
+      SourceArn:
+        Fn::Sub: arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApi}/${ApiStageName}/GET/app/*
+  ApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    Properties:
+      RestApiId:
+        Ref: RestApi
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Packaging replaces this logical ID with an API-shape digest so route
+          changes produce a new deployment.
+        must: []
+    DependsOn:
+    - CreateMethod
+    - ListMethod
+    - StatsMethod
+    - DeleteMethod
+    - UpdateMethod
+    - RedirectMethod
+    - HeadMethod
+    - AppMethod
+    - AppProxyMethod
+  ApiStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      RestApiId:
+        Ref: RestApi
+      DeploymentId:
+        Ref: ApiDeployment
+      StageName:
+        Ref: ApiStageName
+      MethodSettings:
+      - ResourcePath: /*
+        HttpMethod: '*'
+        ThrottlingBurstLimit: 50
+        ThrottlingRateLimit: 25
+        DataTraceEnabled: false
+        MetricsEnabled: true
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: ApiStage
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Bound request rate and publish metrics. Execution data tracing stays
+          off to avoid recording destination URLs or tokens.
+        must:
+        - Do not enable payload logging. API access logging requires separate review
+          of account-wide API Gateway logging configuration.
+  ApiErrorsAlarm:
+    Type: AWS::CloudWatch::Alarm
+    Properties:
+      AlarmName:
+        Ref: ApiErrorsAlarmName
+      Namespace: AWS/ApiGateway
+      MetricName: 5XXError
+      Dimensions:
+      - Name: ApiName
+        Value:
+          Ref: RestApiName
+      - Name: Stage
+        Value:
+          Ref: ApiStageName
+      Statistic: Sum
+      Period: 60
+      EvaluationPeriods: 2
+      Threshold: 5
+      ComparisonOperator: GreaterThanOrEqualToThreshold
+      TreatMissingData: notBreaching
+      Tags:
+      - Key: Project
+        Value: url-shortener
+      - Key: Component
+        Value: ApiErrorsAlarm
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Visible 5xx alarm. Notification delivery is deliberately not claimed
+          until an operator attaches an existing notification destination.
+        must: []
+Outputs:
+  ApiEndpoint:
+    Description: Public redirect and authenticated management API base
+    Value:
+      Fn::Sub: https://${RestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${ApiStageName}
+  ManagementUrl:
+    Description: Management UI and exact Cognito callback
+    Value:
+      Fn::Sub: https://${RestApi}.execute-api.${AWS::Region}.${AWS::URLSuffix}/${ApiStageName}/app/
+  UserPoolId:
+    Description: Dedicated invitation-only administrator pool
+    Value:
+      Ref: UserPool
+  UrlsTableName:
+    Description: Persistent link table
+    Value:
+      Ref: UrlsTable

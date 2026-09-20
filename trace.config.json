@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "documents": [
+    "docs/requirements",
+    "docs/basic",
+    "docs/details"
+  ],
+  "managedRoots": [
+    "src",
+    "tests",
+    "tools",
+    "infrastructure",
+    "web",
+    ".github",
+    ".githooks",
+    "docs/product",
+    "docs/engineering",
+    "docs/operations",
+    "docs/reference",
+    "docs/assets",
+    "docs/changes"
+  ],
+  "managedFiles": [
+    "README.md",
+    "AGENTS.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "CHANGELOG.md",
+    "LICENSE",
+    "docs/README.md",
+    "dev",
+    "package.json",
+    "package-lock.json",
+    "pyproject.toml",
+    "uv.lock",
+    "Makefile",
+    "buildspec.yml",
+    ".gitignore",
+    ".gitattributes",
+    ".node-version",
+    ".python-version",
+    ".editorconfig",
+    ".prettierrc.json",
+    "trace.config.json",
+    "playwright.config.mjs"
+  ],
+  "lockFile": "trace.lock.json",
+  "requireTdd": true
+}

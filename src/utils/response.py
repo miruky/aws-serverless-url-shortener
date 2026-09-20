@@ -1,66 +1,43 @@
-"""API Gatewayレスポンスビルダーヘルパー。"""
+"""API Gateway応答。管理情報も転送先も永続キャッシュしない。"""
 
 from __future__ import annotations
 
 import json
+import os
 from typing import Any
 
-_CORS_HEADERS: dict[str, str] = {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,POST,DELETE,OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-}
+
+def headers() -> dict[str, str]:
+    values = {
+        "Content-Type": "application/json; charset=utf-8",
+        "Cache-Control": "no-store",
+        "X-Content-Type-Options": "nosniff",
+        "Referrer-Policy": "no-referrer",
+    }
+    origin = os.environ.get("ALLOWED_ORIGIN", "")
+    if origin and origin != "*":
+        values.update(
+            {
+                "Access-Control-Allow-Origin": origin,
+                "Access-Control-Allow-Methods": "GET,HEAD,POST,PATCH,DELETE,OPTIONS",
+                "Access-Control-Allow-Headers": "Content-Type,Authorization,If-Match",
+                "Vary": "Origin",
+            }
+        )
+    return values
 
 
 def success_response(body: Any, status_code: int = 200) -> dict[str, Any]:
-    """成功時のAPI Gatewayプロキシレスポンスを構築する。
-
-    Args:
-        body: JSONシリアライズ可能なペイロード。
-        status_code: HTTPステータスコード(デフォルト: 200)。
-
-    Returns:
-        API Gateway互換のレスポンス辞書。
-    """
     return {
         "statusCode": status_code,
-        "headers": {**_CORS_HEADERS},
+        "headers": headers(),
         "body": json.dumps(body, ensure_ascii=False),
     }
 
 
 def error_response(message: str, status_code: int = 400) -> dict[str, Any]:
-    """エラー時のAPI Gatewayプロキシレスポンスを構築する。
-
-    Args:
-        message: 人間が読めるエラー説明。
-        status_code: HTTPステータスコード(デフォルト: 400)。
-
-    Returns:
-        API Gateway互換のレスポンス辞書。
-    """
-    return {
-        "statusCode": status_code,
-        "headers": {**_CORS_HEADERS},
-        "body": json.dumps({"error": message}, ensure_ascii=False),
-    }
+    return success_response({"error": message}, status_code)
 
 
 def redirect_response(url: str) -> dict[str, Any]:
-    """301リダイレクトレスポンスを構築する。
-
-    Args:
-        url: ``Location`` ヘッダーに設定するリダイレクト先URL。
-
-    Returns:
-        301ステータスのAPI Gateway互換レスポンス辞書。
-    """
-    return {
-        "statusCode": 301,
-        "headers": {
-            "Location": url,
-            "Cache-Control": "no-cache",
-        },
-        "body": "",
-    }
+    return {"statusCode": 302, "headers": {**headers(), "Location": url}, "body": ""}

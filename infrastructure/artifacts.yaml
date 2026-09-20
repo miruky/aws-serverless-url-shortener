@@ -1,0 +1,56 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Private versioned storage for tested immutable URL-shortener deployment packages.
+Metadata:
+  AWSToolsMetrics:
+    AWSAgentToolkit: aws-cloudformation@3
+  com.aws.cloudformation.Context:
+    ref:
+      - at: docs/operations/deployment.md
+        has: artifact lifecycle and deployment procedure
+        scope: shared
+Parameters:
+  ArtifactBucketName:
+    Type: String
+    AllowedPattern: '[a-z][a-z0-9-]{2,62}'
+    Description: Explicit generated bucket name. Retain the same value for this bucket.
+Resources:
+  ArtifactBucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Metadata:
+      com.aws.cloudformation.Context:
+        why: Keep immutable tested ZIPs available for rollback; no automatic expiry of deployed packages.
+        must:
+          - Block public access and require TLS.
+          - Retain the bucket on stack deletion or replacement.
+    Properties:
+      BucketName: {Ref: ArtifactBucketName}
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault: {SSEAlgorithm: AES256}
+      VersioningConfiguration: {Status: Enabled}
+  ArtifactBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: {Ref: ArtifactBucket}
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Deny
+            Principal: '*'
+            Action: 's3:*'
+            Resource:
+              - Fn::GetAtt: [ArtifactBucket, Arn]
+              - Fn::Sub: '${ArtifactBucket.Arn}/*'
+            Condition:
+              Bool: {'aws:SecureTransport': 'false'}
+Outputs:
+  BucketName:
+    Description: Deployment bucket to pass to the product stack
+    Value: {Ref: ArtifactBucket}

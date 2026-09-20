@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "phase": "green",
+  "change": "CHG-PACKAGE-ISOLATION",
+  "runner": "pytest",
+  "command": [
+    "-m",
+    "pytest",
+    "-p",
+    "tools.pytest_evidence",
+    "-q",
+    "tests/test_package_isolation.py"
+  ],
+  "status": 0,
+  "capturedAt": "2026-09-20T17:08:14.824Z",
+  "counts": {
+    "tests": 1,
+    "pass": 1,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0
+  },
+  "testNames": [
+    "tests/test_package_isolation.py::test_package_smoke_rejects_a_dependency_available_only_in_development"
+  ],
+  "testHashes": {
+    "tests/conftest.py": "5c80ddd6c5618c87ec835211f422736caf53b44b3b51f9822cb5f0d18a4102e8",
+    "tests/test_package_isolation.py": "fba08988e6ae527783431c327f336c908a139c2391ac6696a0bad208e81c2916",
+    "tools/pytest_evidence.py": "2daf9f7dffd5b17b723b6a50a95ba6c3f0e207227bf8e6c18aa2650fc873d799"
+  },
+  "scopeHashes": {
+    "tests/test_package_isolation.py": "fba08988e6ae527783431c327f336c908a139c2391ac6696a0bad208e81c2916",
+    "tools/package.py": "770fc1884db51ec1e2987e2f11bf016d5c3789bbf15057d419591d9c4cd9af23"
+  },
+  "changeHash": "a3e7741f95daa268a790032dfd4fb9297b491a1ba7488ec3da5ab553afc6c931",
+  "outputHash": "82fa8f7da74c9a6bb3c4e115cb7d72bfa17e23f7f532ff23127a7902f15b3e4b",
+  "redOutputHash": "4fd4078e171f42c93311d7079e86f414b506414f3d63fa1321dfac531daa11bd"
+}

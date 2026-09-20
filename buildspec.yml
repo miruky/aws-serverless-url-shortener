@@ -1,42 +1,21 @@
+# Build-only compatibility entry. v2 does not execute CloudFormation from CodeBuild.
+# Pause any old automatic CodePipeline before adopting this revision.
 version: 0.2
-
 phases:
   install:
     runtime-versions:
       python: 3.12
+      nodejs: 24
     commands:
-      - echo "依存関係をインストール中..."
-      - pip install -e ".[dev]"
-
-  pre_build:
-    commands:
-      - echo "リンターを実行中..."
-      - ruff check src/ tests/
-      - echo "テストを実行中..."
-      - pytest tests/ -v --tb=short --junitxml=reports/junit.xml
-
+      - python -m pip install uv==0.11.20
+      - ./dev setup
+      - npx playwright install --with-deps chromium
   build:
     commands:
-      - echo "Lambda関数をパッケージング中..."
-      - mkdir -p package
-      - pip install -t package/ boto3
-      - cp -r src/ package/
-      - cd package && zip -r ../lambda-package.zip . -x "*.pyc" "__pycache__/*"
-      - cd ..
-      - cp lambda-package.zip $CODEBUILD_SRC_DIR/
-
-  post_build:
-    commands:
-      - echo "ビルド完了: $(date)"
-
+      - ./dev check
 artifacts:
   files:
-    - lambda-package.zip
-    - infrastructure/**/*
+    - dist/lambda-package.zip
+    - dist/product.json
+    - dist/manifest.json
   discard-paths: no
-
-reports:
-  pytest-reports:
-    files:
-      - reports/junit.xml
-    file-format: JUNITXML

@@ -1,0 +1,25 @@
+rule management_requires_authentication {
+    Resources.CreateMethod.Properties.AuthorizationType == 'COGNITO_USER_POOLS'
+    Resources.ListMethod.Properties.AuthorizationType == 'COGNITO_USER_POOLS'
+    Resources.StatsMethod.Properties.AuthorizationType == 'COGNITO_USER_POOLS'
+    Resources.DeleteMethod.Properties.AuthorizationType == 'COGNITO_USER_POOLS'
+    Resources.UpdateMethod.Properties.AuthorizationType == 'COGNITO_USER_POOLS'
+}
+rule state_and_identity_are_protected {
+    Resources.UrlsTable.DeletionPolicy == 'Retain'
+    Resources.UrlsTable.UpdateReplacePolicy == 'Retain'
+    Resources.UserPool.Properties.AdminCreateUserConfig.AllowAdminCreateUserOnly == true
+    Resources.UserPoolClient.Properties.GenerateSecret == false
+    Resources.UserPoolClient.Properties.AllowedOAuthFlows == ['code']
+    Resources.UrlsTable.Properties.TimeToLiveSpecification not exists
+}
+let functions = Resources.*[Type == 'AWS::Lambda::Function']
+rule function_logging_is_explicit {
+    %functions.Properties.LoggingConfig.LogGroup exists
+    %functions.Properties.LoggingConfig.LogFormat == 'JSON'
+}
+let permissions = Resources.*[Type == 'AWS::Lambda::Permission']
+rule invocation_permissions_are_scoped {
+    %permissions.Properties.SourceAccount exists
+    %permissions.Properties.SourceArn exists
+}

@@ -7,6 +7,7 @@ from unittest.mock import MagicMock, patch
 
 from src.handlers.get_url_stats import handler
 from src.models.url import UrlItem
+from tests.helpers import admin_event
 
 
 class TestGetUrlStatsHandler:
@@ -24,7 +25,7 @@ class TestGetUrlStatsHandler:
         mock_repo_cls.return_value = mock_repo
 
         event = {"pathParameters": {"short_id": "abc"}}
-        result = handler(event, None)
+        result = handler(admin_event(event), None)
 
         assert result["statusCode"] == 200
         body = json.loads(result["body"])
@@ -38,16 +39,16 @@ class TestGetUrlStatsHandler:
         mock_repo_cls.return_value = mock_repo
 
         event = {"pathParameters": {"short_id": "missing"}}
-        result = handler(event, None)
+        result = handler(admin_event(event), None)
 
         assert result["statusCode"] == 404
 
     def test_rejects_invalid_short_id(self) -> None:
         event = {"pathParameters": {"short_id": "!invalid!"}}
-        result = handler(event, None)
+        result = handler(admin_event(event), None)
         assert result["statusCode"] == 400
 
     def test_rejects_missing_path_params(self) -> None:
         event: dict[str, None] = {"pathParameters": None}
-        result = handler(event, None)
+        result = handler(admin_event(event), None)
         assert result["statusCode"] == 400

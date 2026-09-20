@@ -1,0 +1,24 @@
+{
+  "name": "url-shortener-workbench",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24 <26"
+  },
+  "scripts": {
+    "test": "node --test tests/unit/*.test.mjs",
+    "test:e2e": "playwright test",
+    "trace": "node tools/trace/cli.mjs",
+    "docs": "node tools/docs-server.mjs",
+    "check": "node tools/dev.mjs check",
+    "format:check": "prettier --check \"web/**/*.{html,css,js}\" \"tools/**/*.mjs\" playwright.config.mjs package.json .prettierrc.json"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "1.63.0",
+    "cytoscape": "3.34.3",
+    "prettier": "3.9.8",
+    "yaml": "2.9.0"
+  }
+}

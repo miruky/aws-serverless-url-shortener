@@ -1,0 +1,38 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: /private<baseline>
+configfile: pyproject.toml
+plugins: cov-7.1.0, socket-0.8.1
+collected 4 items
+
+tests/regression/test_management_auth.py FFFF                            [100%]
+
+=================================== FAILURES ===================================
+_______ test_anonymous_management_is_rejected_before_storage[create_url] _______
+tests/regression/test_management_auth.py:22: in test_anonymous_management_is_rejected_before_storage
+    assert response["statusCode"] == 401
+E   assert 201 == 401
+------------------------------ Captured log call -------------------------------
+INFO     src.handlers.create_url:create_url.py:51 短縮URL作成: ZguGY5P -> https://example.com
+_______ test_anonymous_management_is_rejected_before_storage[delete_url] _______
+tests/regression/test_management_auth.py:22: in test_anonymous_management_is_rejected_before_storage
+    assert response["statusCode"] == 401
+E   assert 200 == 401
+------------------------------ Captured log call -------------------------------
+INFO     src.handlers.delete_url:delete_url.py:43 短縮URL論理削除: abc
+_____ test_anonymous_management_is_rejected_before_storage[get_url_stats] ______
+tests/regression/test_management_auth.py:22: in test_anonymous_management_is_rejected_before_storage
+    assert response["statusCode"] == 401
+E   assert 404 == 401
+_______ test_anonymous_management_is_rejected_before_storage[list_urls] ________
+tests/regression/test_management_auth.py:22: in test_anonymous_management_is_rejected_before_storage
+    assert response["statusCode"] == 401
+E   assert 200 == 401
+------------------------------ Captured log call -------------------------------
+INFO     src.handlers.list_urls:list_urls.py:41 有効URL一覧: 0件(limit=50)
+=========================== short test summary info ============================
+FAILED tests/regression/test_management_auth.py::test_anonymous_management_is_rejected_before_storage[create_url]
+FAILED tests/regression/test_management_auth.py::test_anonymous_management_is_rejected_before_storage[delete_url]
+FAILED tests/regression/test_management_auth.py::test_anonymous_management_is_rejected_before_storage[get_url_stats]
+FAILED tests/regression/test_management_auth.py::test_anonymous_management_is_rejected_before_storage[list_urls]
+============================== 4 failed in 0.04s ===============================

@@ -1,0 +1,41 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: <home>/Library/Mobile Documents/com~apple~CloudDocs/develop/OSS/aws-serverless-url-shortener
+configfile: pyproject.toml
+plugins: cov-7.1.0, socket-0.8.1
+collected 5 items
+
+tests/regression/test_api_boundaries.py FFFFF                            [100%]
+
+=================================== FAILURES ===================================
+_____________ test_international_destination_is_an_ascii_location ______________
+tests/regression/test_api_boundaries.py:18: in test_international_destination_is_an_ascii_location
+    assert response["headers"]["Location"].isascii()
+E   AssertionError: assert False
+E    +  where False = <built-in method isascii of str object at 0x112825fb0>()
+E    +    where <built-in method isascii of str object at 0x112825fb0> = 'https://例え.jp/資料?q=日本語'.isascii
+__________ test_legacy_record_without_optional_flags_still_redirects ___________
+tests/regression/test_api_boundaries.py:26: in test_legacy_record_without_optional_flags_still_redirects
+    assert redirect({"pathParameters": {"short_id": "old"}}, None)["statusCode"] == 302
+E   assert 409 == 302
+_____________________ test_head_error_response_has_no_body _____________________
+tests/regression/test_api_boundaries.py:33: in test_head_error_response_has_no_body
+    assert response["body"] == ""
+E   assert '{"error": "短縮URLが見つかりません。"}' == ''
+E     
+E     + {"error": "短縮URLが見つかりません。"}
+_______________ test_expiry_cannot_break_browser_date_rendering ________________
+tests/regression/test_api_boundaries.py:41: in test_expiry_cannot_break_browser_date_rendering
+    assert response["statusCode"] == 400
+E   assert 201 == 400
+___________________ test_version_is_bounded_to_safe_integer ____________________
+tests/regression/test_api_boundaries.py:54: in test_version_is_bounded_to_safe_integer
+    assert response["statusCode"] == 400
+E   assert 409 == 400
+=========================== short test summary info ============================
+FAILED tests/regression/test_api_boundaries.py::test_international_destination_is_an_ascii_location
+FAILED tests/regression/test_api_boundaries.py::test_legacy_record_without_optional_flags_still_redirects
+FAILED tests/regression/test_api_boundaries.py::test_head_error_response_has_no_body
+FAILED tests/regression/test_api_boundaries.py::test_expiry_cannot_break_browser_date_rendering
+FAILED tests/regression/test_api_boundaries.py::test_version_is_bounded_to_safe_integer
+============================== 5 failed in 0.48s ===============================

@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: <home>/Library/Mobile Documents/com~apple~CloudDocs/develop/OSS/aws-serverless-url-shortener
+configfile: pyproject.toml
+plugins: cov-7.1.0, socket-0.8.1
+collected 1 item
+
+tests/regression/test_web_stage_paths.py F                               [100%]
+
+=================================== FAILURES ===================================
+_____________ test_management_assets_use_the_configured_stage_path _____________
+tests/regression/test_web_stage_paths.py:10: in test_management_assets_use_the_configured_stage_path
+    assert 'href="/preview/app/style.css"' in response["body"]
+E   assert 'href="/preview/app/style.css"' in '<!doctype html>\n<html lang="ja">\n<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,init...id="edit-error" role="alert"></p><button id="save-edit" type="submit">変更を保存</button></form></dialog>\n</body></html>\n'
+=========================== short test summary info ============================
+FAILED tests/regression/test_web_stage_paths.py::test_management_assets_use_the_configured_stage_path
+============================== 1 failed in 1.02s ===============================

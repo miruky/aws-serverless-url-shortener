@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "phase": "red",
+  "change": "CHG-TRACE-PORT",
+  "runner": "node",
+  "command": [
+    "--test",
+    "--test-reporter=tap",
+    "tests/unit/python-cache.test.mjs"
+  ],
+  "status": 1,
+  "capturedAt": "2026-09-20T15:50:05.685Z",
+  "counts": {
+    "tests": 1,
+    "pass": 0,
+    "fail": 1,
+    "cancelled": 0,
+    "skipped": 0
+  },
+  "testNames": [],
+  "testHashes": {
+    "tests/unit/python-cache.test.mjs": "aed5a4889ba2b3af4e26a8dafa6d989cb7f10a57d30ebc121ae47dc5ae220739"
+  },
+  "scopeHashes": {
+    ".editorconfig": "6297da6b1169de32dca2f6184b4eaa63a8bb6c7e1c66c20d6e813166256e3856",
+    ".githooks/pre-commit": "43600f6ce5f5d0f2f78d5d67725144986eb628986fb7c18062a3ca87007ba76f",
+    ".githooks/pre-push": "3e6ea4600356f8b0d252795d2cc57174e6acddc2020e412b008dd6b5f903ac50",
+    ".github/workflows/ci.yml": "779cfb8544ceca830116f7693617e21fe58022c10eb9914dd461e4e043027ef2",
+    ".gitignore": "980f91d63f9e65e0dbbfbe435af3614da18e2cb73693143da093ad640fab65be",
+    ".node-version": "7e8a2fa94951112b894a3dbe3d05efef5e9263741fa49125f0a70f40fedab4cc",
+    ".python-version": "7b55f8e67b5623c4bef3fa691288da9437d79d3aba156de48d481db32ac7d16d",
+    "AGENTS.md": "91554c9cada32289804b9f0402bfdc77488f6b68634cbe9658fb54be86e36a33",
+    "Makefile": "9d5439421d9142863096530c9147d31731dd3b1da347b1965482621c4db2fbd7",
+    "README.md": "f9cb58da32cef003de4eb6913257a1ac5b94e7e06b98ffa9c99d567c921ad5c1",
+    "buildspec.yml": "4ccc6c71cf3aaa10843e8b541c2e88d3839a74dbfae81937ba1deec1328fd8f6",
+    "dev": "599dc2d426c1f0e8c79a32a191e852764ba04bf827d4aa331f2d8462958614d0",
+    "infrastructure/pipeline.yaml": "0a92ec26601d85267299294f00d80213aed112e5845f086e08e35e8de18c36a3",
+    "infrastructure/template.yaml": "a9b129894b0905ea5663abfa73b5f8097fce74c80eb805b083ffddc7c996a0b7",
+    "package-lock.json": "9e222b1fdadceb84376b05c8f1a28cb52ecaf2e651946233fec9824efc3d96c0",
+    "package.json": "7399a52c8d1efb72c73669977a21f68641975158fa977ff996d695ddbdcfbea3",
+    "pyproject.toml": "b92d92b96e21735fed3d8fb9c7db817ff2301e947bd6fe20687435ce807dbe19",
+    "tests/unit/harness.test.mjs": "95fd19dafdcf827efe2eb8e000c5ad4d40f93c9fa4cf7bc8a7381510d17be885",
+    "tests/unit/python-cache.test.mjs": "aed5a4889ba2b3af4e26a8dafa6d989cb7f10a57d30ebc121ae47dc5ae220739",
+    "tools/dev.mjs": "368436b7ab819c0b856757e992d6a3f3c25f3dbc63b1f9d9250dc75a505418a6",
+    "tools/docs-server.mjs": "1a242f795c07cf0912a70577576779442af86898b0ae3b7467d62bd400125969",
+    "tools/hooks.mjs": "0ca5ab821b6c2b8cff051dae2d46ff76529b3497df4fe88545f8cf1d62e2a157",
+    "tools/pytest_evidence.py": "bf102b7a73824c1858af6544d7b4b1e1161d45924ab8b92a836a787478744137",
+    "tools/tdd.mjs": "829f565bf2d58aa2a290a0cd705abc458bd3be9ffffb95da8c9ecfb44100c04e",
+    "tools/trace/cli.mjs": "ec6cb73051f6773102d461e06e462886d3158e53ed6b0d2436db9c80fbfe7859",
+    "tools/trace/model.mjs": "279439fbfefee66efff6e00da82e707be6574c9ffb49b3557a2e3155c5665588",
+    "tools/trace/workbench.mjs": "4dfb155fc203b41a099e29b2acf665a3ebb35dd7ae4dd173dd7bbfb6f4534a7f",
+    "trace.config.json": "8d8e105115c8c2bd119949606096049345407b18e6aef6bcc5b488181cc50a33",
+    "uv.lock": "5251fc783b03ac88517e602105b9d4fe8aef9ec7663049122418c133b6f2dc14"
+  },
+  "outputHash": "59c3ab5e00f53b027f3e5a9645372bc7c1eedcabab83df24507ca679f8ec2db2"
+}

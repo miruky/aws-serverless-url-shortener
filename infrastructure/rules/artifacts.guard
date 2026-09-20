@@ -1,0 +1,12 @@
+rule artifact_storage_is_private {
+    Resources.ArtifactBucket.Properties.PublicAccessBlockConfiguration {
+        BlockPublicAcls == true
+        BlockPublicPolicy == true
+        IgnorePublicAcls == true
+        RestrictPublicBuckets == true
+    }
+    Resources.ArtifactBucket.Properties.BucketEncryption exists
+    Resources.ArtifactBucket.Properties.VersioningConfiguration.Status == 'Enabled'
+    Resources.ArtifactBucket.DeletionPolicy == 'Retain'
+    Resources.ArtifactBucket.UpdateReplacePolicy == 'Retain'
+}

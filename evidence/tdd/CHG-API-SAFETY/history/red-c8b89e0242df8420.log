@@ -1,0 +1,100 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: <home>/Library/Mobile Documents/com~apple~CloudDocs/develop/OSS/aws-serverless-url-shortener
+configfile: pyproject.toml
+plugins: cov-7.1.0
+collected 15 items
+
+tests/regression/test_core_safety.py FFFFFFFF.FFFFFF                     [100%]
+
+=================================== FAILURES ===================================
+________________ test_non_object_json_is_a_client_error[value0] ________________
+tests/regression/test_core_safety.py:28: in test_non_object_json_is_a_client_error
+    assert response is not None, "Valid JSON with the wrong shape must not crash Lambda"
+E   AssertionError: Valid JSON with the wrong shape must not crash Lambda
+E   assert None is not None
+_________________ test_non_object_json_is_a_client_error[None] _________________
+tests/regression/test_core_safety.py:28: in test_non_object_json_is_a_client_error
+    assert response is not None, "Valid JSON with the wrong shape must not crash Lambda"
+E   AssertionError: Valid JSON with the wrong shape must not crash Lambda
+E   assert None is not None
+__________________ test_non_object_json_is_a_client_error[1] ___________________
+tests/regression/test_core_safety.py:28: in test_non_object_json_is_a_client_error
+    assert response is not None, "Valid JSON with the wrong shape must not crash Lambda"
+E   AssertionError: Valid JSON with the wrong shape must not crash Lambda
+E   assert None is not None
+_________________ test_non_object_json_is_a_client_error[text] _________________
+tests/regression/test_core_safety.py:28: in test_non_object_json_is_a_client_error
+    assert response is not None, "Valid JSON with the wrong shape must not crash Lambda"
+E   AssertionError: Valid JSON with the wrong shape must not crash Lambda
+E   assert None is not None
+______ test_valid_url_without_slash_is_supported[https://example.com?q=1] ______
+tests/regression/test_core_safety.py:34: in test_valid_url_without_slash_is_supported
+    assert validate_url(url)
+E   AssertionError: assert False
+E    +  where False = validate_url('https://example.com?q=1')
+____ test_valid_url_without_slash_is_supported[https://example.com#section] ____
+tests/regression/test_core_safety.py:34: in test_valid_url_without_slash_is_supported
+    assert validate_url(url)
+E   AssertionError: assert False
+E    +  where False = validate_url('https://example.com#section')
+______ test_unsafe_or_invalid_url_is_rejected[https://example.com:99999/] ______
+tests/regression/test_core_safety.py:39: in test_unsafe_or_invalid_url_is_rejected
+    assert not validate_url(url)
+E   AssertionError: assert not True
+E    +  where True = validate_url('https://example.com:99999/')
+________ test_unsafe_or_invalid_url_is_rejected[https://example.com/\n] ________
+tests/regression/test_core_safety.py:39: in test_unsafe_or_invalid_url_is_rejected
+    assert not validate_url(url)
+E   AssertionError: assert not True
+E    +  where True = validate_url('https://example.com/\n')
+____________________ test_short_id_cannot_end_in_a_newline _____________________
+tests/regression/test_core_safety.py:43: in test_short_id_cannot_end_in_a_newline
+    assert not validate_short_id("abc\n")
+E   AssertionError: assert not True
+E    +  where True = validate_short_id('abc\n')
+___________ test_collision_cannot_overwrite_an_existing_destination ____________
+tests/regression/test_core_safety.py:53: in test_collision_cannot_overwrite_an_existing_destination
+    assert repo.get("same").original_url == "https://original.example.com"
+E   AssertionError: assert 'https://diff...t.example.com' == 'https://original.example.com'
+E     
+E     - https://original.example.com
+E     ?         ^ ^^^ ^^
+E     + https://different.example.com
+E     ?         ^^^^^ ^ ^
+__________________ test_nonpositive_list_limit_is_rejected[0] __________________
+tests/regression/test_core_safety.py:62: in test_nonpositive_list_limit_is_rejected
+    assert list_urls(request, None)["statusCode"] == 400
+E   assert 200 == 400
+------------------------------ Captured log call -------------------------------
+INFO     src.handlers.list_urls:list_urls.py:41 有効URL一覧: 0件(limit=0)
+_________________ test_nonpositive_list_limit_is_rejected[-5] __________________
+tests/regression/test_core_safety.py:62: in test_nonpositive_list_limit_is_rejected
+    assert list_urls(request, None)["statusCode"] == 400
+E   assert 200 == 400
+------------------------------ Captured log call -------------------------------
+INFO     src.handlers.list_urls:list_urls.py:41 有効URL一覧: 0件(limit=-5)
+____________ test_redirect_is_revocable_and_not_permanently_cached _____________
+tests/regression/test_core_safety.py:68: in test_redirect_is_revocable_and_not_permanently_cached
+    assert response["statusCode"] == 302
+E   assert 301 == 302
+___________________ test_base64_api_gateway_body_is_decoded ____________________
+tests/regression/test_core_safety.py:76: in test_base64_api_gateway_body_is_decoded
+    assert create(request, None)["statusCode"] == 201
+E   assert 400 == 201
+=========================== short test summary info ============================
+FAILED tests/regression/test_core_safety.py::test_non_object_json_is_a_client_error[value0]
+FAILED tests/regression/test_core_safety.py::test_non_object_json_is_a_client_error[None]
+FAILED tests/regression/test_core_safety.py::test_non_object_json_is_a_client_error[1]
+FAILED tests/regression/test_core_safety.py::test_non_object_json_is_a_client_error[text]
+FAILED tests/regression/test_core_safety.py::test_valid_url_without_slash_is_supported[https://example.com?q=1]
+FAILED tests/regression/test_core_safety.py::test_valid_url_without_slash_is_supported[https://example.com#section]
+FAILED tests/regression/test_core_safety.py::test_unsafe_or_invalid_url_is_rejected[https://example.com:99999/]
+FAILED tests/regression/test_core_safety.py::test_unsafe_or_invalid_url_is_rejected[https://example.com/\n]
+FAILED tests/regression/test_core_safety.py::test_short_id_cannot_end_in_a_newline
+FAILED tests/regression/test_core_safety.py::test_collision_cannot_overwrite_an_existing_destination
+FAILED tests/regression/test_core_safety.py::test_nonpositive_list_limit_is_rejected[0]
+FAILED tests/regression/test_core_safety.py::test_nonpositive_list_limit_is_rejected[-5]
+FAILED tests/regression/test_core_safety.py::test_redirect_is_revocable_and_not_permanently_cached
+FAILED tests/regression/test_core_safety.py::test_base64_api_gateway_body_is_decoded
+========================= 14 failed, 1 passed in 0.33s =========================

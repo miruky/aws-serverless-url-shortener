@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "phase": "green",
+  "change": "CHG-NAME-INVENTORY",
+  "runner": "pytest",
+  "command": [
+    "-m",
+    "pytest",
+    "-p",
+    "tools.pytest_evidence",
+    "-q",
+    "tests/test_deployment_prepare.py"
+  ],
+  "status": 0,
+  "capturedAt": "2026-09-20T18:07:03.829Z",
+  "counts": {
+    "tests": 1,
+    "pass": 1,
+    "fail": 0,
+    "skipped": 0,
+    "cancelled": 0
+  },
+  "testNames": [
+    "tests/test_deployment_prepare.py::test_complete_name_inventory_accepts_cognito_password_policies"
+  ],
+  "testHashes": {
+    "tests/conftest.py": "5c80ddd6c5618c87ec835211f422736caf53b44b3b51f9822cb5f0d18a4102e8",
+    "tests/test_deployment_prepare.py": "9e819958b35b7aff7b5680ec0de162090b12a6d6843f3728a8ff2f0ea48d1b89",
+    "tools/pytest_evidence.py": "2daf9f7dffd5b17b723b6a50a95ba6c3f0e207227bf8e6c18aa2650fc873d799"
+  },
+  "scopeHashes": {
+    "docs/operations/deployment.md": "a3fa474a412133085c8453908dd10adfd7a5fe486288166d3882dc9a4d13a9a0",
+    "docs/operations/migration.md": "4e354de12fe1a46ed201d6bce410c839e09a793739a3a66d5f96fcc387f48b94",
+    "infrastructure/artifacts.yaml": "17110e65ae9cfbdd92313c3294c3a340aed8d8224bd56800bf613d5afbf31a73",
+    "infrastructure/pipeline.yaml": "0a92ec26601d85267299294f00d80213aed112e5845f086e08e35e8de18c36a3",
+    "infrastructure/product.yaml": "dfb7860faad112fb2652b3e421acdc89bc9e917b5106673e361dff06887ab7a4",
+    "infrastructure/rules/LICENSE-aws-guard-rules": "09e8a9bcec8067104652c168685ab0931e7868f9c8284b66f5ae6edae5f1130b",
+    "infrastructure/rules/artifacts.guard": "f7be951a342d7a315c7201b754c35d56e8edad2a999c5ce511c64e5c8a5acc85",
+    "infrastructure/rules/dynamodb_pitr_enabled.guard": "e0b37c91803736abb53ba9288eb000e906c5b71e5857b0df8054538fc4644565",
+    "infrastructure/rules/product.guard": "118ebf56951a12719d1d662e0a6c55a5cdbf82cb3044ba59d0f126198e645725",
+    "infrastructure/template.yaml": "a9b129894b0905ea5663abfa73b5f8097fce74c80eb805b083ffddc7c996a0b7",
+    "tests/test_infrastructure.py": "62c72e98c3a6fc68743b592fdd14098be848ba9576d0444609416bc6f7ec727f",
+    "tests/test_package_isolation.py": "fba08988e6ae527783431c327f336c908a139c2391ac6696a0bad208e81c2916",
+    "tools/package.py": "770fc1884db51ec1e2987e2f11bf016d5c3789bbf15057d419591d9c4cd9af23",
+    "tools/prepare_deployment.py": "f8b8c872897857356659597fa1343955ea2e381e13cb78f23259cf3d46e31792",
+    "tools/vendor/aws_resource_names.py": "8b0dd5a905dceea28d9577294696d21324a6013938d6de5ef18f410f86b0c7a5"
+  },
+  "changeHash": "8576e88fd00aef9d1c2dd2d2cd7a22e7fa95fff25a45e1e0589a72277351a496",
+  "outputHash": "e157fb21202c8c38bc7dbbbdbc8547a846b9992c9c3fab5f0286a44e7ca262f6",
+  "redOutputHash": "04e28bc3e4ef8e833b8bb39bc35d4b4417d1f46b7f4fc20e25af3ba5db1abd88"
+}

@@ -1,0 +1,68 @@
+TAP version 13
+# Subtest: network failure gives an actionable Japanese message
+not ok 1 - network failure gives an actionable Japanese message
+  ---
+  duration_ms: 1.307708
+  type: 'test'
+  location: '<repo>tests/unit/messages.test.mjs:5:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /接続.*再|接続.*もう一度/. Input:
+    
+    'Failed to fetch'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'Failed to fetch'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file://<home>/Library/Mobile%20Documents/com%7Eapple%7ECloudDocs/develop/OSS/aws-serverless-url-shortener/tests/unit/messages.test.mjs:5:72)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1201:25)
+    Test.start (node:internal/test_runner/test:1096:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:385:17)
+  ...
+# Subtest: unknown internal errors are not exposed in the UI
+not ok 2 - unknown internal errors are not exposed in the UI
+  ---
+  duration_ms: 0.2435
+  type: 'test'
+  location: '<repo>tests/unit/messages.test.mjs:6:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'Cannot read properties of undefined'
+    - '処理を完了できませんでした。接続を確認して、もう一度お試しください。'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: '処理を完了できませんでした。接続を確認して、もう一度お試しください。'
+  actual: 'Cannot read properties of undefined'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (file://<home>/Library/Mobile%20Documents/com%7Eapple%7ECloudDocs/develop/OSS/aws-serverless-url-shortener/tests/unit/messages.test.mjs:6:69)
+    Test.runInAsyncScope (node:async_hooks:226:14)
+    Test.run (node:internal/test_runner/test:1201:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:831:18)
+    Test.postRun (node:internal/test_runner/test:1330:19)
+    Test.run (node:internal/test_runner/test:1258:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:385:3)
+  ...
+# Subtest: a specific application error remains useful
+ok 3 - a specific application error remains useful
+  ---
+  duration_ms: 0.066792
+  type: 'test'
+  ...
+1..3
+# tests 3
+# suites 0
+# pass 1
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 85.857208

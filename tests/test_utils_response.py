@@ -10,6 +10,7 @@ from src.utils.response import error_response, redirect_response, success_respon
 # success_response
 # ---------------------------------------------------------------------------
 
+
 class TestSuccessResponse:
     """success_responseビルダーのテスト。"""
 
@@ -26,10 +27,10 @@ class TestSuccessResponse:
         parsed = json.loads(resp["body"])
         assert parsed == {"key": "value"}
 
-    def test_cors_headers_present(self) -> None:
+    def test_wildcard_origin_is_not_enabled_by_default(self) -> None:
         resp = success_response({})
-        assert resp["headers"]["Access-Control-Allow-Origin"] == "*"
-        assert resp["headers"]["Content-Type"] == "application/json"
+        assert "Access-Control-Allow-Origin" not in resp["headers"]
+        assert resp["headers"]["Content-Type"] == "application/json; charset=utf-8"
 
     def test_japanese_text_not_ascii_escaped(self) -> None:
         resp = success_response({"msg": "日本語テスト"})
@@ -39,6 +40,7 @@ class TestSuccessResponse:
 # ---------------------------------------------------------------------------
 # error_response
 # ---------------------------------------------------------------------------
+
 
 class TestErrorResponse:
     """error_responseビルダーのテスト。"""
@@ -56,29 +58,30 @@ class TestErrorResponse:
         parsed = json.loads(resp["body"])
         assert parsed == {"error": "Something went wrong"}
 
-    def test_cors_headers_present(self) -> None:
+    def test_wildcard_origin_is_not_enabled_by_default(self) -> None:
         resp = error_response("err")
-        assert resp["headers"]["Access-Control-Allow-Origin"] == "*"
+        assert "Access-Control-Allow-Origin" not in resp["headers"]
 
 
 # ---------------------------------------------------------------------------
 # redirect_response
 # ---------------------------------------------------------------------------
 
+
 class TestRedirectResponse:
     """redirect_responseビルダーのテスト。"""
 
-    def test_status_code_is_301(self) -> None:
+    def test_status_code_is_302(self) -> None:
         resp = redirect_response("https://example.com")
-        assert resp["statusCode"] == 301
+        assert resp["statusCode"] == 302
 
     def test_location_header_set(self) -> None:
         resp = redirect_response("https://example.com/page")
         assert resp["headers"]["Location"] == "https://example.com/page"
 
-    def test_cache_control_no_cache(self) -> None:
+    def test_cache_control_no_store(self) -> None:
         resp = redirect_response("https://example.com")
-        assert resp["headers"]["Cache-Control"] == "no-cache"
+        assert resp["headers"]["Cache-Control"] == "no-store"
 
     def test_body_is_empty(self) -> None:
         resp = redirect_response("https://example.com")

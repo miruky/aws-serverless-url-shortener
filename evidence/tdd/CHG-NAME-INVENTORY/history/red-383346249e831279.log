@@ -1,0 +1,26 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.13, pytest-9.1.1, pluggy-1.6.0
+rootdir: <home>/Library/Mobile Documents/com~apple~CloudDocs/develop/OSS/aws-serverless-url-shortener
+configfile: pyproject.toml
+plugins: cov-7.1.0, socket-0.8.1
+collected 1 item
+
+tests/test_deployment_prepare.py F                                       [100%]
+
+=================================== FAILURES ===================================
+________ test_complete_name_inventory_accepts_cognito_password_policies ________
+tests/test_deployment_prepare.py:36: in test_complete_name_inventory_accepts_cognito_password_policies
+    assert result.returncode == 0, result.stderr.replace(str(project), "<fixture>")
+E   AssertionError: Traceback (most recent call last):
+E       File "<fixture>/tools/prepare_deployment.py", line 191, in <module>
+E         main()
+E       File "<fixture>/tools/prepare_deployment.py", line 106, in main
+E         value = policy.get("PolicyName", {})
+E                 ^^^^^^^^^^
+E     AttributeError: 'str' object has no attribute 'get'
+E     
+E   assert 1 == 0
+E    +  where 1 = CompletedProcess(args=['<home>/Library/Mobile Documents/com~apple~CloudDocs/develop/OSS/aws-serverless-url-sh...lue = policy.get("PolicyName", {})\n            ^^^^^^^^^^\nAttributeError: \'str\' object has no attribute \'get\'\n').returncode
+=========================== short test summary info ============================
+FAILED tests/test_deployment_prepare.py::test_complete_name_inventory_accepts_cognito_password_policies
+============================== 1 failed in 0.16s ===============================

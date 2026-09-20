@@ -1,25 +1,18 @@
-.PHONY: install test lint format clean
-
-# 依存関係のインストール
+.PHONY: install test lint format check serve docs package
 install:
-	python -m pip install -e ".[dev]"
-
-# テスト実行
+	./dev setup
 test:
-	pytest tests/ -v --tb=short --cov=src --cov-report=term-missing
-
-# リンター実行
+	./dev test
 lint:
-	ruff check src/ tests/
-	mypy src/
-
-# コードフォーマット
+	.venv/bin/ruff check src tests tools
+	.venv/bin/mypy src
 format:
-	ruff check --fix src/ tests/
-	ruff format src/ tests/
-
-# キャッシュ・ビルド成果物の削除
-clean:
-	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
-	find . -type f -name "*.pyc" -delete 2>/dev/null || true
-	rm -rf .pytest_cache .mypy_cache .ruff_cache htmlcov .coverage dist build *.egg-info
+	.venv/bin/ruff format src tests tools
+check:
+	./dev check
+serve:
+	./dev serve
+docs:
+	./dev docs
+package:
+	./dev package
