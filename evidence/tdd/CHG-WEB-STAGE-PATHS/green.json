@@ -12,7 +12,7 @@
     "tests/regression/test_web_stage_paths.py"
   ],
   "status": 0,
-  "capturedAt": "2026-09-20T18:08:25.565Z",
+  "capturedAt": "2026-09-21T02:29:32.368Z",
   "counts": {
     "tests": 1,
     "pass": 1,
@@ -29,7 +29,7 @@
     "tools/pytest_evidence.py": "2daf9f7dffd5b17b723b6a50a95ba6c3f0e207227bf8e6c18aa2650fc873d799"
   },
   "scopeHashes": {
-    "docs/assets/console.png": "e6db161f5b85780c4781f6358c2ac83c4904b709511ff2d6f0ca953fb0ffa171",
+    "docs/assets/console.png": "c9ac7abd7b35862d6afe4634d588187c40bdf511f408136c8ffb59b9ba0412e5",
     "docs/operations/security.md": "53774ec01f9f9225ceb18dd9d05b12d05b80fdfdf2ccc034acc3c12be0f55538",
     "docs/reference/api.md": "f7cbf0cb5691f55bf2aa53326b87d8bd9dc798dd43d6c5889492763748a0e75b",
     "src/__init__.py": "348b7e32d595f95c9691c72646ebcd5a504167f1f30b276a316e74990a65dd9f",
@@ -51,7 +51,7 @@
     "src/utils/response.py": "aac9dee6a9d9c7157e3098438fffecf637180e672c3926c5425877db552fa460",
     "src/utils/short_id.py": "4d21953dbf9aeac74abd7ca9af34076f5ddd71f0e5125cda0a549075a82b9e9e",
     "src/utils/validators.py": "0addfe8a6a083d2beb908eb43bd1fa7e0b3a01ebdd4e2ae86a15fc20d7b52ec1",
-    "tests/e2e/product.spec.mjs": "f63474fcebb36acde27c51c6b8951e9cd464431567ce8e848f95301f70da9dac",
+    "tests/e2e/product.spec.mjs": "33812d72a38af63e52a6161b85e1a4270be43cd541d0192b96e22f0320e3b178",
     "tests/regression/test_api_boundaries.py": "5280892d6252b61b312e2aede254d69377d56c04e0551073db9d07a09168e810",
     "tests/regression/test_core_safety.py": "9ea8f0b9b39fa900e05be6fca2c60bcd261262d3e81698f95e47ff5295657c85",
     "tests/regression/test_link_lifecycle.py": "6efcd7725545103137bb120c4bc14c7279c46db4324b9dc5087c5ca5398f36fb",
@@ -70,10 +70,10 @@
     "tests/test_utils_short_id.py": "4721ad9fb43156809962904505a7e3e5b1b33da9f750e6819fc0c8fc04a5c466",
     "tests/test_utils_validators.py": "dfa800a767f8594d7274e37dfb6a0d4dd0c74fc235678a9fb34dd4c7325d6cc4",
     "tests/unit/messages.test.mjs": "82532e3c7e40ca7a877c46b3d5a8d02bfdbd37596d38d019fef728ab6ed35a65",
-    "web/app.js": "dce7f966a89fa9dc45517e3392b27974c6b8ca650089c39298a7e1fd5d9e4cee",
+    "web/app.js": "5ffc8297a24ec5b1eb16d3dd7d4d998481eb102d11d82563eab0cb05e9b98a10",
     "web/auth.js": "6a1ff3fbe7c33c039fd926878d88525e35225472b712a035052b2630d0528394",
-    "web/index.html": "5d3465ad8a1fd88a46d3304d611f1192ce77b57998a7e81ded92bf9f63c447bf",
-    "web/style.css": "d1dfbee7e13a888d2b3df0963aba0195e46a1103c3b1c5cd4631f478bc6672ab"
+    "web/index.html": "750cef5cfebb9e880228cb2770780809157bde9af37b3195a208150861dca298",
+    "web/style.css": "29e7420048e55092c75dc513ccff275c94e2bf238be473d0bc508c9960a1e362"
   },
   "changeHash": "5d9947e0c234952c2191542034ae446eed7d17439d29d6fa48394705e71bd9f4",
   "outputHash": "c2e75d28f07552c1b507b4f869791cd1234e22b5adcc8e61aff3e9e98c9207b7",

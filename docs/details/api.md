@@ -145,3 +145,9 @@ GETの転送判定とカウント更新は同じ条件付き更新にする。�
 画面は同一オリジンの静的HTML/CSS/ES modules。DOMへ文字列を入れるときはtextContentを使う。認証はCognitoのcode+PKCE、state、nonce。
 トークンはメモリのみ。汎用の内部エラーは利用者向けの日本語に変換する。HTMLの資源パスはPUBLIC_BASE_URLのパスから生成する。
 [API契約](../reference/api.md)と[セキュリティ](../operations/security.md)が外部向けの契約である。
+
+一覧はarticleごとのCSS Gridで配置し、480px以下では状態・アクセス数を右側にまとめる。
+860px以下で二列を一列にし、リンク作成は既存のフォームへアンカーで移動する。フォームの任意表示はlabelから分離し、入力名を維持する。
+編集は名前付きのnative dialog。動的なタイトル・転送先は引き続きtextContentで挿入し、短縮リンクの表示からだけHTTP(S)スキームを省略する。
+hrefとコピー内容は完全なURLを保持する。URLが長い場合は転送先表示を省略し、title属性でも原文を確認できる。
+[画面変更の受入条件と参考資料](../changes/CHG-WORKSPACE-DESIGN.md)を参照する。

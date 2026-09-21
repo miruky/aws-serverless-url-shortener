@@ -2,7 +2,7 @@ TAP version 13
 # Subtest: a verifying test owned by another design still invalidates the requirement
 ok 1 - a verifying test owned by another design still invalidates the requirement
   ---
-  duration_ms: 20.518875
+  duration_ms: 23.2595
   type: 'test'
   ...
 1..1
@@ -13,4 +13,4 @@ ok 1 - a verifying test owned by another design still invalidates the requiremen
 # cancelled 0
 # skipped 0
 # todo 0
-# duration_ms 108.066
+# duration_ms 119.941292

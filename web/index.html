@@ -11,47 +11,87 @@
   <body>
     <a class="skip" href="#main">メインへ移動</a>
     <header class="top">
-      <a class="brand" href="{{ASSET_PATH}}/">Shortener<span>LINK WORKSPACE</span></a>
+      <div class="brand-group">
+        <a class="brand" href="{{ASSET_PATH}}/" aria-label="Shortener ホーム"
+          ><span class="brand-mark" aria-hidden="true"></span>shortener</a
+        >
+        <span class="header-label">リンク管理</span>
+      </div>
       <nav aria-label="アカウント">
-        <span id="environment"></span><button id="login" class="quiet" hidden>ログイン</button
-        ><button id="logout" class="quiet" hidden>ログアウト</button>
+        <span id="environment"></span>
+        <button id="login" class="quiet" hidden>ログイン</button>
+        <button id="logout" class="quiet" hidden>ログアウト</button>
       </nav>
     </header>
     <main id="main">
       <div id="demo-note" class="notice" hidden>
-        ローカルデモです。データは終了時に消去されます。AWSには接続しません。
+        <strong>お試し環境</strong
+        ><span>AWSへの接続はありません。データはデモ終了時に消えます。</span>
       </div>
-      <section class="intro">
+      <div class="page-heading">
         <div>
-          <p class="eyebrow">YOUR LINKS, IN ONE PLACE</p>
-          <h1>共有するリンクを、<br />ここで整える。</h1>
-          <p class="lead">短くして、名前を付けて、必要な期間だけ公開。</p>
+          <h1>リンク</h1>
+          <p>共有するURLと、公開状況を管理。</p>
         </div>
-        <div class="intro-note">
-          <span class="large-mark">/</span>
-          <p>作成から公開停止まで。<br />リンクの状態をひと目で。</p>
-        </div>
-      </section>
+        <a class="button mobile-create" href="#url"
+          ><span aria-hidden="true">＋</span> 新規リンク</a
+        >
+      </div>
       <div id="status" role="status" aria-live="polite" tabindex="-1"></div>
-      <section id="signed-out" class="panel" hidden>
+      <section id="signed-out" class="sign-in" hidden>
         <h2>管理画面にログイン</h2>
         <p>リンクの作成・編集には管理者アカウントが必要です。</p>
         <button id="login-main">ログインする</button>
       </section>
       <div id="workspace" hidden>
-        <section class="metrics" aria-label="読み込んだリンクの集計">
-          <div><span>読み込んだリンク</span><strong id="metric-total">0</strong></div>
-          <div><span>公開中</span><strong id="metric-active">0</strong></div>
-          <div><span>転送アクセス数</span><strong id="metric-clicks">0</strong></div>
-          <p>アクセス数にはボットを含みます。<br />訪問者の人数ではありません。</p>
-        </section>
         <div class="workspace-grid">
-          <section class="panel create-panel">
-            <p class="eyebrow">NEW LINK</p>
-            <h2>短縮リンクを作る</h2>
+          <section class="library" aria-labelledby="library-heading">
+            <div class="section-head">
+              <h2 id="library-heading">
+                あなたのリンク <span id="metric-total" class="total-count">0</span>
+              </h2>
+              <button id="refresh" class="quiet"><span aria-hidden="true">↻</span> 更新</button>
+            </div>
+            <div class="filters">
+              <div class="search-field">
+                <span class="search-mark" aria-hidden="true"></span>
+                <input
+                  id="search"
+                  type="search"
+                  aria-label="読み込んだリンクを検索"
+                  placeholder="タイトル・URL・IDで検索"
+                />
+              </div>
+              <select id="filter" aria-label="リンクの状態">
+                <option value="all">すべての状態</option>
+                <option value="active">公開中</option>
+                <option value="stopped">停止中</option>
+                <option value="expired">期限切れ</option>
+              </select>
+            </div>
+            <div class="list-head" aria-hidden="true">
+              <span>リンク / 転送先</span><span>状態 / 有効期限</span><span>アクセス</span>
+            </div>
+            <div id="links" aria-live="polite"></div>
+            <button id="more" class="quiet full" hidden>次のリンクを読み込む</button>
+            <div class="list-footer">
+              <div class="metrics" aria-label="読み込んだリンクの集計">
+                <span>公開中 <strong id="metric-active">0</strong> 件</span
+                ><span>転送 <strong id="metric-clicks">0</strong> 回</span>
+              </div>
+              <p class="hint">
+                検索・集計は読み込み済みのリンクが対象です。アクセス数にはボットを含みます。
+              </p>
+            </div>
+          </section>
+          <section id="composer" class="create-panel" aria-labelledby="create-heading">
+            <div class="composer-heading">
+              <h2 id="create-heading">短縮リンクを作る</h2>
+              <p>共有したいURLを入力してください。</p>
+            </div>
             <form id="create-form">
-              <label for="url">リンク先URL <span>必須</span></label
-              ><input
+              <label for="url">リンク先URL <span>必須</span></label>
+              <input
                 id="url"
                 name="url"
                 type="url"
@@ -59,75 +99,51 @@
                 required
                 maxlength="2048"
                 autocomplete="url"
-              /><label for="title">タイトル</label
-              ><input
-                id="title"
-                name="title"
-                placeholder="記事やキャンペーンの名前"
-                maxlength="120"
               />
-              <div class="form-grid">
-                <div>
-                  <label for="alias">短縮ID</label
-                  ><input
-                    id="alias"
-                    name="custom_alias"
-                    placeholder="自動生成"
-                    pattern="[A-Za-z0-9]{1,20}"
-                    maxlength="20"
-                    aria-describedby="alias-help"
-                  />
-                </div>
-                <div>
-                  <label for="expiry">有効期限</label
-                  ><input id="expiry" name="expires_at" type="datetime-local" />
-                </div>
-              </div>
-              <p id="alias-help" class="hint">IDは英数字1〜20文字。空欄なら自動生成します。</p>
-              <button id="create-button" type="submit">
-                短縮リンクを作成 <span aria-hidden="true">＋</span>
-              </button>
+              <div class="field-label"><label for="title">タイトル</label><span>任意</span></div>
+              <input id="title" name="title" placeholder="例：ポートフォリオ" maxlength="120" />
+              <div class="field-label"><label for="alias">短縮ID</label><span>任意</span></div>
+              <input
+                id="alias"
+                name="custom_alias"
+                placeholder="空欄なら自動生成"
+                pattern="[A-Za-z0-9]{1,20}"
+                maxlength="20"
+                aria-describedby="alias-help"
+              />
+              <p id="alias-help" class="hint field-hint">半角英数字、1〜20文字。</p>
+              <div class="field-label"><label for="expiry">有効期限</label><span>任意</span></div>
+              <input
+                id="expiry"
+                name="expires_at"
+                type="datetime-local"
+                aria-describedby="expiry-help"
+              />
+              <p id="expiry-help" class="hint field-hint">空欄なら期限なしで公開します。</p>
+              <button id="create-button" type="submit">短縮リンクを作成</button>
             </form>
             <div id="created" class="created" hidden>
               <label for="created-url">作成したリンク</label>
               <div class="copy-row">
-                <input id="created-url" readonly /><button id="copy-created" type="button">
+                <input id="created-url" readonly /><button
+                  id="copy-created"
+                  type="button"
+                  class="quiet"
+                >
                   コピー
                 </button>
               </div>
             </div>
-          </section>
-          <section class="panel library">
-            <div class="section-head">
-              <div>
-                <p class="eyebrow">LIBRARY</p>
-                <h2>あなたのリンク</h2>
-              </div>
-              <button id="refresh" class="quiet">更新</button>
-            </div>
-            <div class="filters">
-              <input
-                id="search"
-                type="search"
-                aria-label="読み込んだリンクを検索"
-                placeholder="タイトル・URL・IDで検索"
-              /><select id="filter" aria-label="リンクの状態">
-                <option value="all">すべての状態</option>
-                <option value="active">公開中</option>
-                <option value="stopped">停止中</option>
-                <option value="expired">期限切れ</option>
-              </select>
-            </div>
-            <p class="hint">検索と集計の対象は、読み込んだリンクです。</p>
-            <div id="links" aria-live="polite"></div>
-            <button id="more" class="quiet full" hidden>次のリンクを読み込む</button>
+            <a class="back-to-list" href="#library-heading">一覧に戻る</a>
           </section>
         </div>
       </div>
       <footer>
-        <p>
-          リンク先は利用者自身で確認してください。悪意のあるサイトを自動判定する機能はありません。
-        </p>
+        <span
+          >Shortener
+          <span class="footer-separator">/</span>
+          リンク先の安全性を自動判定する機能はありません。</span
+        >
         <a
           href="https://github.com/miruky/aws-serverless-url-shortener"
           target="_blank"
@@ -136,20 +152,19 @@
         >
       </footer>
     </main>
-    <dialog id="editor">
+    <dialog id="editor" aria-labelledby="editor-heading">
       <form id="edit-form">
         <div class="section-head">
-          <h2>リンクを編集</h2>
+          <h2 id="editor-heading">リンクを編集</h2>
           <button id="close-editor" type="button" class="quiet" aria-label="編集画面を閉じる">
             閉じる
           </button>
         </div>
         <p id="edit-id" class="hint"></p>
         <label for="edit-url">リンク先URL</label
-        ><input id="edit-url" type="url" required maxlength="2048" /><label for="edit-title"
-          >タイトル</label
-        ><input id="edit-title" maxlength="120" /><label for="edit-expiry">有効期限</label
-        ><input id="edit-expiry" type="datetime-local" />
+        ><input id="edit-url" type="url" required maxlength="2048" />
+        <label for="edit-title">タイトル</label><input id="edit-title" maxlength="120" />
+        <label for="edit-expiry">有効期限</label><input id="edit-expiry" type="datetime-local" />
         <p id="edit-error" role="alert"></p>
         <button id="save-edit" type="submit">変更を保存</button>
       </form>

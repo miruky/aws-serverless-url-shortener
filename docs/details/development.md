@@ -70,6 +70,8 @@ artifacts:
   role: configuration
 - path: docs/changes/CHG-WEB-STAGE-PATHS.md
   role: configuration
+- path: docs/changes/CHG-WORKSPACE-DESIGN.md
+  role: configuration
 - path: docs/engineering/provenance.md
   role: configuration
 - path: docs/engineering/workflow.md

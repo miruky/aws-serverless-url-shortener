@@ -9,7 +9,7 @@
     "tests/unit/cross-verification.test.mjs"
   ],
   "status": 0,
-  "capturedAt": "2026-09-20T18:21:26.576Z",
+  "capturedAt": "2026-09-21T02:29:32.749Z",
   "counts": {
     "tests": 1,
     "pass": 1,
@@ -33,11 +33,11 @@
     ".prettierrc.json": "c6bc6fc6b031c97774bea2caa5e77ae85d2d02d4ea80962ffafc7a2b1f50d734",
     ".python-version": "aa0d6581054e6e4ff3f91839deca7a854ad37221b8784d060b42d0f847ff1a3b",
     "AGENTS.md": "91554c9cada32289804b9f0402bfdc77488f6b68634cbe9658fb54be86e36a33",
-    "CHANGELOG.md": "e94bdd70a53ec53744f8f6bc46072874e6a3930655a7b54ee26f2b6b97e99553",
+    "CHANGELOG.md": "8e06250f68cf64224169d59be0e07d8a2e48e116d8f135056aaf96be808b4651",
     "CONTRIBUTING.md": "b034e477bb40a8087b6ef256f0593492e42a4d08bf83602fee0927e618200d4a",
     "LICENSE": "f0453af9fecff1b3e6fd7f70992da85a8f27621aca5154767e3f1e29dd7ef123",
     "Makefile": "bea440b19ad2f378e59013900c89fd6a53996208b585fb91dd8fa466bd43f244",
-    "README.md": "e515d1adb777b23f23aef91671eb276f793761009c5f71bd029646bdf5f16dab",
+    "README.md": "2fa6616a06267b93784cfce2a03846b89dae26799c54d898c1f3d29ab93482a9",
     "SECURITY.md": "cfdf66f734e2c367a6b24bee4a346291cb53e8d23d0f0f8f5966613f3914322f",
     "buildspec.yml": "58f78095c608f89da992c1cb6c121a5edd1edf92705ee7499fbc9b0e1a64aeb1",
     "dev": "599dc2d426c1f0e8c79a32a191e852764ba04bf827d4aa331f2d8462958614d0",
@@ -55,10 +55,11 @@
     "docs/changes/CHG-TRACE-PORT.md": "f0b4b1f6bec3cc1c600d7a5d2cd06b9c015cebbea89d87f13a4e53f3fb646b9d",
     "docs/changes/CHG-UI-ERRORS.md": "581c8bb9dd74ec8dc11b37e7bf77a4bdc980aa3c3f043354a7178a94a2e16b67",
     "docs/changes/CHG-WEB-STAGE-PATHS.md": "5d9947e0c234952c2191542034ae446eed7d17439d29d6fa48394705e71bd9f4",
+    "docs/changes/CHG-WORKSPACE-DESIGN.md": "40e5ab74e2c9bf47811b1393d08193442f28637ffa633e7d1868118d3741cc5b",
     "docs/engineering/provenance.md": "25cc8613952d4fa0fa24c11370a22e71de77204efb1b27376fd111aea0a08f83",
     "docs/engineering/workflow.md": "54e0afb207efa6983b5b625121b2428238d5a31c5025125d5992495b6427d5a3",
     "docs/operations/troubleshooting.md": "4fe623eedde6979009b56d826a46896a4c45af15e0135047bf9a1300bc1e64de",
-    "docs/operations/verification.md": "5faaa3a60d761d1fa6581bd1dcfbee7a757a651e5674ede1219eb3cc81a98721",
+    "docs/operations/verification.md": "f573820c78f67245a2a8ec6d30843652184a9f7166b3e75870d3dc208198a831",
     "docs/product/improvements.md": "8624257f4ae7ca1468ac1c26ed4b2d6530127746f177ccaff333716772092ab3",
     "package-lock.json": "6a4480067f64e5d2f22057897177a8c3d8deadfe324408bdf7e6260de561e552",
     "package.json": "c13646742476a68200c6431462ef3c4b8f6e3e3d2296d974c2d1e05a99fce12c",
@@ -67,7 +68,7 @@
     "src/local_server.py": "5c5b7b5819b4d04ba7c178dc65bf614371a49bd73af4dab0b1ca30e5f8c28436",
     "tests/__init__.py": "3003772747fed4bb28cb97ec3c52a8ef4c6d08904e342fa65032a3ea22e4f1c8",
     "tests/conftest.py": "5c80ddd6c5618c87ec835211f422736caf53b44b3b51f9822cb5f0d18a4102e8",
-    "tests/e2e/product.spec.mjs": "f63474fcebb36acde27c51c6b8951e9cd464431567ce8e848f95301f70da9dac",
+    "tests/e2e/product.spec.mjs": "33812d72a38af63e52a6161b85e1a4270be43cd541d0192b96e22f0320e3b178",
     "tests/helpers.py": "f50ab378122a05e4236e8aed7796bce68e406043da9bcf46869605ec8a6f86fd",
     "tests/unit/cross-verification.test.mjs": "8e44158b9a29a99cd49edc674424a6a00890b4f79ef9e858bf22546d4be7b033",
     "tests/unit/evidence-integrity.test.mjs": "5b57b03336f5697969252e5e87d389a1258fef627b155ea5d44447a924d568a8",
@@ -92,6 +93,6 @@
     "uv.lock": "2d4e4db068a6fa690967401e8fd413e4f050a595c6d99a22a40f76b8eb1048b7"
   },
   "changeHash": "3c63a7c1c129ee9694fdffcf2dee7f63fd8f9f08f8ccd9f9f4fafc25964559da",
-  "outputHash": "2feb6fd8fe2628460a3bba26f6d788b4d6fb50204ca906d12c37bfa025406154",
+  "outputHash": "7cb94aab5efa4c9324742a2b13596ef0818d7d4cb89225b822899ea47fddc055",
   "redOutputHash": "778434880dfd952ecd1b0c22afbeeb684691922db46dd255141ebac508c2805c"
 }

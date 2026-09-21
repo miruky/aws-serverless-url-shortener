@@ -75,23 +75,26 @@ function render() {
   const fragment = document.createDocumentFragment();
   for (const item of shown) {
     const card = el('article', 'link-card'),
-      top = el('div', 'link-top'),
+      info = el('div', 'link-info'),
       title = el('h3', 'link-title', item.title || item.short_id),
       badge = el('span', `badge ${state(item)}`, statusNames[state(item)]);
-    top.append(title, badge);
-    card.append(top);
-    card.append(el('span', 'destination', item.original_url));
-    const link = el('a', 'short-link', shortUrl(item));
+    info.append(title);
+    const link = el('a', 'short-link', shortUrl(item).replace(/^https?:\/\//, ''));
     link.href = shortUrl(item);
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
-    card.append(link);
-    const meta = el('div', 'link-meta');
-    meta.append(
-      el('span', '', `${item.click_count.toLocaleString()} アクセス`),
-      el('span', '', item.expires_at ? `期限 ${date(item.expires_at)}` : '期限なし'),
+    const destination = el('span', 'destination', item.original_url);
+    destination.title = item.original_url;
+    info.append(link, destination);
+    const status = el('div', 'link-state');
+    status.append(
+      badge,
+      el('span', 'link-expiry', item.expires_at ? `期限 ${date(item.expires_at)}` : '期限なし'),
     );
-    card.append(meta);
+    const count = el('div', 'link-count', item.click_count.toLocaleString());
+    count.setAttribute('aria-label', `転送アクセス数 ${item.click_count.toLocaleString()} 回`);
+    count.append(el('span', 'count-label', '回'));
+    card.append(info, status, count);
     const actions = el('div', 'link-actions');
     const copyButton = el('button', 'quiet', 'コピー');
     copyButton.setAttribute('aria-label', `${item.title || item.short_id}のリンクをコピー`);
@@ -132,17 +135,18 @@ function render() {
   if (!shown.length) {
     const empty = el('div', 'empty');
     empty.append(
-      el(
-        'strong',
-        '',
-        items.length ? '条件に合うリンクがありません' : '最初のリンクを作りましょう',
-      ),
+      el('strong', '', items.length ? '条件に合うリンクがありません' : 'まだリンクがありません'),
       document.createTextNode(
         items.length
           ? '検索条件を変更してください。'
-          : '左のフォームに共有したいURLを入力してください。',
+          : '共有したいURLから、最初のリンクを作成できます。',
       ),
     );
+    if (!items.length) {
+      const createLink = el('a', '', 'リンクを作成');
+      createLink.href = '#url';
+      empty.append(createLink);
+    }
     fragment.append(empty);
   }
   $('links').replaceChildren(fragment);
@@ -247,7 +251,7 @@ $('logout').onclick = logout;
 try {
   const config = await initialize(),
     signedIn = isSignedIn();
-  $('environment').textContent = config.mode === 'local' ? 'LOCAL DEMO' : 'PRIVATE WORKSPACE';
+  $('environment').textContent = config.mode === 'local' ? 'ローカルデモ' : '管理者用';
   $('demo-note').hidden = config.mode !== 'local';
   $('workspace').hidden = !signedIn;
   $('signed-out').hidden = signedIn;

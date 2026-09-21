@@ -2,10 +2,10 @@
   "schemaVersion": 1,
   "reviews": {
     "REQ-API": {
-      "fingerprint": "4d717f8d2927116ba8d1fab17e88a623a81dfb52ab2752c77548c2f26e56bbbc",
+      "fingerprint": "c374f00387e1b3ca80d3dd7a385fd23250426a3e08ee6b05679047dd22fb44be",
       "inputs": {
-        "doc:REQ-API": "3249afddccbd4a38ecaa8aa9d9976f4e066e01fcaa4f93776381bb20d0057426",
-        "file:docs/assets/console.png": "e6db161f5b85780c4781f6358c2ac83c4904b709511ff2d6f0ca953fb0ffa171",
+        "doc:REQ-API": "b050dbc088356096b6cf0235e41bc9822daf421005260c685113235691f76547",
+        "file:docs/assets/console.png": "c9ac7abd7b35862d6afe4634d588187c40bdf511f408136c8ffb59b9ba0412e5",
         "file:docs/operations/security.md": "53774ec01f9f9225ceb18dd9d05b12d05b80fdfdf2ccc034acc3c12be0f55538",
         "file:docs/reference/api.md": "f7cbf0cb5691f55bf2aa53326b87d8bd9dc798dd43d6c5889492763748a0e75b",
         "file:src/__init__.py": "348b7e32d595f95c9691c72646ebcd5a504167f1f30b276a316e74990a65dd9f",
@@ -27,7 +27,7 @@
         "file:src/utils/response.py": "aac9dee6a9d9c7157e3098438fffecf637180e672c3926c5425877db552fa460",
         "file:src/utils/short_id.py": "4d21953dbf9aeac74abd7ca9af34076f5ddd71f0e5125cda0a549075a82b9e9e",
         "file:src/utils/validators.py": "0addfe8a6a083d2beb908eb43bd1fa7e0b3a01ebdd4e2ae86a15fc20d7b52ec1",
-        "file:tests/e2e/product.spec.mjs": "f63474fcebb36acde27c51c6b8951e9cd464431567ce8e848f95301f70da9dac",
+        "file:tests/e2e/product.spec.mjs": "33812d72a38af63e52a6161b85e1a4270be43cd541d0192b96e22f0320e3b178",
         "file:tests/regression/test_api_boundaries.py": "5280892d6252b61b312e2aede254d69377d56c04e0551073db9d07a09168e810",
         "file:tests/regression/test_core_safety.py": "9ea8f0b9b39fa900e05be6fca2c60bcd261262d3e81698f95e47ff5295657c85",
         "file:tests/regression/test_link_lifecycle.py": "6efcd7725545103137bb120c4bc14c7279c46db4324b9dc5087c5ca5398f36fb",
@@ -46,22 +46,22 @@
         "file:tests/test_utils_short_id.py": "4721ad9fb43156809962904505a7e3e5b1b33da9f750e6819fc0c8fc04a5c466",
         "file:tests/test_utils_validators.py": "dfa800a767f8594d7274e37dfb6a0d4dd0c74fc235678a9fb34dd4c7325d6cc4",
         "file:tests/unit/messages.test.mjs": "82532e3c7e40ca7a877c46b3d5a8d02bfdbd37596d38d019fef728ab6ed35a65",
-        "file:web/app.js": "dce7f966a89fa9dc45517e3392b27974c6b8ca650089c39298a7e1fd5d9e4cee",
+        "file:web/app.js": "5ffc8297a24ec5b1eb16d3dd7d4d998481eb102d11d82563eab0cb05e9b98a10",
         "file:web/auth.js": "6a1ff3fbe7c33c039fd926878d88525e35225472b712a035052b2630d0528394",
-        "file:web/index.html": "5d3465ad8a1fd88a46d3304d611f1192ce77b57998a7e81ded92bf9f63c447bf",
-        "file:web/style.css": "d1dfbee7e13a888d2b3df0963aba0195e46a1103c3b1c5cd4631f478bc6672ab"
+        "file:web/index.html": "750cef5cfebb9e880228cb2770780809157bde9af37b3195a208150861dca298",
+        "file:web/style.css": "29e7420048e55092c75dc513ccff275c94e2bf238be473d0bc508c9960a1e362"
       },
       "change": "CHG-WEB-STAGE-PATHS",
-      "reason": "作成・認証・停止・期限・編集競合・画面操作の要件をAPI契約と照合した。141件の既存・追加API等の検査とブラウザ7件の範囲を確認し、実AWSログインを確認済みに含めていない。",
+      "reason": "一覧を主領域にする要件を追記し、8件のブラウザ検査で作成・検索・状態別表示・編集・停止・再開とスマホのフォーム往復を確認した。",
       "reviewer": "local-review",
-      "reviewedAt": "2026-09-20T18:08:25.795Z"
+      "reviewedAt": "2026-09-21T02:29:59.569Z"
     },
     "BASIC-API": {
-      "fingerprint": "b22ea861207e4c386fc7cb91612d328fd1f1e30dd7cdb4649b407f16eacf3c11",
+      "fingerprint": "6feb713e0f4826d02ae91da4323ab2b78ed202f4f2f0d6249d2d57394c9ddbb3",
       "inputs": {
-        "doc:BASIC-API": "3e3ca173bdd40274a9b046d8e1be4bbeb139e6070d505bcfb9f0b788a04b8ae4",
-        "doc:REQ-API": "3249afddccbd4a38ecaa8aa9d9976f4e066e01fcaa4f93776381bb20d0057426",
-        "file:docs/assets/console.png": "e6db161f5b85780c4781f6358c2ac83c4904b709511ff2d6f0ca953fb0ffa171",
+        "doc:BASIC-API": "8d6ea05a93ad0435a88f635e6f918b3d928c7add6921dc6448434f1c8a392e95",
+        "doc:REQ-API": "b050dbc088356096b6cf0235e41bc9822daf421005260c685113235691f76547",
+        "file:docs/assets/console.png": "c9ac7abd7b35862d6afe4634d588187c40bdf511f408136c8ffb59b9ba0412e5",
         "file:docs/operations/security.md": "53774ec01f9f9225ceb18dd9d05b12d05b80fdfdf2ccc034acc3c12be0f55538",
         "file:docs/reference/api.md": "f7cbf0cb5691f55bf2aa53326b87d8bd9dc798dd43d6c5889492763748a0e75b",
         "file:src/__init__.py": "348b7e32d595f95c9691c72646ebcd5a504167f1f30b276a316e74990a65dd9f",
@@ -83,7 +83,7 @@
         "file:src/utils/response.py": "aac9dee6a9d9c7157e3098438fffecf637180e672c3926c5425877db552fa460",
         "file:src/utils/short_id.py": "4d21953dbf9aeac74abd7ca9af34076f5ddd71f0e5125cda0a549075a82b9e9e",
         "file:src/utils/validators.py": "0addfe8a6a083d2beb908eb43bd1fa7e0b3a01ebdd4e2ae86a15fc20d7b52ec1",
-        "file:tests/e2e/product.spec.mjs": "f63474fcebb36acde27c51c6b8951e9cd464431567ce8e848f95301f70da9dac",
+        "file:tests/e2e/product.spec.mjs": "33812d72a38af63e52a6161b85e1a4270be43cd541d0192b96e22f0320e3b178",
         "file:tests/regression/test_api_boundaries.py": "5280892d6252b61b312e2aede254d69377d56c04e0551073db9d07a09168e810",
         "file:tests/regression/test_core_safety.py": "9ea8f0b9b39fa900e05be6fca2c60bcd261262d3e81698f95e47ff5295657c85",
         "file:tests/regression/test_link_lifecycle.py": "6efcd7725545103137bb120c4bc14c7279c46db4324b9dc5087c5ca5398f36fb",
@@ -102,23 +102,23 @@
         "file:tests/test_utils_short_id.py": "4721ad9fb43156809962904505a7e3e5b1b33da9f750e6819fc0c8fc04a5c466",
         "file:tests/test_utils_validators.py": "dfa800a767f8594d7274e37dfb6a0d4dd0c74fc235678a9fb34dd4c7325d6cc4",
         "file:tests/unit/messages.test.mjs": "82532e3c7e40ca7a877c46b3d5a8d02bfdbd37596d38d019fef728ab6ed35a65",
-        "file:web/app.js": "dce7f966a89fa9dc45517e3392b27974c6b8ca650089c39298a7e1fd5d9e4cee",
+        "file:web/app.js": "5ffc8297a24ec5b1eb16d3dd7d4d998481eb102d11d82563eab0cb05e9b98a10",
         "file:web/auth.js": "6a1ff3fbe7c33c039fd926878d88525e35225472b712a035052b2630d0528394",
-        "file:web/index.html": "5d3465ad8a1fd88a46d3304d611f1192ce77b57998a7e81ded92bf9f63c447bf",
-        "file:web/style.css": "d1dfbee7e13a888d2b3df0963aba0195e46a1103c3b1c5cd4631f478bc6672ab"
+        "file:web/index.html": "750cef5cfebb9e880228cb2770780809157bde9af37b3195a208150861dca298",
+        "file:web/style.css": "29e7420048e55092c75dc513ccff275c94e2bf238be473d0bc508c9960a1e362"
       },
       "change": "CHG-WEB-STAGE-PATHS",
-      "reason": "同一オリジンの画面、Cognitoの検証境界、条件付きDynamoDB更新と各ハンドラーの役割を実装と照合した。単一管理領域であることとScanの制約を文書へ反映した。",
+      "reason": "一覧と作成欄の二列配置、スマホでの一列配置と入力保持を設計へ反映した。公開API・認証・保存形式の変更はなく、ステージ付き資源パスも再検証した。",
       "reviewer": "local-review",
-      "reviewedAt": "2026-09-20T18:08:25.997Z"
+      "reviewedAt": "2026-09-21T02:29:59.607Z"
     },
     "DETAIL-API": {
-      "fingerprint": "08238c6be37a38bda1b2a40e8759c74075f3c384da1b2d4af32edfeabcad99bf",
+      "fingerprint": "0a25241c7a8b2a8a63b1faadccb21d7699d7d3617d1b2c74a4b60bd0752d9178",
       "inputs": {
-        "doc:BASIC-API": "3e3ca173bdd40274a9b046d8e1be4bbeb139e6070d505bcfb9f0b788a04b8ae4",
-        "doc:DETAIL-API": "4166396e35922e7f7ffc04b386491669088fd51b0e459a9d6d38fd59c2dc92e9",
-        "doc:REQ-API": "3249afddccbd4a38ecaa8aa9d9976f4e066e01fcaa4f93776381bb20d0057426",
-        "file:docs/assets/console.png": "e6db161f5b85780c4781f6358c2ac83c4904b709511ff2d6f0ca953fb0ffa171",
+        "doc:BASIC-API": "8d6ea05a93ad0435a88f635e6f918b3d928c7add6921dc6448434f1c8a392e95",
+        "doc:DETAIL-API": "71b9b8154228f7cad1d14edc1bd82020fe88c47051b5b3a0b7b8220da8fd7048",
+        "doc:REQ-API": "b050dbc088356096b6cf0235e41bc9822daf421005260c685113235691f76547",
+        "file:docs/assets/console.png": "c9ac7abd7b35862d6afe4634d588187c40bdf511f408136c8ffb59b9ba0412e5",
         "file:docs/operations/security.md": "53774ec01f9f9225ceb18dd9d05b12d05b80fdfdf2ccc034acc3c12be0f55538",
         "file:docs/reference/api.md": "f7cbf0cb5691f55bf2aa53326b87d8bd9dc798dd43d6c5889492763748a0e75b",
         "file:src/__init__.py": "348b7e32d595f95c9691c72646ebcd5a504167f1f30b276a316e74990a65dd9f",
@@ -140,7 +140,7 @@
         "file:src/utils/response.py": "aac9dee6a9d9c7157e3098438fffecf637180e672c3926c5425877db552fa460",
         "file:src/utils/short_id.py": "4d21953dbf9aeac74abd7ca9af34076f5ddd71f0e5125cda0a549075a82b9e9e",
         "file:src/utils/validators.py": "0addfe8a6a083d2beb908eb43bd1fa7e0b3a01ebdd4e2ae86a15fc20d7b52ec1",
-        "file:tests/e2e/product.spec.mjs": "f63474fcebb36acde27c51c6b8951e9cd464431567ce8e848f95301f70da9dac",
+        "file:tests/e2e/product.spec.mjs": "33812d72a38af63e52a6161b85e1a4270be43cd541d0192b96e22f0320e3b178",
         "file:tests/regression/test_api_boundaries.py": "5280892d6252b61b312e2aede254d69377d56c04e0551073db9d07a09168e810",
         "file:tests/regression/test_core_safety.py": "9ea8f0b9b39fa900e05be6fca2c60bcd261262d3e81698f95e47ff5295657c85",
         "file:tests/regression/test_link_lifecycle.py": "6efcd7725545103137bb120c4bc14c7279c46db4324b9dc5087c5ca5398f36fb",
@@ -159,18 +159,18 @@
         "file:tests/test_utils_short_id.py": "4721ad9fb43156809962904505a7e3e5b1b33da9f750e6819fc0c8fc04a5c466",
         "file:tests/test_utils_validators.py": "dfa800a767f8594d7274e37dfb6a0d4dd0c74fc235678a9fb34dd4c7325d6cc4",
         "file:tests/unit/messages.test.mjs": "82532e3c7e40ca7a877c46b3d5a8d02bfdbd37596d38d019fef728ab6ed35a65",
-        "file:web/app.js": "dce7f966a89fa9dc45517e3392b27974c6b8ca650089c39298a7e1fd5d9e4cee",
+        "file:web/app.js": "5ffc8297a24ec5b1eb16d3dd7d4d998481eb102d11d82563eab0cb05e9b98a10",
         "file:web/auth.js": "6a1ff3fbe7c33c039fd926878d88525e35225472b712a035052b2630d0528394",
-        "file:web/index.html": "5d3465ad8a1fd88a46d3304d611f1192ce77b57998a7e81ded92bf9f63c447bf",
-        "file:web/style.css": "d1dfbee7e13a888d2b3df0963aba0195e46a1103c3b1c5cd4631f478bc6672ab"
+        "file:web/index.html": "750cef5cfebb9e880228cb2770780809157bde9af37b3195a208150861dca298",
+        "file:web/style.css": "29e7420048e55092c75dc513ccff275c94e2bf238be473d0bc508c9960a1e362"
       },
       "change": "CHG-WEB-STAGE-PATHS",
-      "reason": "入力検査・ID衝突・302・HEAD・期限の判定時点・version・資源パス・トークン保持を関数と回帰テストで照合した。管理画面とAPIの担当ファイルを全件登録した。",
+      "reason": "CSSの幅切替、articleの情報整列、入力名と補足表示の分離、完全URLを保持したコピーとhrefを照合した。PC・スマホ画像と編集画面を目視し、表示品質はブラウザ検査と別に確認した。",
       "reviewer": "local-review",
-      "reviewedAt": "2026-09-20T18:08:26.206Z"
+      "reviewedAt": "2026-09-21T02:29:59.640Z"
     },
     "REQ-DEVELOPMENT": {
-      "fingerprint": "c32807aaa8a431beb8e60c4acf4e7154ca3fde0edf1df368f04ff8711dc781ce",
+      "fingerprint": "1d7d7c2fd861d5b8ed94720752fde3b7a4170f450b0977929870b58a36c25b20",
       "inputs": {
         "doc:REQ-DEVELOPMENT": "80255b47f4e65b4f2156248e4d8db160c48cc9db73083ee3773c402f5668b94b",
         "file:.editorconfig": "6297da6b1169de32dca2f6184b4eaa63a8bb6c7e1c66c20d6e813166256e3856",
@@ -185,7 +185,7 @@
         "file:.python-version": "aa0d6581054e6e4ff3f91839deca7a854ad37221b8784d060b42d0f847ff1a3b",
         "file:AGENTS.md": "91554c9cada32289804b9f0402bfdc77488f6b68634cbe9658fb54be86e36a33",
         "file:buildspec.yml": "58f78095c608f89da992c1cb6c121a5edd1edf92705ee7499fbc9b0e1a64aeb1",
-        "file:CHANGELOG.md": "e94bdd70a53ec53744f8f6bc46072874e6a3930655a7b54ee26f2b6b97e99553",
+        "file:CHANGELOG.md": "8e06250f68cf64224169d59be0e07d8a2e48e116d8f135056aaf96be808b4651",
         "file:CONTRIBUTING.md": "b034e477bb40a8087b6ef256f0593492e42a4d08bf83602fee0927e618200d4a",
         "file:dev": "599dc2d426c1f0e8c79a32a191e852764ba04bf827d4aa331f2d8462958614d0",
         "file:docs/changes/CHG-API-BOUNDARIES.md": "0a3399a7eb34d77e3e444848b168ce1aead121e31529aa07f530e09b7d4281e8",
@@ -201,10 +201,11 @@
         "file:docs/changes/CHG-TRACE-PORT.md": "f0b4b1f6bec3cc1c600d7a5d2cd06b9c015cebbea89d87f13a4e53f3fb646b9d",
         "file:docs/changes/CHG-UI-ERRORS.md": "581c8bb9dd74ec8dc11b37e7bf77a4bdc980aa3c3f043354a7178a94a2e16b67",
         "file:docs/changes/CHG-WEB-STAGE-PATHS.md": "5d9947e0c234952c2191542034ae446eed7d17439d29d6fa48394705e71bd9f4",
+        "file:docs/changes/CHG-WORKSPACE-DESIGN.md": "40e5ab74e2c9bf47811b1393d08193442f28637ffa633e7d1868118d3741cc5b",
         "file:docs/engineering/provenance.md": "25cc8613952d4fa0fa24c11370a22e71de77204efb1b27376fd111aea0a08f83",
         "file:docs/engineering/workflow.md": "54e0afb207efa6983b5b625121b2428238d5a31c5025125d5992495b6427d5a3",
         "file:docs/operations/troubleshooting.md": "4fe623eedde6979009b56d826a46896a4c45af15e0135047bf9a1300bc1e64de",
-        "file:docs/operations/verification.md": "5faaa3a60d761d1fa6581bd1dcfbee7a757a651e5674ede1219eb3cc81a98721",
+        "file:docs/operations/verification.md": "f573820c78f67245a2a8ec6d30843652184a9f7166b3e75870d3dc208198a831",
         "file:docs/product/improvements.md": "8624257f4ae7ca1468ac1c26ed4b2d6530127746f177ccaff333716772092ab3",
         "file:docs/README.md": "e6d5c925cd1a8cadc85b9d548f3be1904d68ecee6a6c976f4ce40520ce4a4c5c",
         "file:LICENSE": "f0453af9fecff1b3e6fd7f70992da85a8f27621aca5154767e3f1e29dd7ef123",
@@ -213,12 +214,12 @@
         "file:package.json": "c13646742476a68200c6431462ef3c4b8f6e3e3d2296d974c2d1e05a99fce12c",
         "file:playwright.config.mjs": "601ab5291a041e4461462234048ad4cbf1f1f5cf1dc62c3506983349efcef89b",
         "file:pyproject.toml": "14e55cac3b57b852301882e6505d7b6b3fd3dfd10e35750c07c30ec4ed3a4cbc",
-        "file:README.md": "e515d1adb777b23f23aef91671eb276f793761009c5f71bd029646bdf5f16dab",
+        "file:README.md": "2fa6616a06267b93784cfce2a03846b89dae26799c54d898c1f3d29ab93482a9",
         "file:SECURITY.md": "cfdf66f734e2c367a6b24bee4a346291cb53e8d23d0f0f8f5966613f3914322f",
         "file:src/local_server.py": "5c5b7b5819b4d04ba7c178dc65bf614371a49bd73af4dab0b1ca30e5f8c28436",
         "file:tests/__init__.py": "3003772747fed4bb28cb97ec3c52a8ef4c6d08904e342fa65032a3ea22e4f1c8",
         "file:tests/conftest.py": "5c80ddd6c5618c87ec835211f422736caf53b44b3b51f9822cb5f0d18a4102e8",
-        "file:tests/e2e/product.spec.mjs": "f63474fcebb36acde27c51c6b8951e9cd464431567ce8e848f95301f70da9dac",
+        "file:tests/e2e/product.spec.mjs": "33812d72a38af63e52a6161b85e1a4270be43cd541d0192b96e22f0320e3b178",
         "file:tests/helpers.py": "f50ab378122a05e4236e8aed7796bce68e406043da9bcf46869605ec8a6f86fd",
         "file:tests/unit/cross-verification.test.mjs": "8e44158b9a29a99cd49edc674424a6a00890b4f79ef9e858bf22546d4be7b033",
         "file:tests/unit/evidence-integrity.test.mjs": "5b57b03336f5697969252e5e87d389a1258fef627b155ea5d44447a924d568a8",
@@ -243,12 +244,12 @@
         "file:uv.lock": "2d4e4db068a6fa690967401e8fd413e4f050a595c6d99a22a40f76b8eb1048b7"
       },
       "change": "CHG-CROSS-VERIFICATION",
-      "reason": "実行ログはハッシュ対象の原本として空白を保持し、ソース用のGit空白検査と区別した。コード・文書の検査は維持し、ステージ済みの確認記録との整合性を再確認した。",
+      "reason": "UI変更で関連要件が未確認となることを確認した。READMEのAWS要否、画面例、受入条件、検証結果を更新し、関連ブラウザテストの変更伝播も維持した。",
       "reviewer": "local-review",
-      "reviewedAt": "2026-09-20T18:21:26.813Z"
+      "reviewedAt": "2026-09-21T02:29:59.673Z"
     },
     "BASIC-DEVELOPMENT": {
-      "fingerprint": "7098caae675d97c849c2ad2d7afa60b1f5e13751f43fb3c908e8cfa9a0a12daf",
+      "fingerprint": "17d63b7d256126be8335ecf6c1ebcba3e60b03627b32f572db2276ec2f43fb2f",
       "inputs": {
         "doc:BASIC-DEVELOPMENT": "2cfef051ed9891deb337b61a33f0304cf5c8ae116f87d85c348aebd33c77275f",
         "doc:REQ-DEVELOPMENT": "80255b47f4e65b4f2156248e4d8db160c48cc9db73083ee3773c402f5668b94b",
@@ -264,7 +265,7 @@
         "file:.python-version": "aa0d6581054e6e4ff3f91839deca7a854ad37221b8784d060b42d0f847ff1a3b",
         "file:AGENTS.md": "91554c9cada32289804b9f0402bfdc77488f6b68634cbe9658fb54be86e36a33",
         "file:buildspec.yml": "58f78095c608f89da992c1cb6c121a5edd1edf92705ee7499fbc9b0e1a64aeb1",
-        "file:CHANGELOG.md": "e94bdd70a53ec53744f8f6bc46072874e6a3930655a7b54ee26f2b6b97e99553",
+        "file:CHANGELOG.md": "8e06250f68cf64224169d59be0e07d8a2e48e116d8f135056aaf96be808b4651",
         "file:CONTRIBUTING.md": "b034e477bb40a8087b6ef256f0593492e42a4d08bf83602fee0927e618200d4a",
         "file:dev": "599dc2d426c1f0e8c79a32a191e852764ba04bf827d4aa331f2d8462958614d0",
         "file:docs/changes/CHG-API-BOUNDARIES.md": "0a3399a7eb34d77e3e444848b168ce1aead121e31529aa07f530e09b7d4281e8",
@@ -280,10 +281,11 @@
         "file:docs/changes/CHG-TRACE-PORT.md": "f0b4b1f6bec3cc1c600d7a5d2cd06b9c015cebbea89d87f13a4e53f3fb646b9d",
         "file:docs/changes/CHG-UI-ERRORS.md": "581c8bb9dd74ec8dc11b37e7bf77a4bdc980aa3c3f043354a7178a94a2e16b67",
         "file:docs/changes/CHG-WEB-STAGE-PATHS.md": "5d9947e0c234952c2191542034ae446eed7d17439d29d6fa48394705e71bd9f4",
+        "file:docs/changes/CHG-WORKSPACE-DESIGN.md": "40e5ab74e2c9bf47811b1393d08193442f28637ffa633e7d1868118d3741cc5b",
         "file:docs/engineering/provenance.md": "25cc8613952d4fa0fa24c11370a22e71de77204efb1b27376fd111aea0a08f83",
         "file:docs/engineering/workflow.md": "54e0afb207efa6983b5b625121b2428238d5a31c5025125d5992495b6427d5a3",
         "file:docs/operations/troubleshooting.md": "4fe623eedde6979009b56d826a46896a4c45af15e0135047bf9a1300bc1e64de",
-        "file:docs/operations/verification.md": "5faaa3a60d761d1fa6581bd1dcfbee7a757a651e5674ede1219eb3cc81a98721",
+        "file:docs/operations/verification.md": "f573820c78f67245a2a8ec6d30843652184a9f7166b3e75870d3dc208198a831",
         "file:docs/product/improvements.md": "8624257f4ae7ca1468ac1c26ed4b2d6530127746f177ccaff333716772092ab3",
         "file:docs/README.md": "e6d5c925cd1a8cadc85b9d548f3be1904d68ecee6a6c976f4ce40520ce4a4c5c",
         "file:LICENSE": "f0453af9fecff1b3e6fd7f70992da85a8f27621aca5154767e3f1e29dd7ef123",
@@ -292,12 +294,12 @@
         "file:package.json": "c13646742476a68200c6431462ef3c4b8f6e3e3d2296d974c2d1e05a99fce12c",
         "file:playwright.config.mjs": "601ab5291a041e4461462234048ad4cbf1f1f5cf1dc62c3506983349efcef89b",
         "file:pyproject.toml": "14e55cac3b57b852301882e6505d7b6b3fd3dfd10e35750c07c30ec4ed3a4cbc",
-        "file:README.md": "e515d1adb777b23f23aef91671eb276f793761009c5f71bd029646bdf5f16dab",
+        "file:README.md": "2fa6616a06267b93784cfce2a03846b89dae26799c54d898c1f3d29ab93482a9",
         "file:SECURITY.md": "cfdf66f734e2c367a6b24bee4a346291cb53e8d23d0f0f8f5966613f3914322f",
         "file:src/local_server.py": "5c5b7b5819b4d04ba7c178dc65bf614371a49bd73af4dab0b1ca30e5f8c28436",
         "file:tests/__init__.py": "3003772747fed4bb28cb97ec3c52a8ef4c6d08904e342fa65032a3ea22e4f1c8",
         "file:tests/conftest.py": "5c80ddd6c5618c87ec835211f422736caf53b44b3b51f9822cb5f0d18a4102e8",
-        "file:tests/e2e/product.spec.mjs": "f63474fcebb36acde27c51c6b8951e9cd464431567ce8e848f95301f70da9dac",
+        "file:tests/e2e/product.spec.mjs": "33812d72a38af63e52a6161b85e1a4270be43cd541d0192b96e22f0320e3b178",
         "file:tests/helpers.py": "f50ab378122a05e4236e8aed7796bce68e406043da9bcf46869605ec8a6f86fd",
         "file:tests/unit/cross-verification.test.mjs": "8e44158b9a29a99cd49edc674424a6a00890b4f79ef9e858bf22546d4be7b033",
         "file:tests/unit/evidence-integrity.test.mjs": "5b57b03336f5697969252e5e87d389a1258fef627b155ea5d44447a924d568a8",
@@ -322,15 +324,15 @@
         "file:uv.lock": "2d4e4db068a6fa690967401e8fd413e4f050a595c6d99a22a40f76b8eb1048b7"
       },
       "change": "CHG-CROSS-VERIFICATION",
-      "reason": "実行ログはハッシュ対象の原本として空白を保持し、ソース用のGit空白検査と区別した。コード・文書の検査は維持し、ステージ済みの確認記録との整合性を再確認した。",
+      "reason": "既存のNodeグラフと共通検査入口を維持し、追加した表示・操作検査も同じPlaywright入口へ含めた。API側が所有する検証ファイルから開発文書への変更伝播を再実行した。",
       "reviewer": "local-review",
-      "reviewedAt": "2026-09-20T18:21:26.999Z"
+      "reviewedAt": "2026-09-21T02:29:59.706Z"
     },
     "DETAIL-DEVELOPMENT": {
-      "fingerprint": "ed4cdfe006f1dfe40c0c0a55fbda9d5b14f9461bb9fd9b501cf5e63dcd541fef",
+      "fingerprint": "67e65bc775cc3dd8f28833d33deec59db9f832218d44d509bf14184415e34196",
       "inputs": {
         "doc:BASIC-DEVELOPMENT": "2cfef051ed9891deb337b61a33f0304cf5c8ae116f87d85c348aebd33c77275f",
-        "doc:DETAIL-DEVELOPMENT": "190b738970bdfda8d61409e0e790a64207a15ee2d7fddec174b0804bc56218b3",
+        "doc:DETAIL-DEVELOPMENT": "4ea2463bb1789e6bfa5496bcbc32c1a9891da7c46f21a0000ab376df18f7ab08",
         "doc:REQ-DEVELOPMENT": "80255b47f4e65b4f2156248e4d8db160c48cc9db73083ee3773c402f5668b94b",
         "file:.editorconfig": "6297da6b1169de32dca2f6184b4eaa63a8bb6c7e1c66c20d6e813166256e3856",
         "file:.gitattributes": "88ea4050c891355610149b32c0f82815ffe2cc9b9d746472a22e533fcaf1215a",
@@ -344,7 +346,7 @@
         "file:.python-version": "aa0d6581054e6e4ff3f91839deca7a854ad37221b8784d060b42d0f847ff1a3b",
         "file:AGENTS.md": "91554c9cada32289804b9f0402bfdc77488f6b68634cbe9658fb54be86e36a33",
         "file:buildspec.yml": "58f78095c608f89da992c1cb6c121a5edd1edf92705ee7499fbc9b0e1a64aeb1",
-        "file:CHANGELOG.md": "e94bdd70a53ec53744f8f6bc46072874e6a3930655a7b54ee26f2b6b97e99553",
+        "file:CHANGELOG.md": "8e06250f68cf64224169d59be0e07d8a2e48e116d8f135056aaf96be808b4651",
         "file:CONTRIBUTING.md": "b034e477bb40a8087b6ef256f0593492e42a4d08bf83602fee0927e618200d4a",
         "file:dev": "599dc2d426c1f0e8c79a32a191e852764ba04bf827d4aa331f2d8462958614d0",
         "file:docs/changes/CHG-API-BOUNDARIES.md": "0a3399a7eb34d77e3e444848b168ce1aead121e31529aa07f530e09b7d4281e8",
@@ -360,10 +362,11 @@
         "file:docs/changes/CHG-TRACE-PORT.md": "f0b4b1f6bec3cc1c600d7a5d2cd06b9c015cebbea89d87f13a4e53f3fb646b9d",
         "file:docs/changes/CHG-UI-ERRORS.md": "581c8bb9dd74ec8dc11b37e7bf77a4bdc980aa3c3f043354a7178a94a2e16b67",
         "file:docs/changes/CHG-WEB-STAGE-PATHS.md": "5d9947e0c234952c2191542034ae446eed7d17439d29d6fa48394705e71bd9f4",
+        "file:docs/changes/CHG-WORKSPACE-DESIGN.md": "40e5ab74e2c9bf47811b1393d08193442f28637ffa633e7d1868118d3741cc5b",
         "file:docs/engineering/provenance.md": "25cc8613952d4fa0fa24c11370a22e71de77204efb1b27376fd111aea0a08f83",
         "file:docs/engineering/workflow.md": "54e0afb207efa6983b5b625121b2428238d5a31c5025125d5992495b6427d5a3",
         "file:docs/operations/troubleshooting.md": "4fe623eedde6979009b56d826a46896a4c45af15e0135047bf9a1300bc1e64de",
-        "file:docs/operations/verification.md": "5faaa3a60d761d1fa6581bd1dcfbee7a757a651e5674ede1219eb3cc81a98721",
+        "file:docs/operations/verification.md": "f573820c78f67245a2a8ec6d30843652184a9f7166b3e75870d3dc208198a831",
         "file:docs/product/improvements.md": "8624257f4ae7ca1468ac1c26ed4b2d6530127746f177ccaff333716772092ab3",
         "file:docs/README.md": "e6d5c925cd1a8cadc85b9d548f3be1904d68ecee6a6c976f4ce40520ce4a4c5c",
         "file:LICENSE": "f0453af9fecff1b3e6fd7f70992da85a8f27621aca5154767e3f1e29dd7ef123",
@@ -372,12 +375,12 @@
         "file:package.json": "c13646742476a68200c6431462ef3c4b8f6e3e3d2296d974c2d1e05a99fce12c",
         "file:playwright.config.mjs": "601ab5291a041e4461462234048ad4cbf1f1f5cf1dc62c3506983349efcef89b",
         "file:pyproject.toml": "14e55cac3b57b852301882e6505d7b6b3fd3dfd10e35750c07c30ec4ed3a4cbc",
-        "file:README.md": "e515d1adb777b23f23aef91671eb276f793761009c5f71bd029646bdf5f16dab",
+        "file:README.md": "2fa6616a06267b93784cfce2a03846b89dae26799c54d898c1f3d29ab93482a9",
         "file:SECURITY.md": "cfdf66f734e2c367a6b24bee4a346291cb53e8d23d0f0f8f5966613f3914322f",
         "file:src/local_server.py": "5c5b7b5819b4d04ba7c178dc65bf614371a49bd73af4dab0b1ca30e5f8c28436",
         "file:tests/__init__.py": "3003772747fed4bb28cb97ec3c52a8ef4c6d08904e342fa65032a3ea22e4f1c8",
         "file:tests/conftest.py": "5c80ddd6c5618c87ec835211f422736caf53b44b3b51f9822cb5f0d18a4102e8",
-        "file:tests/e2e/product.spec.mjs": "f63474fcebb36acde27c51c6b8951e9cd464431567ce8e848f95301f70da9dac",
+        "file:tests/e2e/product.spec.mjs": "33812d72a38af63e52a6161b85e1a4270be43cd541d0192b96e22f0320e3b178",
         "file:tests/helpers.py": "f50ab378122a05e4236e8aed7796bce68e406043da9bcf46869605ec8a6f86fd",
         "file:tests/unit/cross-verification.test.mjs": "8e44158b9a29a99cd49edc674424a6a00890b4f79ef9e858bf22546d4be7b033",
         "file:tests/unit/evidence-integrity.test.mjs": "5b57b03336f5697969252e5e87d389a1258fef627b155ea5d44447a924d568a8",
@@ -402,9 +405,9 @@
         "file:uv.lock": "2d4e4db068a6fa690967401e8fd413e4f050a595c6d99a22a40f76b8eb1048b7"
       },
       "change": "CHG-CROSS-VERIFICATION",
-      "reason": "実行ログはハッシュ対象の原本として空白を保持し、ソース用のGit空白検査と区別した。コード・文書の検査は維持し、ステージ済みの確認記録との整合性を再確認した。",
+      "reason": "画面の変更票を管理対象へ登録し、README・画像・検証記録の追跡を照合した。過去の回帰Greenは対応する技術契約の再検証であり、UI品質の証明ではないと記録した。",
       "reviewer": "local-review",
-      "reviewedAt": "2026-09-20T18:21:27.179Z"
+      "reviewedAt": "2026-09-21T02:29:59.737Z"
     },
     "REQ-PLATFORM": {
       "fingerprint": "09d80ca43b49702cc0aabdd82fa716b38485c720092746ecf079defc40788ab4",
@@ -656,6 +659,54 @@
       "reason": "実行ログはハッシュ対象の原本として空白を保持し、ソース用のGit空白検査と区別した。コード・文書の検査は維持し、ステージ済みの確認記録との整合性を再確認した。",
       "reviewer": "local-review",
       "reviewedAt": "2026-09-20T18:21:27.179Z"
+    },
+    {
+      "id": "REQ-API",
+      "fingerprint": "c374f00387e1b3ca80d3dd7a385fd23250426a3e08ee6b05679047dd22fb44be",
+      "change": "CHG-WEB-STAGE-PATHS",
+      "reason": "一覧を主領域にする要件を追記し、8件のブラウザ検査で作成・検索・状態別表示・編集・停止・再開とスマホのフォーム往復を確認した。",
+      "reviewer": "local-review",
+      "reviewedAt": "2026-09-21T02:29:59.569Z"
+    },
+    {
+      "id": "BASIC-API",
+      "fingerprint": "6feb713e0f4826d02ae91da4323ab2b78ed202f4f2f0d6249d2d57394c9ddbb3",
+      "change": "CHG-WEB-STAGE-PATHS",
+      "reason": "一覧と作成欄の二列配置、スマホでの一列配置と入力保持を設計へ反映した。公開API・認証・保存形式の変更はなく、ステージ付き資源パスも再検証した。",
+      "reviewer": "local-review",
+      "reviewedAt": "2026-09-21T02:29:59.607Z"
+    },
+    {
+      "id": "DETAIL-API",
+      "fingerprint": "0a25241c7a8b2a8a63b1faadccb21d7699d7d3617d1b2c74a4b60bd0752d9178",
+      "change": "CHG-WEB-STAGE-PATHS",
+      "reason": "CSSの幅切替、articleの情報整列、入力名と補足表示の分離、完全URLを保持したコピーとhrefを照合した。PC・スマホ画像と編集画面を目視し、表示品質はブラウザ検査と別に確認した。",
+      "reviewer": "local-review",
+      "reviewedAt": "2026-09-21T02:29:59.640Z"
+    },
+    {
+      "id": "REQ-DEVELOPMENT",
+      "fingerprint": "1d7d7c2fd861d5b8ed94720752fde3b7a4170f450b0977929870b58a36c25b20",
+      "change": "CHG-CROSS-VERIFICATION",
+      "reason": "UI変更で関連要件が未確認となることを確認した。READMEのAWS要否、画面例、受入条件、検証結果を更新し、関連ブラウザテストの変更伝播も維持した。",
+      "reviewer": "local-review",
+      "reviewedAt": "2026-09-21T02:29:59.673Z"
+    },
+    {
+      "id": "BASIC-DEVELOPMENT",
+      "fingerprint": "17d63b7d256126be8335ecf6c1ebcba3e60b03627b32f572db2276ec2f43fb2f",
+      "change": "CHG-CROSS-VERIFICATION",
+      "reason": "既存のNodeグラフと共通検査入口を維持し、追加した表示・操作検査も同じPlaywright入口へ含めた。API側が所有する検証ファイルから開発文書への変更伝播を再実行した。",
+      "reviewer": "local-review",
+      "reviewedAt": "2026-09-21T02:29:59.706Z"
+    },
+    {
+      "id": "DETAIL-DEVELOPMENT",
+      "fingerprint": "67e65bc775cc3dd8f28833d33deec59db9f832218d44d509bf14184415e34196",
+      "change": "CHG-CROSS-VERIFICATION",
+      "reason": "画面の変更票を管理対象へ登録し、README・画像・検証記録の追跡を照合した。過去の回帰Greenは対応する技術契約の再検証であり、UI品質の証明ではないと記録した。",
+      "reviewer": "local-review",
+      "reviewedAt": "2026-09-21T02:29:59.737Z"
     }
   ]
 }

@@ -5,7 +5,9 @@
 URLを短くするだけでなく、タイトル、有効期限、転送先、公開状態を一つの画面から管理できます。
 招待した管理者だけが操作し、共有した短縮リンクはログインなしで開けます。
 
-![ローカルデモの管理画面](docs/assets/console.png)
+![ローカル検証データを表示した管理画面](docs/assets/console.png)
+
+一覧の中で転送先・公開状態・期限を確認し、その場でコピーや編集ができます。スマホでは「新規リンク」から作成欄へ移動します。
 
 ## まず動かす
 
@@ -24,6 +26,20 @@ cd aws-serverless-url-shortener
 
 `setup` はロック済みの依存関係、検査ツール、リポジトリ内のGitフックを導入します。
 初めてブラウザ検査を行うときは `npx playwright install chromium` も実行してください。
+
+## GitHubだけで動く？
+
+**現在の構成を公開運用するにはAWSが必要です。** GitHubはソース管理・配布とCIを担当します。
+
+| 環境 | 用途 | AWS |
+| --- | --- | --- |
+| 手元のPC | Motoによる動作確認。終了時にデータが消える | 不要 |
+| GitHub | ソース・README・自動テスト | 不要 |
+| 公開サービス | API Gateway/Lambdaで処理、DynamoDBで保存、Cognitoでログイン | 必要 |
+
+[GitHub Pagesは静的サイトの配信](https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages)です。
+現在のLambda処理・DB・認証をそのまま動かす場所にはなりません。
+あらかじめ登録したURLへの静的転送だけなら別構成で実現できますが、現在の管理画面やリアルタイム更新・アクセス集計までGitHubだけで提供する構成ではありません。
 
 ## できること
 
