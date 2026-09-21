@@ -170,7 +170,7 @@
       "reviewedAt": "2026-09-21T02:29:59.640Z"
     },
     "REQ-DEVELOPMENT": {
-      "fingerprint": "1d7d7c2fd861d5b8ed94720752fde3b7a4170f450b0977929870b58a36c25b20",
+      "fingerprint": "c54e91b3f773bb86066b309dce01c1772560b0f2c5f9895bcc3d915ec5003420",
       "inputs": {
         "doc:REQ-DEVELOPMENT": "80255b47f4e65b4f2156248e4d8db160c48cc9db73083ee3773c402f5668b94b",
         "file:.editorconfig": "6297da6b1169de32dca2f6184b4eaa63a8bb6c7e1c66c20d6e813166256e3856",
@@ -183,7 +183,7 @@
         "file:.node-version": "7e8a2fa94951112b894a3dbe3d05efef5e9263741fa49125f0a70f40fedab4cc",
         "file:.prettierrc.json": "c6bc6fc6b031c97774bea2caa5e77ae85d2d02d4ea80962ffafc7a2b1f50d734",
         "file:.python-version": "aa0d6581054e6e4ff3f91839deca7a854ad37221b8784d060b42d0f847ff1a3b",
-        "file:AGENTS.md": "91554c9cada32289804b9f0402bfdc77488f6b68634cbe9658fb54be86e36a33",
+        "file:AGENTS.md": "da5d65d144aceaaa0067f0ea690920e9a4e9f31bc8b3246ebff6ea73f55ae065",
         "file:buildspec.yml": "58f78095c608f89da992c1cb6c121a5edd1edf92705ee7499fbc9b0e1a64aeb1",
         "file:CHANGELOG.md": "8e06250f68cf64224169d59be0e07d8a2e48e116d8f135056aaf96be808b4651",
         "file:CONTRIBUTING.md": "b034e477bb40a8087b6ef256f0593492e42a4d08bf83602fee0927e618200d4a",
@@ -196,6 +196,7 @@
         "file:docs/changes/CHG-MANAGEMENT-AUTH.md": "0ada531de3ddd99f25e4e8312fc2e06a4407aa77bdf3e7aa4ed898897845e58d",
         "file:docs/changes/CHG-NAME-INVENTORY.md": "f08efd10a4d0a019cd3f83d63182ab4247ec87b6bc61955ddd67d6666b80bcab",
         "file:docs/changes/CHG-PACKAGE-ISOLATION.md": "a3e7741f95daa268a790032dfd4fb9297b491a1ba7488ec3da5ab553afc6c931",
+        "file:docs/changes/CHG-README-PRODUCT.md": "fc9991e90b90760c90c1df73da2d2732df82091f7aef30c21d55c113a073e4ec",
         "file:docs/changes/CHG-REDIRECT-LINEARIZATION.md": "1c9cd5d428b03de15fd586f76339a7547fcd51febf9aabc52ef75e03fe629bf1",
         "file:docs/changes/CHG-ROOT-LINKS.md": "d85d1097e57bb7685fe1076e4c5fb9412e7d889a1fd94a13e32d427035fd8f77",
         "file:docs/changes/CHG-TRACE-PORT.md": "f0b4b1f6bec3cc1c600d7a5d2cd06b9c015cebbea89d87f13a4e53f3fb646b9d",
@@ -207,14 +208,14 @@
         "file:docs/operations/troubleshooting.md": "4fe623eedde6979009b56d826a46896a4c45af15e0135047bf9a1300bc1e64de",
         "file:docs/operations/verification.md": "f573820c78f67245a2a8ec6d30843652184a9f7166b3e75870d3dc208198a831",
         "file:docs/product/improvements.md": "8624257f4ae7ca1468ac1c26ed4b2d6530127746f177ccaff333716772092ab3",
-        "file:docs/README.md": "e6d5c925cd1a8cadc85b9d548f3be1904d68ecee6a6c976f4ce40520ce4a4c5c",
+        "file:docs/README.md": "b99ed86b5a35393bc9c4d007c88ffa659aaadb5a1dda936738c4a97d4bb28b92",
         "file:LICENSE": "f0453af9fecff1b3e6fd7f70992da85a8f27621aca5154767e3f1e29dd7ef123",
         "file:Makefile": "bea440b19ad2f378e59013900c89fd6a53996208b585fb91dd8fa466bd43f244",
         "file:package-lock.json": "6a4480067f64e5d2f22057897177a8c3d8deadfe324408bdf7e6260de561e552",
         "file:package.json": "c13646742476a68200c6431462ef3c4b8f6e3e3d2296d974c2d1e05a99fce12c",
         "file:playwright.config.mjs": "601ab5291a041e4461462234048ad4cbf1f1f5cf1dc62c3506983349efcef89b",
         "file:pyproject.toml": "14e55cac3b57b852301882e6505d7b6b3fd3dfd10e35750c07c30ec4ed3a4cbc",
-        "file:README.md": "2fa6616a06267b93784cfce2a03846b89dae26799c54d898c1f3d29ab93482a9",
+        "file:README.md": "842e625951a67ab1eb32a6134b6b9c5070ee1d54aeeaadbbabf882c5742ea4b5",
         "file:SECURITY.md": "cfdf66f734e2c367a6b24bee4a346291cb53e8d23d0f0f8f5966613f3914322f",
         "file:src/local_server.py": "5c5b7b5819b4d04ba7c178dc65bf614371a49bd73af4dab0b1ca30e5f8c28436",
         "file:tests/__init__.py": "3003772747fed4bb28cb97ec3c52a8ef4c6d08904e342fa65032a3ea22e4f1c8",
@@ -243,13 +244,13 @@
         "file:trace.config.json": "63dc99fb70bb622642de67248ae53d11dea852a760d4294597db1400c40c1572",
         "file:uv.lock": "2d4e4db068a6fa690967401e8fd413e4f050a595c6d99a22a40f76b8eb1048b7"
       },
-      "change": "CHG-CROSS-VERIFICATION",
-      "reason": "UI変更で関連要件が未確認となることを確認した。READMEのAWS要否、画面例、受入条件、検証結果を更新し、関連ブラウザテストの変更伝播も維持した。",
+      "change": "CHG-README-PRODUCT",
+      "reason": "READMEを利用者向けの機能・導入・API・開発方法に整理し、実装との対応を確認した。文書変更の追跡と再現可能な開発環境の要件は維持している。",
       "reviewer": "local-review",
-      "reviewedAt": "2026-09-21T02:29:59.673Z"
+      "reviewedAt": "2026-09-21T02:44:23.584Z"
     },
     "BASIC-DEVELOPMENT": {
-      "fingerprint": "17d63b7d256126be8335ecf6c1ebcba3e60b03627b32f572db2276ec2f43fb2f",
+      "fingerprint": "3d087061903930f43abb16245338539f54a48021da95c9884b0af90414fe4f94",
       "inputs": {
         "doc:BASIC-DEVELOPMENT": "2cfef051ed9891deb337b61a33f0304cf5c8ae116f87d85c348aebd33c77275f",
         "doc:REQ-DEVELOPMENT": "80255b47f4e65b4f2156248e4d8db160c48cc9db73083ee3773c402f5668b94b",
@@ -263,7 +264,7 @@
         "file:.node-version": "7e8a2fa94951112b894a3dbe3d05efef5e9263741fa49125f0a70f40fedab4cc",
         "file:.prettierrc.json": "c6bc6fc6b031c97774bea2caa5e77ae85d2d02d4ea80962ffafc7a2b1f50d734",
         "file:.python-version": "aa0d6581054e6e4ff3f91839deca7a854ad37221b8784d060b42d0f847ff1a3b",
-        "file:AGENTS.md": "91554c9cada32289804b9f0402bfdc77488f6b68634cbe9658fb54be86e36a33",
+        "file:AGENTS.md": "da5d65d144aceaaa0067f0ea690920e9a4e9f31bc8b3246ebff6ea73f55ae065",
         "file:buildspec.yml": "58f78095c608f89da992c1cb6c121a5edd1edf92705ee7499fbc9b0e1a64aeb1",
         "file:CHANGELOG.md": "8e06250f68cf64224169d59be0e07d8a2e48e116d8f135056aaf96be808b4651",
         "file:CONTRIBUTING.md": "b034e477bb40a8087b6ef256f0593492e42a4d08bf83602fee0927e618200d4a",
@@ -276,6 +277,7 @@
         "file:docs/changes/CHG-MANAGEMENT-AUTH.md": "0ada531de3ddd99f25e4e8312fc2e06a4407aa77bdf3e7aa4ed898897845e58d",
         "file:docs/changes/CHG-NAME-INVENTORY.md": "f08efd10a4d0a019cd3f83d63182ab4247ec87b6bc61955ddd67d6666b80bcab",
         "file:docs/changes/CHG-PACKAGE-ISOLATION.md": "a3e7741f95daa268a790032dfd4fb9297b491a1ba7488ec3da5ab553afc6c931",
+        "file:docs/changes/CHG-README-PRODUCT.md": "fc9991e90b90760c90c1df73da2d2732df82091f7aef30c21d55c113a073e4ec",
         "file:docs/changes/CHG-REDIRECT-LINEARIZATION.md": "1c9cd5d428b03de15fd586f76339a7547fcd51febf9aabc52ef75e03fe629bf1",
         "file:docs/changes/CHG-ROOT-LINKS.md": "d85d1097e57bb7685fe1076e4c5fb9412e7d889a1fd94a13e32d427035fd8f77",
         "file:docs/changes/CHG-TRACE-PORT.md": "f0b4b1f6bec3cc1c600d7a5d2cd06b9c015cebbea89d87f13a4e53f3fb646b9d",
@@ -287,14 +289,14 @@
         "file:docs/operations/troubleshooting.md": "4fe623eedde6979009b56d826a46896a4c45af15e0135047bf9a1300bc1e64de",
         "file:docs/operations/verification.md": "f573820c78f67245a2a8ec6d30843652184a9f7166b3e75870d3dc208198a831",
         "file:docs/product/improvements.md": "8624257f4ae7ca1468ac1c26ed4b2d6530127746f177ccaff333716772092ab3",
-        "file:docs/README.md": "e6d5c925cd1a8cadc85b9d548f3be1904d68ecee6a6c976f4ce40520ce4a4c5c",
+        "file:docs/README.md": "b99ed86b5a35393bc9c4d007c88ffa659aaadb5a1dda936738c4a97d4bb28b92",
         "file:LICENSE": "f0453af9fecff1b3e6fd7f70992da85a8f27621aca5154767e3f1e29dd7ef123",
         "file:Makefile": "bea440b19ad2f378e59013900c89fd6a53996208b585fb91dd8fa466bd43f244",
         "file:package-lock.json": "6a4480067f64e5d2f22057897177a8c3d8deadfe324408bdf7e6260de561e552",
         "file:package.json": "c13646742476a68200c6431462ef3c4b8f6e3e3d2296d974c2d1e05a99fce12c",
         "file:playwright.config.mjs": "601ab5291a041e4461462234048ad4cbf1f1f5cf1dc62c3506983349efcef89b",
         "file:pyproject.toml": "14e55cac3b57b852301882e6505d7b6b3fd3dfd10e35750c07c30ec4ed3a4cbc",
-        "file:README.md": "2fa6616a06267b93784cfce2a03846b89dae26799c54d898c1f3d29ab93482a9",
+        "file:README.md": "842e625951a67ab1eb32a6134b6b9c5070ee1d54aeeaadbbabf882c5742ea4b5",
         "file:SECURITY.md": "cfdf66f734e2c367a6b24bee4a346291cb53e8d23d0f0f8f5966613f3914322f",
         "file:src/local_server.py": "5c5b7b5819b4d04ba7c178dc65bf614371a49bd73af4dab0b1ca30e5f8c28436",
         "file:tests/__init__.py": "3003772747fed4bb28cb97ec3c52a8ef4c6d08904e342fa65032a3ea22e4f1c8",
@@ -323,16 +325,16 @@
         "file:trace.config.json": "63dc99fb70bb622642de67248ae53d11dea852a760d4294597db1400c40c1572",
         "file:uv.lock": "2d4e4db068a6fa690967401e8fd413e4f050a595c6d99a22a40f76b8eb1048b7"
       },
-      "change": "CHG-CROSS-VERIFICATION",
-      "reason": "既存のNodeグラフと共通検査入口を維持し、追加した表示・操作検査も同じPlaywright入口へ含めた。API側が所有する検証ファイルから開発文書への変更伝播を再実行した。",
+      "change": "CHG-README-PRODUCT",
+      "reason": "文書一覧の入口を利用・運用・開発・設計で整理した。依存グラフ、テスト入口、正本のMarkdownという開発基盤の構成は変更していない。",
       "reviewer": "local-review",
-      "reviewedAt": "2026-09-21T02:29:59.706Z"
+      "reviewedAt": "2026-09-21T02:44:23.604Z"
     },
     "DETAIL-DEVELOPMENT": {
-      "fingerprint": "67e65bc775cc3dd8f28833d33deec59db9f832218d44d509bf14184415e34196",
+      "fingerprint": "424dba232eec850e889ff47356fa4a0993469d2366354dc63f8d6ba04982147f",
       "inputs": {
         "doc:BASIC-DEVELOPMENT": "2cfef051ed9891deb337b61a33f0304cf5c8ae116f87d85c348aebd33c77275f",
-        "doc:DETAIL-DEVELOPMENT": "4ea2463bb1789e6bfa5496bcbc32c1a9891da7c46f21a0000ab376df18f7ab08",
+        "doc:DETAIL-DEVELOPMENT": "4eaa73127d4de5efba1fd6d8ea70fab554d50bc946102c32e345efeecd226a3a",
         "doc:REQ-DEVELOPMENT": "80255b47f4e65b4f2156248e4d8db160c48cc9db73083ee3773c402f5668b94b",
         "file:.editorconfig": "6297da6b1169de32dca2f6184b4eaa63a8bb6c7e1c66c20d6e813166256e3856",
         "file:.gitattributes": "88ea4050c891355610149b32c0f82815ffe2cc9b9d746472a22e533fcaf1215a",
@@ -344,7 +346,7 @@
         "file:.node-version": "7e8a2fa94951112b894a3dbe3d05efef5e9263741fa49125f0a70f40fedab4cc",
         "file:.prettierrc.json": "c6bc6fc6b031c97774bea2caa5e77ae85d2d02d4ea80962ffafc7a2b1f50d734",
         "file:.python-version": "aa0d6581054e6e4ff3f91839deca7a854ad37221b8784d060b42d0f847ff1a3b",
-        "file:AGENTS.md": "91554c9cada32289804b9f0402bfdc77488f6b68634cbe9658fb54be86e36a33",
+        "file:AGENTS.md": "da5d65d144aceaaa0067f0ea690920e9a4e9f31bc8b3246ebff6ea73f55ae065",
         "file:buildspec.yml": "58f78095c608f89da992c1cb6c121a5edd1edf92705ee7499fbc9b0e1a64aeb1",
         "file:CHANGELOG.md": "8e06250f68cf64224169d59be0e07d8a2e48e116d8f135056aaf96be808b4651",
         "file:CONTRIBUTING.md": "b034e477bb40a8087b6ef256f0593492e42a4d08bf83602fee0927e618200d4a",
@@ -357,6 +359,7 @@
         "file:docs/changes/CHG-MANAGEMENT-AUTH.md": "0ada531de3ddd99f25e4e8312fc2e06a4407aa77bdf3e7aa4ed898897845e58d",
         "file:docs/changes/CHG-NAME-INVENTORY.md": "f08efd10a4d0a019cd3f83d63182ab4247ec87b6bc61955ddd67d6666b80bcab",
         "file:docs/changes/CHG-PACKAGE-ISOLATION.md": "a3e7741f95daa268a790032dfd4fb9297b491a1ba7488ec3da5ab553afc6c931",
+        "file:docs/changes/CHG-README-PRODUCT.md": "fc9991e90b90760c90c1df73da2d2732df82091f7aef30c21d55c113a073e4ec",
         "file:docs/changes/CHG-REDIRECT-LINEARIZATION.md": "1c9cd5d428b03de15fd586f76339a7547fcd51febf9aabc52ef75e03fe629bf1",
         "file:docs/changes/CHG-ROOT-LINKS.md": "d85d1097e57bb7685fe1076e4c5fb9412e7d889a1fd94a13e32d427035fd8f77",
         "file:docs/changes/CHG-TRACE-PORT.md": "f0b4b1f6bec3cc1c600d7a5d2cd06b9c015cebbea89d87f13a4e53f3fb646b9d",
@@ -368,14 +371,14 @@
         "file:docs/operations/troubleshooting.md": "4fe623eedde6979009b56d826a46896a4c45af15e0135047bf9a1300bc1e64de",
         "file:docs/operations/verification.md": "f573820c78f67245a2a8ec6d30843652184a9f7166b3e75870d3dc208198a831",
         "file:docs/product/improvements.md": "8624257f4ae7ca1468ac1c26ed4b2d6530127746f177ccaff333716772092ab3",
-        "file:docs/README.md": "e6d5c925cd1a8cadc85b9d548f3be1904d68ecee6a6c976f4ce40520ce4a4c5c",
+        "file:docs/README.md": "b99ed86b5a35393bc9c4d007c88ffa659aaadb5a1dda936738c4a97d4bb28b92",
         "file:LICENSE": "f0453af9fecff1b3e6fd7f70992da85a8f27621aca5154767e3f1e29dd7ef123",
         "file:Makefile": "bea440b19ad2f378e59013900c89fd6a53996208b585fb91dd8fa466bd43f244",
         "file:package-lock.json": "6a4480067f64e5d2f22057897177a8c3d8deadfe324408bdf7e6260de561e552",
         "file:package.json": "c13646742476a68200c6431462ef3c4b8f6e3e3d2296d974c2d1e05a99fce12c",
         "file:playwright.config.mjs": "601ab5291a041e4461462234048ad4cbf1f1f5cf1dc62c3506983349efcef89b",
         "file:pyproject.toml": "14e55cac3b57b852301882e6505d7b6b3fd3dfd10e35750c07c30ec4ed3a4cbc",
-        "file:README.md": "2fa6616a06267b93784cfce2a03846b89dae26799c54d898c1f3d29ab93482a9",
+        "file:README.md": "842e625951a67ab1eb32a6134b6b9c5070ee1d54aeeaadbbabf882c5742ea4b5",
         "file:SECURITY.md": "cfdf66f734e2c367a6b24bee4a346291cb53e8d23d0f0f8f5966613f3914322f",
         "file:src/local_server.py": "5c5b7b5819b4d04ba7c178dc65bf614371a49bd73af4dab0b1ca30e5f8c28436",
         "file:tests/__init__.py": "3003772747fed4bb28cb97ec3c52a8ef4c6d08904e342fa65032a3ea22e4f1c8",
@@ -404,10 +407,10 @@
         "file:trace.config.json": "63dc99fb70bb622642de67248ae53d11dea852a760d4294597db1400c40c1572",
         "file:uv.lock": "2d4e4db068a6fa690967401e8fd413e4f050a595c6d99a22a40f76b8eb1048b7"
       },
-      "change": "CHG-CROSS-VERIFICATION",
-      "reason": "画面の変更票を管理対象へ登録し、README・画像・検証記録の追跡を照合した。過去の回帰Greenは対応する技術契約の再検証であり、UI品質の証明ではないと記録した。",
+      "change": "CHG-README-PRODUCT",
+      "reason": "READMEと文書一覧から会話への返答・作業報告・未実施事項の列挙を除き、利用に必要な仕様を保持した。変更票と記述方針を登録し、コードと設定値に差分がないことを確認した。",
       "reviewer": "local-review",
-      "reviewedAt": "2026-09-21T02:29:59.737Z"
+      "reviewedAt": "2026-09-21T02:44:23.620Z"
     },
     "REQ-PLATFORM": {
       "fingerprint": "09d80ca43b49702cc0aabdd82fa716b38485c720092746ecf079defc40788ab4",
@@ -707,6 +710,30 @@
       "reason": "画面の変更票を管理対象へ登録し、README・画像・検証記録の追跡を照合した。過去の回帰Greenは対応する技術契約の再検証であり、UI品質の証明ではないと記録した。",
       "reviewer": "local-review",
       "reviewedAt": "2026-09-21T02:29:59.737Z"
+    },
+    {
+      "id": "REQ-DEVELOPMENT",
+      "fingerprint": "c54e91b3f773bb86066b309dce01c1772560b0f2c5f9895bcc3d915ec5003420",
+      "change": "CHG-README-PRODUCT",
+      "reason": "READMEを利用者向けの機能・導入・API・開発方法に整理し、実装との対応を確認した。文書変更の追跡と再現可能な開発環境の要件は維持している。",
+      "reviewer": "local-review",
+      "reviewedAt": "2026-09-21T02:44:23.584Z"
+    },
+    {
+      "id": "BASIC-DEVELOPMENT",
+      "fingerprint": "3d087061903930f43abb16245338539f54a48021da95c9884b0af90414fe4f94",
+      "change": "CHG-README-PRODUCT",
+      "reason": "文書一覧の入口を利用・運用・開発・設計で整理した。依存グラフ、テスト入口、正本のMarkdownという開発基盤の構成は変更していない。",
+      "reviewer": "local-review",
+      "reviewedAt": "2026-09-21T02:44:23.604Z"
+    },
+    {
+      "id": "DETAIL-DEVELOPMENT",
+      "fingerprint": "424dba232eec850e889ff47356fa4a0993469d2366354dc63f8d6ba04982147f",
+      "change": "CHG-README-PRODUCT",
+      "reason": "READMEと文書一覧から会話への返答・作業報告・未実施事項の列挙を除き、利用に必要な仕様を保持した。変更票と記述方針を登録し、コードと設定値に差分がないことを確認した。",
+      "reviewer": "local-review",
+      "reviewedAt": "2026-09-21T02:44:23.620Z"
     }
   ]
 }

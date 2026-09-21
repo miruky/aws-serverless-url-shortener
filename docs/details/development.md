@@ -62,6 +62,8 @@ artifacts:
   role: configuration
 - path: docs/changes/CHG-REDIRECT-LINEARIZATION.md
   role: configuration
+- path: docs/changes/CHG-README-PRODUCT.md
+  role: configuration
 - path: docs/changes/CHG-ROOT-LINKS.md
   role: configuration
 - path: docs/changes/CHG-TRACE-PORT.md
@@ -169,3 +171,6 @@ pre-commitはステージ済みのスナップショット、pre-push/CIは統�
 ローカルデモはMoto、ダミー資格情報、一時トークン、Host/Origin検査を使う。データはメモリ内だけ。
 Node依存とPython依存は別のロックで固定し、フロントとツールのJavaScriptをPrettier、PythonをRuff/mypyで検査する。
 [変更手順](../engineering/workflow.md)を参照する。
+
+READMEは概要・実装済み機能・導入・API・開発方法の入口とする。会話への返答や作業報告、未実施事項を掲載しない。
+ドキュメント一覧は利用・運用、開発、設計に分け、利用者が必要な説明へ直接進めるようにする。
