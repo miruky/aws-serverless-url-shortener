@@ -18,7 +18,7 @@
     "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.63.0",
     "cytoscape": "3.34.3",
-    "prettier": "3.9.8",
+    "prettier": "3.9.10",
     "yaml": "2.9.0"
   }
 }
